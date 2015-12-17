@@ -21,16 +21,17 @@ import org.json.simple.*;
 public class Grafika extends javax.swing.JPanel implements KeyListener {
     
     ArrayList<Player> p;
+    TCPClient cc;
     
     /**
      * Creates new form Grafika
      */
-    public Grafika(ArrayList<Player> p) {
+    public Grafika(ArrayList<Player> p, TCPClient cc) {
         initComponents();
         addKeyListener(this);
         setFocusable(true);
         this.p = p;
-
+        this.cc = cc;
     }
 
     /**

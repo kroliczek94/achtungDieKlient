@@ -26,17 +26,9 @@ public class Klient {
      */
     public static void main(String[] args) throws InterruptedException {
 
-            String host = args[0];
-            TCPClient cc = new TCPClient(host);
-            cc.start();
-            
-            for ( int i = 0 ; i < 100; i++){
-                
-                cc.sendMessage("siemano, bonus BGC z tej strony");
-                Thread.sleep(200);
-                cc.readIncomingMessages();
-            }
-
+        String host = args[0];
+        TCPClient cc = new TCPClient(host);
+        cc.start();
 
         for (int i = 0; i < 6; i++) {
             if (i > 0) {
@@ -46,7 +38,7 @@ public class Klient {
             getGracze().add(p);
         }
 
-        Grafika g = new Grafika(gracze);
+        Grafika g = new Grafika(gracze, cc);
         JFrame window = new JFrame("Achtung Die Kurve");
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -71,7 +63,7 @@ public class Klient {
                 for (Player p : Klient.getGracze()) {
                     p.setModulo(false);
                     p.setDecyzja(0);
-                    Thread.sleep(100);
+                    Thread.sleep(50);
                     p.setKat(p.getKat() + p.getDecyzja());
                     System.out.println("Kat " + p.getKat() + "Decyzja " + p.getDecyzja());
                 }

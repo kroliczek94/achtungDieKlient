@@ -271,12 +271,13 @@ int main (int argc, char *argv[])
 
 
 
-                    char buf[] = "Ala ma kota";
+                    char buf[] = "Ala ma kota\n";
                     /*****************************************************/
                     /* Odeślij dane do klienta                           */
                     /*****************************************************/
 
-                            rc = send(fds[i].fd, buf, len, 0);
+                    rc = send(fds[i].fd, buf, 13, 0);
+                    printf("%d", rc);
                     if (rc < 0)
                     {
                         perror("Niepowodzenie funkcji send()");

@@ -399,7 +399,7 @@ private JSONObject wyslijZapytanie(int position){
         zapytanie.put("right", Klient.getGracze().get(activePlayer).getPrawy());
         zapytanie.put("name", Klient.getGracze().get(activePlayer).getName());
         
-        TCPclient.wyslijJSONA(zapytanie);
+        //TCPclient.wyslijJSONA(zapytanie);
         return zapytanie;
         
     }

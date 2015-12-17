@@ -1,0 +1,22 @@
+PROTOKÓŁ ACHTUNG DIE KURVE
+AUTHORS:
+ŁUKASZ KRÓLIK & BARTOSZ WYSOCKI
+
+1. Pojawienie się klienta - prośba o dołączenie do gry
+
+Klient:
+Id: 0-5
+
+Serwer: 
+Status: T / F
+
+2. Klient wprowadza imię - wciska gotowość
+Klient:
+Imie: "String"
+Gotowy: T
+
+Serwer:
+Status: T
+
+
+

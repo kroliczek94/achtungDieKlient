@@ -23,6 +23,7 @@ public class Player {
     private String name;
     private Boolean modulo = false;
     private Boolean activePlayer = false;
+    private int idPoprzedniegoPola = -1;
     //private Socket sock;
 
     public Player() {
@@ -248,4 +249,18 @@ public class Player {
 //        this.sock = sock;
 //    }
 //    
+
+    /**
+     * @return the idPoprzedniegoPola
+     */
+    public int getIdPoprzedniegoPola() {
+        return idPoprzedniegoPola;
+    }
+
+    /**
+     * @param idPoprzedniegoPola the idPoprzedniegoPola to set
+     */
+    public void setIdPoprzedniegoPola(int idPoprzedniegoPola) {
+        this.idPoprzedniegoPola = idPoprzedniegoPola;
+    }
 }

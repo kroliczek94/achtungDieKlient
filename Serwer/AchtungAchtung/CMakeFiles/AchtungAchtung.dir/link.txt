@@ -1,0 +1,1 @@
+/usr/bin/c++    -L/usr/lib -ljsoncpp -std=c++14    CMakeFiles/AchtungAchtung.dir/main.cpp.o  -o AchtungAchtung -rdynamic 

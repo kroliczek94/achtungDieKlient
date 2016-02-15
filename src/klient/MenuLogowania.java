@@ -9,8 +9,13 @@ import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
+import java.io.StringWriter;
+import java.util.Deque;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import org.json.simple.*;
@@ -23,16 +28,19 @@ public class MenuLogowania extends javax.swing.JPanel implements KeyListener {
 
     int activePlayer = -1;
     int dostepnyKlawisz = 0;
-    TCPClient TCPclient;
+    private TCPClient cc;
+    private ConcurrentLinkedDeque<Integer> stos = new ConcurrentLinkedDeque<>();
+
     /**
      * Creates new form MenuLogowania
      */
-    public MenuLogowania() {
+    public MenuLogowania(TCPClient cc) {
         initComponents();
         addKeyListener(this);
         setFocusable(true);
-        jLabel7.setVisible(false);
-
+        zmienionoImieLabel.setVisible(false);
+        this.cc = cc;
+        stos.add(-1);
     }
 
     /**
@@ -45,139 +53,140 @@ public class MenuLogowania extends javax.swing.JPanel implements KeyListener {
     private void initComponents() {
 
         jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
+        g1Button = new javax.swing.JButton();
+        g2Button = new javax.swing.JButton();
+        g3Button = new javax.swing.JButton();
+        g4Button = new javax.swing.JButton();
+        g5Button = new javax.swing.JButton();
+        g6Button = new javax.swing.JButton();
+        g1Label = new javax.swing.JLabel();
+        g2Label = new javax.swing.JLabel();
+        g3Label = new javax.swing.JLabel();
+        g4Label = new javax.swing.JLabel();
+        g5Label = new javax.swing.JLabel();
+        g6Label = new javax.swing.JLabel();
         leftLabel = new javax.swing.JLabel();
         rightLabel = new javax.swing.JLabel();
-        jButton7 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
-        jTextField2 = new javax.swing.JTextField();
-        jButton9 = new javax.swing.JButton();
-        jButton10 = new javax.swing.JButton();
-        jLabel7 = new javax.swing.JLabel();
-        jButton11 = new javax.swing.JButton();
+        changeButton = new javax.swing.JButton();
+        StartButton = new javax.swing.JButton();
+        imieField = new javax.swing.JTextField();
+        imieButton = new javax.swing.JButton();
+        AddButton = new javax.swing.JButton();
+        zmienionoImieLabel = new javax.swing.JLabel();
+        AnulujButton = new javax.swing.JButton();
+        ttlLabel = new javax.swing.JLabel();
 
         jTextField1.setText("jTextField1");
 
         setPreferredSize(new java.awt.Dimension(400, 300));
 
-        jButton1.setBackground(new java.awt.Color(255, 0, 0));
-        jButton1.setText("Dołącz");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        g1Button.setBackground(new java.awt.Color(255, 0, 0));
+        g1Button.setText("Dołącz");
+        g1Button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                g1ButtonActionPerformed(evt);
             }
         });
 
-        jButton2.setBackground(new java.awt.Color(0, 255, 0));
-        jButton2.setText("Dołącz");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        g2Button.setBackground(new java.awt.Color(0, 255, 0));
+        g2Button.setText("Dołącz");
+        g2Button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                g2ButtonActionPerformed(evt);
             }
         });
 
-        jButton3.setBackground(new java.awt.Color(0, 0, 255));
-        jButton3.setText("Dołącz");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        g3Button.setBackground(new java.awt.Color(0, 0, 255));
+        g3Button.setText("Dołącz");
+        g3Button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                g3ButtonActionPerformed(evt);
             }
         });
 
-        jButton4.setBackground(new java.awt.Color(255, 255, 0));
-        jButton4.setText("Dołącz");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        g4Button.setBackground(new java.awt.Color(255, 255, 0));
+        g4Button.setText("Dołącz");
+        g4Button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                g4ButtonActionPerformed(evt);
             }
         });
 
-        jButton5.setBackground(new java.awt.Color(255, 0, 255));
-        jButton5.setText("Dołącz");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        g5Button.setBackground(new java.awt.Color(255, 0, 255));
+        g5Button.setText("Dołącz");
+        g5Button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                g5ButtonActionPerformed(evt);
             }
         });
 
-        jButton6.setBackground(new java.awt.Color(0, 255, 255));
-        jButton6.setText("Dołącz");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
+        g6Button.setBackground(new java.awt.Color(0, 255, 255));
+        g6Button.setText("Dołącz");
+        g6Button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+                g6ButtonActionPerformed(evt);
             }
         });
 
-        jLabel1.setForeground(new java.awt.Color(255, 0, 0));
-        jLabel1.setText("Gracz 1");
+        g1Label.setForeground(new java.awt.Color(255, 0, 0));
+        g1Label.setText("Gracz 1");
 
-        jLabel2.setForeground(new java.awt.Color(255, 0, 0));
-        jLabel2.setText("Gracz 2");
+        g2Label.setForeground(new java.awt.Color(255, 0, 0));
+        g2Label.setText("Gracz 2");
 
-        jLabel3.setForeground(new java.awt.Color(255, 0, 0));
-        jLabel3.setText("Gracz 3");
+        g3Label.setForeground(new java.awt.Color(255, 0, 0));
+        g3Label.setText("Gracz 3");
 
-        jLabel4.setForeground(new java.awt.Color(255, 0, 0));
-        jLabel4.setText("Gracz 4 ");
+        g4Label.setForeground(new java.awt.Color(255, 0, 0));
+        g4Label.setText("Gracz 4 ");
 
-        jLabel5.setForeground(new java.awt.Color(255, 0, 0));
-        jLabel5.setText("Gracz 5");
+        g5Label.setForeground(new java.awt.Color(255, 0, 0));
+        g5Label.setText("Gracz 5");
 
-        jLabel6.setForeground(new java.awt.Color(255, 0, 0));
-        jLabel6.setText("Gracz 6");
+        g6Label.setForeground(new java.awt.Color(255, 0, 0));
+        g6Label.setText("Gracz 6");
 
         leftLabel.setText("LEFT");
 
         rightLabel.setText("RIGHT");
 
-        jButton7.setText("Zmień klawisze");
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
+        changeButton.setText("Zmień klawisze");
+        changeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformed(evt);
+                changeButtonActionPerformed(evt);
             }
         });
-        jButton7.addKeyListener(new java.awt.event.KeyAdapter() {
+        changeButton.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                jButton7KeyPressed(evt);
+                changeButtonKeyPressed(evt);
             }
         });
 
-        jButton8.setText("Rozpocznij");
+        StartButton.setText("Rozpocznij");
 
-        jTextField2.addKeyListener(new java.awt.event.KeyAdapter() {
+        imieField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                jTextField2KeyPressed(evt);
+                imieFieldKeyPressed(evt);
             }
         });
 
-        jButton9.setText("Zmień nick");
-        jButton9.addActionListener(new java.awt.event.ActionListener() {
+        imieButton.setText("Zmień nick");
+        imieButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton9ActionPerformed(evt);
+                imieButtonActionPerformed(evt);
             }
         });
 
-        jButton10.setText("Dodaj gracza");
-        jButton10.addActionListener(new java.awt.event.ActionListener() {
+        AddButton.setText("Dodaj gracza");
+        AddButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton10ActionPerformed(evt);
+                AddButtonActionPerformed(evt);
             }
         });
 
-        jLabel7.setText("Zmieniono imię");
+        zmienionoImieLabel.setText("Zmieniono imię");
 
-        jButton11.setText("Anuluj");
+        AnulujButton.setText("Anuluj");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -188,244 +197,338 @@ public class MenuLogowania extends javax.swing.JPanel implements KeyListener {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel2))
+                            .addComponent(g3Label)
+                            .addComponent(g6Label)
+                            .addComponent(g1Label)
+                            .addComponent(g5Label)
+                            .addComponent(g4Label)
+                            .addComponent(g2Label))
                         .addGap(41, 41, 41)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButton1)
-                            .addComponent(jButton2)
+                            .addComponent(g1Button)
+                            .addComponent(g2Button)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jButton6)
-                                .addComponent(jButton5)
-                                .addComponent(jButton4)
-                                .addComponent(jButton3))))
+                                .addComponent(g6Button)
+                                .addComponent(g5Button)
+                                .addComponent(g4Button)
+                                .addComponent(g3Button))))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jButton11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(AnulujButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(50, 50, 50)
-                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(zmienionoImieLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(AddButton, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jTextField2)
-                                    .addComponent(jButton9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(changeButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(imieField)
+                                    .addComponent(imieButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(leftLabel)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(rightLabel)))
                                 .addGap(44, 44, 44))))))
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 352, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(44, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(StartButton, javax.swing.GroupLayout.PREFERRED_SIZE, 352, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(46, 46, 46)
+                        .addComponent(ttlLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jLabel1)
+                    .addComponent(g1Button)
+                    .addComponent(g1Label)
                     .addComponent(leftLabel)
                     .addComponent(rightLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(jLabel2)
-                    .addComponent(jButton7))
+                    .addComponent(g2Button)
+                    .addComponent(g2Label)
+                    .addComponent(changeButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(zmienionoImieLabel, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButton3)
-                        .addComponent(jLabel3)))
+                        .addComponent(g3Button)
+                        .addComponent(g3Label)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton4)
-                    .addComponent(jLabel4)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(g4Button)
+                    .addComponent(g4Label)
+                    .addComponent(imieField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton5)
-                    .addComponent(jLabel5)
-                    .addComponent(jButton9))
+                    .addComponent(g5Button)
+                    .addComponent(g5Label)
+                    .addComponent(imieButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton6)
-                            .addComponent(jLabel6))
+                            .addComponent(g6Button)
+                            .addComponent(g6Label))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton11))
-                    .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(AnulujButton))
+                    .addComponent(AddButton, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton8)
-                .addContainerGap(53, Short.MAX_VALUE))
+                .addComponent(StartButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(ttlLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        jLabel1.setForeground(Color.yellow);
-        jTextField2.setText(jLabel1.getText());
+    private void g1ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_g1ButtonActionPerformed
+        //g1Label.setForeground(Color.yellow);
+        imieField.setText(g1Label.getText());
         activePlayer = 0;
-        jLabel7.setVisible(false);
-        wyslijZapytanie(0);
-// TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+        int former = stos.getLast();
+        zmienionoImieLabel.setVisible(false);
+        stos.add(activePlayer);
 
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        
+        wyslijZapytanie(0, former);
+// TODO add your handling code here:
+    }//GEN-LAST:event_g1ButtonActionPerformed
+
+    private void changeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeButtonActionPerformed
+
         dostepnyKlawisz = 2;
         addKeyListener(this);
         this.setFocusable(true);
-        
-// TODO add your handling code here:
-    }//GEN-LAST:event_jButton7ActionPerformed
 
-    private void jButton7KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButton7KeyPressed
-        try{
-            
-        System.out.println(evt.getKeyText(evt.getKeyCode()));
-        if (dostepnyKlawisz > 0) {
-            if (dostepnyKlawisz == 2) {
-                Klient.getGracze().get(activePlayer).setLewy(evt.getKeyCode());
-                leftLabel.setText(evt.getKeyText(Klient.getGracze().get(activePlayer).getLewy()));
+// TODO add your handling code here:
+    }//GEN-LAST:event_changeButtonActionPerformed
+
+    private void changeButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_changeButtonKeyPressed
+        try {
+
+            System.out.println(evt.getKeyText(evt.getKeyCode()));
+            if (dostepnyKlawisz > 0) {
+                if (dostepnyKlawisz == 2) {
+                    Klient.getGracze().get(activePlayer).setLewy(evt.getKeyCode());
+                    leftLabel.setText(evt.getKeyText(Klient.getGracze().get(activePlayer).getLewy()));
+                }
+                if (dostepnyKlawisz == 1) {
+                    Klient.getGracze().get(activePlayer).setPrawy(evt.getKeyCode());
+                    rightLabel.setText(evt.getKeyText(Klient.getGracze().get(activePlayer).getPrawy()));
+                }
+                dostepnyKlawisz--;
             }
-            if (dostepnyKlawisz == 1) {
-                Klient.getGracze().get(activePlayer).setPrawy(evt.getKeyCode());
-                rightLabel.setText(evt.getKeyText(Klient.getGracze().get(activePlayer).getPrawy()));
-            }
-            dostepnyKlawisz--;
-        }
-        
-        }
-        catch (IndexOutOfBoundsException ex){
-            JOptionPane.showMessageDialog(jButton7, "Nie wybrałeś żadnego gracza!");
+
+        } catch (IndexOutOfBoundsException ex) {
+            JOptionPane.showMessageDialog(changeButton, "Nie wybrałeś żadnego gracza!");
             dostepnyKlawisz = 0;
         }
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton7KeyPressed
+    }//GEN-LAST:event_changeButtonKeyPressed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        jLabel2.setForeground(Color.yellow);
-        jTextField2.setText(jLabel2.getText());
+    private void g2ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_g2ButtonActionPerformed
+        //g2Label.setForeground(Color.yellow);
+        imieField.setText(g2Label.getText());
         activePlayer = 1;
-        jLabel7.setVisible(false);
-        wyslijZapytanie(1);
+        zmienionoImieLabel.setVisible(false);
+        int former = stos.getLast();
+        stos.add(activePlayer);
+        wyslijZapytanie(1, former);
+
 // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_g2ButtonActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        jLabel3.setForeground(Color.yellow);
-        jTextField2.setText(jLabel3.getText());
+    private void g3ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_g3ButtonActionPerformed
+        //g3Label.setForeground(Color.yellow);
+        imieField.setText(g3Label.getText());
         activePlayer = 2;// TODO add your handling code here:
-        jLabel7.setVisible(false);
-        wyslijZapytanie(2);
-    }//GEN-LAST:event_jButton3ActionPerformed
+        zmienionoImieLabel.setVisible(false);
+        int former = stos.getLast();
+        stos.add(activePlayer);
+        wyslijZapytanie(2, former);
+    }//GEN-LAST:event_g3ButtonActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        jLabel4.setForeground(Color.yellow);
-        jTextField2.setText(jLabel4.getText());
+    private void g4ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_g4ButtonActionPerformed
+        //g4Label.setForeground(Color.yellow);
+        imieField.setText(g4Label.getText());
         activePlayer = 3;// TODO add your handling code here:
-        jLabel7.setVisible(false);
-        wyslijZapytanie(3);
-    }//GEN-LAST:event_jButton4ActionPerformed
+        zmienionoImieLabel.setVisible(false);
+        int former = stos.getLast();
+        stos.add(activePlayer);
+        wyslijZapytanie(3, former);
+    }//GEN-LAST:event_g4ButtonActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        jLabel5.setForeground(Color.yellow);
-        jTextField2.setText(jLabel5.getText());
+    private void g5ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_g5ButtonActionPerformed
+        //g5Label.setForeground(Color.yellow);
+        imieField.setText(g5Label.getText());
         activePlayer = 4;// TODO add your handling code here:
-        jLabel7.setVisible(false);
-        wyslijZapytanie(4);
-    }//GEN-LAST:event_jButton5ActionPerformed
+        zmienionoImieLabel.setVisible(false);
+        int former = stos.getLast();
+        stos.add(activePlayer);
+        wyslijZapytanie(4, former);
+    }//GEN-LAST:event_g5ButtonActionPerformed
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        jLabel6.setForeground(Color.yellow);
-        jTextField2.setText(jLabel6.getText());
+    private void g6ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_g6ButtonActionPerformed
+        // g6Label.setForeground(Color.yellow);
+        imieField.setText(g6Label.getText());
         activePlayer = 5;// TODO add your handling code here:
-        jLabel7.setVisible(false);
-        wyslijZapytanie(5);
-    }//GEN-LAST:event_jButton6ActionPerformed
+        zmienionoImieLabel.setVisible(false);
+        int former = stos.getLast();
+        stos.add(activePlayer);
+        wyslijZapytanie(5, former);
+    }//GEN-LAST:event_g6ButtonActionPerformed
 
-    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        try{
-        Klient.getGracze().get(activePlayer).setName(jTextField2.getText());
-        jTextField2.setText("");
-        jLabel7.setVisible(true);
+    private void imieButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_imieButtonActionPerformed
+        try {
+            Klient.getGracze().get(activePlayer).setName(imieField.getText());
+            imieField.setText("");
+            zmienionoImieLabel.setVisible(true);
+        } catch (IndexOutOfBoundsException ex) {
+            JOptionPane.showMessageDialog(imieButton, "Nie wybrałeś żadnego gracza!");
+            System.out.println(Klient.getGracze().size());
         }
-        catch (IndexOutOfBoundsException ex){
-            JOptionPane.showMessageDialog(jButton9, "Nie wybrałeś żadnego gracza!");
-        }
 
-    }//GEN-LAST:event_jButton9ActionPerformed
+    }//GEN-LAST:event_imieButtonActionPerformed
 
-    private void jTextField2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyPressed
+    private void imieFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_imieFieldKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            jButton9.doClick();
+            imieButton.doClick();
         }// TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2KeyPressed
+    }//GEN-LAST:event_imieFieldKeyPressed
 
-    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+    private void AddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddButtonActionPerformed
         dolaczDoGry();        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton10ActionPerformed
+    }//GEN-LAST:event_AddButtonActionPerformed
 
+    public void resetLabeli() {
+        Color c = Color.RED;
+        g1Label.setForeground(c);
+        g2Label.setForeground(c);
+        g3Label.setForeground(c);
+        g4Label.setForeground(c);
+        g5Label.setForeground(c);
+        g6Label.setForeground(c);
+    }
 
-private JSONObject wyslijZapytanie(int position){
+    public void zmienLabela(Long id, Color c) {
+        switch (id.intValue()) {
+            case 0:
+                g1Label.setForeground(c);
+                break;
+            case 1:
+                g2Label.setForeground(c);
+                break;
+            case 2:
+                g3Label.setForeground(c);
+                break;
+            case 3:
+                g4Label.setForeground(c);
+                break;
+            case 4:
+                g5Label.setForeground(c);
+                break;
+            case 5:
+                g6Label.setForeground(c);
+                break;
+        }
+    }
+
+    public void zmienLabela(Long id, String s) {
+
+        switch (id.intValue()) {
+            case 0:
+                g1Label.setText(s);
+                break;
+            case 1:
+                g2Label.setText(s);
+                break;
+            case 2:
+                g3Label.setText(s);
+                break;
+            case 3:
+                g4Label.setText(s);
+                break;
+            case 4:
+                g5Label.setText(s);
+                break;
+            case 5:
+                g6Label.setText(s);
+                break;
+        }
+    }
+
+    public void zmienTTL(Long time){
+        if (time.intValue() == 10){
+            ttlLabel.setVisible(false);
+        }
+        else{
+            ttlLabel.setVisible(true);
+            ttlLabel.setText("Pozostało czasu do rozpoczęcia: " + String.valueOf(time));
+        }
+    }
+    private JSONObject wyslijZapytanie(int position, int formerPosition) {
         JSONObject zapytanie = new JSONObject();
+        zapytanie.put("action", "register");
         zapytanie.put("id", position);
-        
-//        TCPclient.wyslijJSONA(zapytanie);
-        
-        return zapytanie;        
-}
-    
-    private JSONObject dolaczDoGry(){
+        zapytanie.put("formerid", formerPosition);
+
+        StringWriter out = new StringWriter();
+        try {
+            zapytanie.writeJSONString(out);
+        } catch (IOException ex) {
+            Logger.getLogger(MenuLogowania.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        String jsonText = out.toString();
+
+        cc.sendMessage(jsonText);
+
+        return zapytanie;
+    }
+
+    private JSONObject dolaczDoGry() {
         JSONObject zapytanie = new JSONObject();
         zapytanie.put("id", activePlayer);
-        zapytanie.put("left", Klient.getGracze().get(activePlayer).getLewy());
-        zapytanie.put("right", Klient.getGracze().get(activePlayer).getPrawy());
         zapytanie.put("name", Klient.getGracze().get(activePlayer).getName());
-        
+
         //TCPclient.wyslijJSONA(zapytanie);
         return zapytanie;
-        
+
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton11;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
+    private javax.swing.JButton AddButton;
+    private javax.swing.JButton AnulujButton;
+    private javax.swing.JButton StartButton;
+    private javax.swing.JButton changeButton;
+    private javax.swing.JButton g1Button;
+    private javax.swing.JLabel g1Label;
+    private javax.swing.JButton g2Button;
+    private javax.swing.JLabel g2Label;
+    private javax.swing.JButton g3Button;
+    private javax.swing.JLabel g3Label;
+    private javax.swing.JButton g4Button;
+    private javax.swing.JLabel g4Label;
+    private javax.swing.JButton g5Button;
+    private javax.swing.JLabel g5Label;
+    private javax.swing.JButton g6Button;
+    private javax.swing.JLabel g6Label;
+    private javax.swing.JButton imieButton;
+    private javax.swing.JTextField imieField;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JLabel leftLabel;
     private javax.swing.JLabel rightLabel;
+    private javax.swing.JLabel ttlLabel;
+    private javax.swing.JLabel zmienionoImieLabel;
     // End of variables declaration//GEN-END:variables
 
     @Override
@@ -453,5 +556,12 @@ private JSONObject wyslijZapytanie(int position){
     @Override
     public void keyReleased(KeyEvent e) {
 
+    }
+
+    /**
+     * @param cc the cc to set
+     */
+    public void setCc(TCPClient cc) {
+        this.cc = cc;
     }
 }

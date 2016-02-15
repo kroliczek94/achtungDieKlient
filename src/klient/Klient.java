@@ -13,7 +13,7 @@ import javax.swing.JFrame;
 import java.io.*;
 import java.net.Socket;
 
-/**
+/** 
  *
  * @author Łukasz Królik
  */
@@ -25,35 +25,42 @@ public class Klient {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws InterruptedException {
-
+        Grafika g = new Grafika(gracze, null);
+        MenuLogowania menu = new MenuLogowania(null);
+        
+        
         String host = args[0];
-        TCPClient cc = new TCPClient(host);
+        TCPClient cc = new TCPClient(host, menu, g);
+        g.setCc(cc);
+        menu.setCc(cc);
+        Pooler pool  = new Pooler(cc);
+        pool.start();
         cc.start();
 
         for (int i = 0; i < 6; i++) {
-            if (i > 0) {
-                continue;
-            }
+//            if (i > 0) {
+//                continue;
+//            }
             Player p = new Player();
             getGracze().add(p);
         }
 
-        Grafika g = new Grafika(gracze, cc);
+        
         JFrame window = new JFrame("Achtung Die Kurve");
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        MenuLogowania menu = new MenuLogowania();
+        
 
-//        window.add(menu);
-//        window.setVisible(true);
-//        window.setSize(400, 330);
-//        
-//        boolean start = false;
-//        while (!start){
-//           Thread.sleep(1000);
-//           
-//        }
-//        
+        window.add(menu);
+        window.setVisible(true);
+        window.setSize(400, 330);
+        
+        boolean start = false;
+        while (!start){
+           Thread.sleep(1000);
+           
+        }
+        
         window.add(g);
         window.setSize(700, 500);
         window.setVisible(true);

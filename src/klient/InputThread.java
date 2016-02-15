@@ -1,3 +1,5 @@
+
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -24,19 +26,19 @@ import java.io.InputStreamReader;
 	    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 	    running = true;
 	    while (running) {
-		try {
-		    String s;
-		    
-		    System.out.flush();
-		    s = br.readLine();
-		    if (s.length() > 0)
-			cc.sendMessage(s + "\n");
-		    if (s.equals("quit")) 
-			running = false;
-		}
-		catch (IOException ioe) {
-		    running = false;
-		}
+//		try {
+//		    String s;
+//		    
+//		    System.out.flush();
+//		    s = br.readLine();
+//		    if (s.length() > 0)
+//			cc.sendMessage(s + "\n");
+//		    if (s.equals("quit")) 
+//			running = false;
+//		}
+//		catch (IOException ioe) {
+//		    running = false;
+//		}
                 cc.readIncomingMessages();
 	    }
 	    cc.shutdown();

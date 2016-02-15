@@ -21,7 +21,7 @@ import org.json.simple.*;
 public class Grafika extends javax.swing.JPanel implements KeyListener {
     
     ArrayList<Player> p;
-    TCPClient cc;
+    private TCPClient cc;
     
     /**
      * Creates new form Grafika
@@ -115,5 +115,12 @@ public class Grafika extends javax.swing.JPanel implements KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    /**
+     * @param cc the cc to set
+     */
+    public void setCc(TCPClient cc) {
+        this.cc = cc;
     }
 }

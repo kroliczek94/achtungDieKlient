@@ -72,14 +72,139 @@ CMakeFiles/AchtungAchtung.dir/main.cpp.o.provides: CMakeFiles/AchtungAchtung.dir
 
 CMakeFiles/AchtungAchtung.dir/main.cpp.o.provides.build: CMakeFiles/AchtungAchtung.dir/main.cpp.o
 
+CMakeFiles/AchtungAchtung.dir/manager.cpp.o: CMakeFiles/AchtungAchtung.dir/flags.make
+CMakeFiles/AchtungAchtung.dir/manager.cpp.o: manager.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/lukasz/AchtungAchtung/CMakeFiles $(CMAKE_PROGRESS_2)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/AchtungAchtung.dir/manager.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/AchtungAchtung.dir/manager.cpp.o -c /home/lukasz/AchtungAchtung/manager.cpp
+
+CMakeFiles/AchtungAchtung.dir/manager.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/AchtungAchtung.dir/manager.cpp.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/lukasz/AchtungAchtung/manager.cpp > CMakeFiles/AchtungAchtung.dir/manager.cpp.i
+
+CMakeFiles/AchtungAchtung.dir/manager.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/AchtungAchtung.dir/manager.cpp.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/lukasz/AchtungAchtung/manager.cpp -o CMakeFiles/AchtungAchtung.dir/manager.cpp.s
+
+CMakeFiles/AchtungAchtung.dir/manager.cpp.o.requires:
+.PHONY : CMakeFiles/AchtungAchtung.dir/manager.cpp.o.requires
+
+CMakeFiles/AchtungAchtung.dir/manager.cpp.o.provides: CMakeFiles/AchtungAchtung.dir/manager.cpp.o.requires
+	$(MAKE) -f CMakeFiles/AchtungAchtung.dir/build.make CMakeFiles/AchtungAchtung.dir/manager.cpp.o.provides.build
+.PHONY : CMakeFiles/AchtungAchtung.dir/manager.cpp.o.provides
+
+CMakeFiles/AchtungAchtung.dir/manager.cpp.o.provides.build: CMakeFiles/AchtungAchtung.dir/manager.cpp.o
+
+CMakeFiles/AchtungAchtung.dir/jsontranslator.cpp.o: CMakeFiles/AchtungAchtung.dir/flags.make
+CMakeFiles/AchtungAchtung.dir/jsontranslator.cpp.o: jsontranslator.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/lukasz/AchtungAchtung/CMakeFiles $(CMAKE_PROGRESS_3)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/AchtungAchtung.dir/jsontranslator.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/AchtungAchtung.dir/jsontranslator.cpp.o -c /home/lukasz/AchtungAchtung/jsontranslator.cpp
+
+CMakeFiles/AchtungAchtung.dir/jsontranslator.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/AchtungAchtung.dir/jsontranslator.cpp.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/lukasz/AchtungAchtung/jsontranslator.cpp > CMakeFiles/AchtungAchtung.dir/jsontranslator.cpp.i
+
+CMakeFiles/AchtungAchtung.dir/jsontranslator.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/AchtungAchtung.dir/jsontranslator.cpp.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/lukasz/AchtungAchtung/jsontranslator.cpp -o CMakeFiles/AchtungAchtung.dir/jsontranslator.cpp.s
+
+CMakeFiles/AchtungAchtung.dir/jsontranslator.cpp.o.requires:
+.PHONY : CMakeFiles/AchtungAchtung.dir/jsontranslator.cpp.o.requires
+
+CMakeFiles/AchtungAchtung.dir/jsontranslator.cpp.o.provides: CMakeFiles/AchtungAchtung.dir/jsontranslator.cpp.o.requires
+	$(MAKE) -f CMakeFiles/AchtungAchtung.dir/build.make CMakeFiles/AchtungAchtung.dir/jsontranslator.cpp.o.provides.build
+.PHONY : CMakeFiles/AchtungAchtung.dir/jsontranslator.cpp.o.provides
+
+CMakeFiles/AchtungAchtung.dir/jsontranslator.cpp.o.provides.build: CMakeFiles/AchtungAchtung.dir/jsontranslator.cpp.o
+
+CMakeFiles/AchtungAchtung.dir/gamearea.cpp.o: CMakeFiles/AchtungAchtung.dir/flags.make
+CMakeFiles/AchtungAchtung.dir/gamearea.cpp.o: gamearea.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/lukasz/AchtungAchtung/CMakeFiles $(CMAKE_PROGRESS_4)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/AchtungAchtung.dir/gamearea.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/AchtungAchtung.dir/gamearea.cpp.o -c /home/lukasz/AchtungAchtung/gamearea.cpp
+
+CMakeFiles/AchtungAchtung.dir/gamearea.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/AchtungAchtung.dir/gamearea.cpp.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/lukasz/AchtungAchtung/gamearea.cpp > CMakeFiles/AchtungAchtung.dir/gamearea.cpp.i
+
+CMakeFiles/AchtungAchtung.dir/gamearea.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/AchtungAchtung.dir/gamearea.cpp.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/lukasz/AchtungAchtung/gamearea.cpp -o CMakeFiles/AchtungAchtung.dir/gamearea.cpp.s
+
+CMakeFiles/AchtungAchtung.dir/gamearea.cpp.o.requires:
+.PHONY : CMakeFiles/AchtungAchtung.dir/gamearea.cpp.o.requires
+
+CMakeFiles/AchtungAchtung.dir/gamearea.cpp.o.provides: CMakeFiles/AchtungAchtung.dir/gamearea.cpp.o.requires
+	$(MAKE) -f CMakeFiles/AchtungAchtung.dir/build.make CMakeFiles/AchtungAchtung.dir/gamearea.cpp.o.provides.build
+.PHONY : CMakeFiles/AchtungAchtung.dir/gamearea.cpp.o.provides
+
+CMakeFiles/AchtungAchtung.dir/gamearea.cpp.o.provides.build: CMakeFiles/AchtungAchtung.dir/gamearea.cpp.o
+
+CMakeFiles/AchtungAchtung.dir/player.cpp.o: CMakeFiles/AchtungAchtung.dir/flags.make
+CMakeFiles/AchtungAchtung.dir/player.cpp.o: player.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/lukasz/AchtungAchtung/CMakeFiles $(CMAKE_PROGRESS_5)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/AchtungAchtung.dir/player.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/AchtungAchtung.dir/player.cpp.o -c /home/lukasz/AchtungAchtung/player.cpp
+
+CMakeFiles/AchtungAchtung.dir/player.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/AchtungAchtung.dir/player.cpp.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/lukasz/AchtungAchtung/player.cpp > CMakeFiles/AchtungAchtung.dir/player.cpp.i
+
+CMakeFiles/AchtungAchtung.dir/player.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/AchtungAchtung.dir/player.cpp.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/lukasz/AchtungAchtung/player.cpp -o CMakeFiles/AchtungAchtung.dir/player.cpp.s
+
+CMakeFiles/AchtungAchtung.dir/player.cpp.o.requires:
+.PHONY : CMakeFiles/AchtungAchtung.dir/player.cpp.o.requires
+
+CMakeFiles/AchtungAchtung.dir/player.cpp.o.provides: CMakeFiles/AchtungAchtung.dir/player.cpp.o.requires
+	$(MAKE) -f CMakeFiles/AchtungAchtung.dir/build.make CMakeFiles/AchtungAchtung.dir/player.cpp.o.provides.build
+.PHONY : CMakeFiles/AchtungAchtung.dir/player.cpp.o.provides
+
+CMakeFiles/AchtungAchtung.dir/player.cpp.o.provides.build: CMakeFiles/AchtungAchtung.dir/player.cpp.o
+
+CMakeFiles/AchtungAchtung.dir/punkt.cpp.o: CMakeFiles/AchtungAchtung.dir/flags.make
+CMakeFiles/AchtungAchtung.dir/punkt.cpp.o: punkt.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/lukasz/AchtungAchtung/CMakeFiles $(CMAKE_PROGRESS_6)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/AchtungAchtung.dir/punkt.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/AchtungAchtung.dir/punkt.cpp.o -c /home/lukasz/AchtungAchtung/punkt.cpp
+
+CMakeFiles/AchtungAchtung.dir/punkt.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/AchtungAchtung.dir/punkt.cpp.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/lukasz/AchtungAchtung/punkt.cpp > CMakeFiles/AchtungAchtung.dir/punkt.cpp.i
+
+CMakeFiles/AchtungAchtung.dir/punkt.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/AchtungAchtung.dir/punkt.cpp.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/lukasz/AchtungAchtung/punkt.cpp -o CMakeFiles/AchtungAchtung.dir/punkt.cpp.s
+
+CMakeFiles/AchtungAchtung.dir/punkt.cpp.o.requires:
+.PHONY : CMakeFiles/AchtungAchtung.dir/punkt.cpp.o.requires
+
+CMakeFiles/AchtungAchtung.dir/punkt.cpp.o.provides: CMakeFiles/AchtungAchtung.dir/punkt.cpp.o.requires
+	$(MAKE) -f CMakeFiles/AchtungAchtung.dir/build.make CMakeFiles/AchtungAchtung.dir/punkt.cpp.o.provides.build
+.PHONY : CMakeFiles/AchtungAchtung.dir/punkt.cpp.o.provides
+
+CMakeFiles/AchtungAchtung.dir/punkt.cpp.o.provides.build: CMakeFiles/AchtungAchtung.dir/punkt.cpp.o
+
 # Object files for target AchtungAchtung
 AchtungAchtung_OBJECTS = \
-"CMakeFiles/AchtungAchtung.dir/main.cpp.o"
+"CMakeFiles/AchtungAchtung.dir/main.cpp.o" \
+"CMakeFiles/AchtungAchtung.dir/manager.cpp.o" \
+"CMakeFiles/AchtungAchtung.dir/jsontranslator.cpp.o" \
+"CMakeFiles/AchtungAchtung.dir/gamearea.cpp.o" \
+"CMakeFiles/AchtungAchtung.dir/player.cpp.o" \
+"CMakeFiles/AchtungAchtung.dir/punkt.cpp.o"
 
 # External object files for target AchtungAchtung
 AchtungAchtung_EXTERNAL_OBJECTS =
 
 AchtungAchtung: CMakeFiles/AchtungAchtung.dir/main.cpp.o
+AchtungAchtung: CMakeFiles/AchtungAchtung.dir/manager.cpp.o
+AchtungAchtung: CMakeFiles/AchtungAchtung.dir/jsontranslator.cpp.o
+AchtungAchtung: CMakeFiles/AchtungAchtung.dir/gamearea.cpp.o
+AchtungAchtung: CMakeFiles/AchtungAchtung.dir/player.cpp.o
+AchtungAchtung: CMakeFiles/AchtungAchtung.dir/punkt.cpp.o
 AchtungAchtung: CMakeFiles/AchtungAchtung.dir/build.make
 AchtungAchtung: CMakeFiles/AchtungAchtung.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --red --bold "Linking CXX executable AchtungAchtung"
@@ -90,6 +215,11 @@ CMakeFiles/AchtungAchtung.dir/build: AchtungAchtung
 .PHONY : CMakeFiles/AchtungAchtung.dir/build
 
 CMakeFiles/AchtungAchtung.dir/requires: CMakeFiles/AchtungAchtung.dir/main.cpp.o.requires
+CMakeFiles/AchtungAchtung.dir/requires: CMakeFiles/AchtungAchtung.dir/manager.cpp.o.requires
+CMakeFiles/AchtungAchtung.dir/requires: CMakeFiles/AchtungAchtung.dir/jsontranslator.cpp.o.requires
+CMakeFiles/AchtungAchtung.dir/requires: CMakeFiles/AchtungAchtung.dir/gamearea.cpp.o.requires
+CMakeFiles/AchtungAchtung.dir/requires: CMakeFiles/AchtungAchtung.dir/player.cpp.o.requires
+CMakeFiles/AchtungAchtung.dir/requires: CMakeFiles/AchtungAchtung.dir/punkt.cpp.o.requires
 .PHONY : CMakeFiles/AchtungAchtung.dir/requires
 
 CMakeFiles/AchtungAchtung.dir/clean:

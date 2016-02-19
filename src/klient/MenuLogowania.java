@@ -163,6 +163,11 @@ public class MenuLogowania extends javax.swing.JPanel implements KeyListener {
         });
 
         StartButton.setText("Rozpocznij");
+        StartButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                StartButtonActionPerformed(evt);
+            }
+        });
 
         imieField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -219,32 +224,27 @@ public class MenuLogowania extends javax.swing.JPanel implements KeyListener {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(50, 50, 50)
                         .addComponent(zmienionoImieLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(changeButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(imieField)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(AddButton, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(changeButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(imieField)
-                                    .addComponent(imieButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(leftLabel)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(rightLabel)))
-                                .addGap(44, 44, 44))))))
+                                .addComponent(leftLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(rightLabel))
+                            .addComponent(imieButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(AddButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(44, 44, 44))))
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(StartButton, javax.swing.GroupLayout.PREFERRED_SIZE, 352, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(46, 46, 46)
-                        .addComponent(ttlLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addGap(46, 46, 46)
+                .addComponent(ttlLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(105, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(StartButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(44, 44, 44))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -277,14 +277,14 @@ public class MenuLogowania extends javax.swing.JPanel implements KeyListener {
                     .addComponent(g5Label)
                     .addComponent(imieButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(g6Button)
                             .addComponent(g6Label))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(AnulujButton))
-                    .addComponent(AddButton, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(AddButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(StartButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -300,7 +300,7 @@ public class MenuLogowania extends javax.swing.JPanel implements KeyListener {
         int former = stos.getLast();
         zmienionoImieLabel.setVisible(false);
         stos.add(activePlayer);
-
+        przestawKlawisze();
         wyslijZapytanie(0, former);
 // TODO add your handling code here:
     }//GEN-LAST:event_g1ButtonActionPerformed
@@ -344,6 +344,7 @@ public class MenuLogowania extends javax.swing.JPanel implements KeyListener {
         zmienionoImieLabel.setVisible(false);
         int former = stos.getLast();
         stos.add(activePlayer);
+        przestawKlawisze();
         wyslijZapytanie(1, former);
 
 // TODO add your handling code here:
@@ -356,6 +357,7 @@ public class MenuLogowania extends javax.swing.JPanel implements KeyListener {
         zmienionoImieLabel.setVisible(false);
         int former = stos.getLast();
         stos.add(activePlayer);
+        przestawKlawisze();
         wyslijZapytanie(2, former);
     }//GEN-LAST:event_g3ButtonActionPerformed
 
@@ -366,6 +368,7 @@ public class MenuLogowania extends javax.swing.JPanel implements KeyListener {
         zmienionoImieLabel.setVisible(false);
         int former = stos.getLast();
         stos.add(activePlayer);
+        przestawKlawisze();
         wyslijZapytanie(3, former);
     }//GEN-LAST:event_g4ButtonActionPerformed
 
@@ -376,6 +379,7 @@ public class MenuLogowania extends javax.swing.JPanel implements KeyListener {
         zmienionoImieLabel.setVisible(false);
         int former = stos.getLast();
         stos.add(activePlayer);
+        przestawKlawisze();
         wyslijZapytanie(4, former);
     }//GEN-LAST:event_g5ButtonActionPerformed
 
@@ -386,12 +390,15 @@ public class MenuLogowania extends javax.swing.JPanel implements KeyListener {
         zmienionoImieLabel.setVisible(false);
         int former = stos.getLast();
         stos.add(activePlayer);
+        przestawKlawisze();
         wyslijZapytanie(5, former);
     }//GEN-LAST:event_g6ButtonActionPerformed
 
     private void imieButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_imieButtonActionPerformed
         try {
             Klient.getGracze().get(activePlayer).setName(imieField.getText());
+
+            zmianaImienia(imieField.getText(), activePlayer);
             imieField.setText("");
             zmienionoImieLabel.setVisible(true);
         } catch (IndexOutOfBoundsException ex) {
@@ -404,12 +411,23 @@ public class MenuLogowania extends javax.swing.JPanel implements KeyListener {
     private void imieFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_imieFieldKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             imieButton.doClick();
-        }// TODO add your handling code here:
+        }// TODO add your handling code here: 
     }//GEN-LAST:event_imieFieldKeyPressed
 
     private void AddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddButtonActionPerformed
+        Klient.getGracze().get(activePlayer).setMyPlayer(true);
+        stos.add(-1);
         dolaczDoGry();        // TODO add your handling code here:
     }//GEN-LAST:event_AddButtonActionPerformed
+
+    private void StartButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StartButtonActionPerformed
+        letsStart();
+    }//GEN-LAST:event_StartButtonActionPerformed
+
+    private void przestawKlawisze() {
+        leftLabel.setText(KeyEvent.getKeyText(Klient.getGracze().get(activePlayer).getLewy()));
+        rightLabel.setText(KeyEvent.getKeyText(Klient.getGracze().get(activePlayer).getPrawy()));
+    }
 
     public void resetLabeli() {
         Color c = Color.RED;
@@ -468,15 +486,48 @@ public class MenuLogowania extends javax.swing.JPanel implements KeyListener {
         }
     }
 
-    public void zmienTTL(Long time){
-        if (time.intValue() == 10){
+    public void zmienTTL(Long time) {
+        if (time.intValue() == 10) {
             ttlLabel.setVisible(false);
-        }
-        else{
+        } else {
             ttlLabel.setVisible(true);
-            ttlLabel.setText("Pozostało czasu do rozpoczęcia: " + String.valueOf(time));
+            ttlLabel.setText("Pozostało czasu do rozpoczęcia: " + String.valueOf(time) + " sekund");
         }
     }
+
+    private void letsStart(){
+        JSONObject zapytanie = new JSONObject();
+        zapytanie.put("action", "letstart");
+        
+        StringWriter out = new StringWriter();
+        try {
+            zapytanie.writeJSONString(out);
+        } catch (IOException ex) {
+            Logger.getLogger(MenuLogowania.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        String jsonText = out.toString();
+
+        cc.sendMessage(jsonText);
+    }
+    
+    private void zmianaImienia(String s, int id) {
+        JSONObject zapytanie = new JSONObject();
+        zapytanie.put("action", "changename");
+        zapytanie.put("id", id);
+        zapytanie.put("name", s);
+
+        StringWriter out = new StringWriter();
+        try {
+            zapytanie.writeJSONString(out);
+        } catch (IOException ex) {
+            Logger.getLogger(MenuLogowania.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        String jsonText = out.toString();
+
+        cc.sendMessage(jsonText);
+
+    }
+
     private JSONObject wyslijZapytanie(int position, int formerPosition) {
         JSONObject zapytanie = new JSONObject();
         zapytanie.put("action", "register");
@@ -496,14 +547,21 @@ public class MenuLogowania extends javax.swing.JPanel implements KeyListener {
         return zapytanie;
     }
 
-    private JSONObject dolaczDoGry() {
+    private void dolaczDoGry() {
         JSONObject zapytanie = new JSONObject();
+        zapytanie.put("action", "readytoplay");
         zapytanie.put("id", activePlayer);
-        zapytanie.put("name", Klient.getGracze().get(activePlayer).getName());
 
+        StringWriter out = new StringWriter();
+        try {
+            zapytanie.writeJSONString(out);
+        } catch (IOException ex) {
+            Logger.getLogger(MenuLogowania.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        String jsonText = out.toString();
+
+        cc.sendMessage(jsonText);
         //TCPclient.wyslijJSONA(zapytanie);
-        return zapytanie;
-
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddButton;

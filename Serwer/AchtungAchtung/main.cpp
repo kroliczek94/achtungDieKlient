@@ -11,7 +11,7 @@
 #include <fcntl.h>
 #include <iostream>
 #include <string>
-
+#include <vector>
 #include "jsontranslator.h"
 
 using namespace std;
@@ -213,6 +213,8 @@ int main (int argc, char *argv[])
           /*****************************************************/
           printf("Nowe połączenie przychodzące - %d\n", new_sd);
           fcntl(new_sd, F_SETFL, O_NONBLOCK, 1);
+
+          printf("%d", nfds);
           fds[nfds].fd = new_sd;
           fds[nfds].events = POLLIN;
           nfds++;
@@ -281,9 +283,7 @@ int main (int argc, char *argv[])
           len = rc;
           printf("Otrzymano bajtów: %d\n", len);
 
-
-
-          string ss= jtrans->reply(buffer);
+          string ss= jtrans->reply(buffer, i);
 
           /*****************************************************/
           /* Odeślij dane do klienta                           */

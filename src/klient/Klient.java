@@ -6,6 +6,8 @@
 package klient;
 
 import java.awt.EventQueue;
+import java.awt.GraphicsEnvironment;
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,12 +22,14 @@ import java.net.Socket;
 public class Klient {
 
     private static ArrayList<Player> gracze = new ArrayList();
-
+    private static boolean start = false;
+    private static int maxX = 1000;
+    private static int maxY = 600;
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) throws InterruptedException {
-        Grafika g = new Grafika(gracze, null);
+        Grafika g = new Grafika(getGracze(), null);
         MenuLogowania menu = new MenuLogowania(null);
         
         
@@ -33,15 +37,13 @@ public class Klient {
         TCPClient cc = new TCPClient(host, menu, g);
         g.setCc(cc);
         menu.setCc(cc);
-        Pooler pool  = new Pooler(cc);
+        Pooler pool  = new Pooler(cc, g);
         pool.start();
         cc.start();
 
         for (int i = 0; i < 6; i++) {
-//            if (i > 0) {
-//                continue;
-//            }
-            Player p = new Player();
+
+            Player p = new Player(i);
             getGracze().add(p);
         }
 
@@ -55,31 +57,19 @@ public class Klient {
         window.setVisible(true);
         window.setSize(400, 330);
         
-        boolean start = false;
-        while (!start){
+        
+        while (!isStart()){
            Thread.sleep(1000);
            
         }
-        
+        menu.setVisible(false);
         window.add(g);
-        window.setSize(700, 500);
+        g.setFocusable(true);
+        GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        Rectangle maximumWindowBounds = graphicsEnvironment.getMaximumWindowBounds();
+        
+        window.setSize(1366, 720);
         window.setVisible(true);
-
-        while (true) {
-            try {
-                for (Player p : Klient.getGracze()) {
-                    p.setModulo(false);
-                    p.setDecyzja(0);
-                    Thread.sleep(50);
-                    p.setKat(p.getKat() + p.getDecyzja());
-                    System.out.println("Kat " + p.getKat() + "Decyzja " + p.getDecyzja());
-                }
-
-                g.repaint();
-            } catch (InterruptedException ex) {
-                Logger.getLogger(Klient.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
 
     }
 
@@ -95,6 +85,48 @@ public class Klient {
      */
     public static void setGracze(ArrayList<Player> aGracze) {
         gracze = aGracze;
+    }
+
+    /**
+     * @return the start
+     */
+    public static boolean isStart() {
+        return start;
+    }
+
+    /**
+     * @param aStart the start to set
+     */
+    public static void setStart(boolean aStart) {
+        start = aStart;
+    }
+
+    /**
+     * @return the maxX
+     */
+    public static int getMaxX() {
+        return maxX;
+    }
+
+    /**
+     * @param aMaxX the maxX to set
+     */
+    public static void setMaxX(int aMaxX) {
+        maxX = aMaxX;
+    }
+
+    /**
+     * @return the maxY
+     */
+    public static int getMaxY() {
+        return maxY;
+    }
+
+    /**
+     * @param aMaxY the maxY to set
+     */
+    public static void setMaxY(int aMaxY) {
+        maxY = aMaxY;
     }
 
 }

@@ -1,4 +1,5 @@
 #include "player.h"
+
 #include <string>
 
 using namespace std;
@@ -7,6 +8,7 @@ Player::Player(int id, string name)
 {
     this->id = id;
     this->name=  name;
+
 }
 
 Player::~Player()
@@ -24,6 +26,57 @@ void Player::setPoints(int value)
     points = value;
 }
 
+int Player::getX() const
+{
+    return x;
+}
+
+void Player::setX(int value)
+{
+    x = value;
+}
+
+int Player::getY() const
+{
+    return y;
+}
+
+void Player::setY(int value)
+{
+    y = value;
+}
+
+int Player::getAngle() const
+{
+    return angle;
+}
+
+void Player::setAngle(int value)
+{
+    angle = value;
+}
+
+int Player::getOldY() const
+{
+    return oldY;
+}
+
+void Player::setOldY(int value)
+{
+    oldY = value;
+}
+
+int Player::getOldX() const
+{
+    return oldX;
+}
+
+void Player::setOldX(int value)
+{
+    oldX = value;
+}
+
+
 string Player::getName() const
 {
     return name;
@@ -32,6 +85,8 @@ string Player::getName() const
 void Player::setName(const string &value)
 {
     name = value;
+
+
 }
 
 int Player::getId() const

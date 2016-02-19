@@ -5,12 +5,19 @@
  */
 package klient;
 
+import com.sun.java.swing.plaf.windows.WindowsTreeUI;
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GraphicsEnvironment;
+import java.awt.Polygon;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.geom.Line2D;
 import java.util.ArrayList;
+import java.util.Random;
 
 import org.json.simple.*;
 
@@ -19,17 +26,28 @@ import org.json.simple.*;
  * @author Łukasz Królik
  */
 public class Grafika extends javax.swing.JPanel implements KeyListener {
-    
+
     ArrayList<Player> p;
     private TCPClient cc;
     
+    Color[] colors = {Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW, Color.MAGENTA, Color.CYAN};
+
     /**
      * Creates new form Grafika
      */
     public Grafika(ArrayList<Player> p, TCPClient cc) {
         initComponents();
+
+        PlacesLabel1.setVisible(false);
+        PlacesLabel2.setVisible(false);
+        PlacesLabel3.setVisible(false);
+        PlacesLabel4.setVisible(false);
+        PlacesLabel5.setVisible(false);
+        PlacesLabel6.setVisible(false);
+
         addKeyListener(this);
         setFocusable(true);
+
         this.p = p;
         this.cc = cc;
     }
@@ -43,51 +61,149 @@ public class Grafika extends javax.swing.JPanel implements KeyListener {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setPreferredSize(new java.awt.Dimension(700, 500));
+        jPanel1 = new javax.swing.JPanel();
+        PlacesLabel1 = new javax.swing.JLabel();
+        PlacesLabel2 = new javax.swing.JLabel();
+        PlacesLabel3 = new javax.swing.JLabel();
+        PlacesLabel4 = new javax.swing.JLabel();
+        PlacesLabel5 = new javax.swing.JLabel();
+        PlacesLabel6 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+
+        setPreferredSize(new java.awt.Dimension(1366, 720));
+
+        jPanel1.setBackground(new java.awt.Color(237, 150, 237));
+
+        PlacesLabel1.setText("jLabel1");
+
+        PlacesLabel2.setText("jLabel2");
+
+        PlacesLabel3.setText("jLabel3");
+
+        PlacesLabel4.setText("jLabel4");
+
+        PlacesLabel5.setText("jLabel5");
+
+        PlacesLabel6.setText("jLabel6");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(PlacesLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(PlacesLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
+                        .addGap(95, 95, 95))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(PlacesLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(94, 94, 94))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(PlacesLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(94, 94, 94))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(PlacesLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(95, 95, 95))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(PlacesLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(95, 95, 95)))
+                .addGap(33, 33, 33))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(PlacesLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(PlacesLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(PlacesLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(PlacesLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(PlacesLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(PlacesLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE)
+                .addGap(80, 80, 80))
+        );
+
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 700, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(73, 73, 73)
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 989, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 500, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(67, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addGap(324, 324, 324))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    public void paintComponent(Graphics g) {
-        wyslijDecyzje();
-        
-        for (Player p : Klient.getGracze()) {
-            p.newPosition(p.getX(), p.getY(), p.getKat());
-            g.drawRect(0, 0, 400, 400);
-            if (!p.getModulo()) {
-                
-                g.drawLine(p.getOldx(), p.getOldy(), p.getX(), p.getY());
-            }
-        }
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
 
+    @Override
+    public void paintComponent(Graphics g) {
+
+//        if (first) {
+//            g.setColor(Color.red);
+//            g.fill3DRect(30, 30, 1000, 600, true);
+//        }
+//        first = false;
+//        for (Player pl : Klient.getGracze()) {
+//            pl.newPosition(pl.getX(), pl.getY(), pl.getKat());
+//            g.drawRect(30, 30, 1000, 600);
+//
+//            if (!pl.getModulo()) {
+//                g.setColor(Color.BLUE);
+//                malujDoPunktu(pl, g);
+//                //g.drawLine(pl.getOldx()+30, pl.getOldy()+30, pl.getX()+30, pl.getY()+30);
+//            }
+//        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel PlacesLabel1;
+    private javax.swing.JLabel PlacesLabel2;
+    private javax.swing.JLabel PlacesLabel3;
+    private javax.swing.JLabel PlacesLabel4;
+    private javax.swing.JLabel PlacesLabel5;
+    private javax.swing.JLabel PlacesLabel6;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
-    @Override
-    public void keyTyped(KeyEvent e) {
-
-    }
-
     @Override
     public void keyPressed(KeyEvent e) {
         for (Player p : Klient.getGracze()) {
             if (e.getKeyCode() == p.getLewy()) {
-                p.setDecyzja(20);
+                p.setDecyzja(15);
                 System.out.println("Decyzja L !");
             }
 
             if (e.getKeyCode() == p.getPrawy()) {
-                p.setDecyzja(-20);
+                p.setDecyzja(-15);
                 System.out.println("Decyzja P !");
             }
 
@@ -96,25 +212,37 @@ public class Grafika extends javax.swing.JPanel implements KeyListener {
         //To change body of generated methods, choose Tools | Templates.
     }
 
-    
-    private void wyslijDecyzje(){
-        JSONArray lista = new JSONArray();
-        
-        for (Player p : Klient.getGracze())
-        {
-            lista.add(p.getDecyzja());
-        }
-        
-        JSONObject listaDecyzji = new JSONObject();
-        listaDecyzji.put("dezyzje", lista);
-        
-        //sending to Serwer && waiting for respond
-        
-    }
-    
     @Override
     public void keyReleased(KeyEvent e) {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void malujDoPunktu(Player p, Graphics g) {
+        Graphics2D g2 = (Graphics2D) g;
+        g2.setStroke(new BasicStroke(5));
+        switch (p.getId()) {
+            case 0:
+                g.setColor(Color.red);
+                break;
+            case 1:
+                g.setColor(Color.green);
+                break;
+            case 2:
+                g.setColor(Color.blue);
+                break;
+            case 3:
+                g.setColor(Color.yellow);
+                break;
+            case 4:
+                g.setColor(Color.magenta);
+                break;
+            case 5:
+                g.setColor(Color.cyan);
+                break;
+        }
+        g2.draw(new Line2D.Double(p.getOldx() + 30, p.getOldy() + 30, p.getX() + 30, p.getY() + 30));
+        g.setColor(Color.black);
+
     }
 
     /**
@@ -122,5 +250,46 @@ public class Grafika extends javax.swing.JPanel implements KeyListener {
      */
     public void setCc(TCPClient cc) {
         this.cc = cc;
+    }
+
+    public void setImiona(int nkol, String i, Integer points, Integer c) {
+
+        switch (nkol) {
+            case 0:
+                PlacesLabel1.setVisible(true);
+                PlacesLabel1.setText(i + " : " + String.valueOf(points));
+                PlacesLabel1.setForeground(colors[c]);
+                break;
+            case 1:
+                PlacesLabel2.setVisible(true);
+                PlacesLabel2.setText(i + " : " + String.valueOf(points));
+                PlacesLabel2.setForeground(colors[c]);
+                break;
+            case 2:
+                PlacesLabel3.setVisible(true);
+                PlacesLabel3.setText(i + " : " + String.valueOf(points));
+                PlacesLabel3.setForeground(colors[c]);
+                break;
+            case 3:
+                PlacesLabel4.setVisible(true);
+                PlacesLabel4.setText(i + " : " + String.valueOf(points));
+                PlacesLabel4.setForeground(colors[c]);
+                break;
+            case 4:
+                PlacesLabel5.setVisible(true);
+                PlacesLabel5.setText(i + " : " + String.valueOf(points));
+                PlacesLabel5.setForeground(colors[c]);
+                break;
+            case 5:
+                PlacesLabel6.setVisible(true);
+                PlacesLabel6.setText(i + " : " + String.valueOf(points));
+                PlacesLabel6.setForeground(colors[c]);
+                break;
+
+        }
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
     }
 }

@@ -115,6 +115,54 @@ AchtungAchtung/fast:
 	$(MAKE) -f CMakeFiles/AchtungAchtung.dir/build.make CMakeFiles/AchtungAchtung.dir/build
 .PHONY : AchtungAchtung/fast
 
+gamearea.o: gamearea.cpp.o
+.PHONY : gamearea.o
+
+# target to build an object file
+gamearea.cpp.o:
+	$(MAKE) -f CMakeFiles/AchtungAchtung.dir/build.make CMakeFiles/AchtungAchtung.dir/gamearea.cpp.o
+.PHONY : gamearea.cpp.o
+
+gamearea.i: gamearea.cpp.i
+.PHONY : gamearea.i
+
+# target to preprocess a source file
+gamearea.cpp.i:
+	$(MAKE) -f CMakeFiles/AchtungAchtung.dir/build.make CMakeFiles/AchtungAchtung.dir/gamearea.cpp.i
+.PHONY : gamearea.cpp.i
+
+gamearea.s: gamearea.cpp.s
+.PHONY : gamearea.s
+
+# target to generate assembly for a file
+gamearea.cpp.s:
+	$(MAKE) -f CMakeFiles/AchtungAchtung.dir/build.make CMakeFiles/AchtungAchtung.dir/gamearea.cpp.s
+.PHONY : gamearea.cpp.s
+
+jsontranslator.o: jsontranslator.cpp.o
+.PHONY : jsontranslator.o
+
+# target to build an object file
+jsontranslator.cpp.o:
+	$(MAKE) -f CMakeFiles/AchtungAchtung.dir/build.make CMakeFiles/AchtungAchtung.dir/jsontranslator.cpp.o
+.PHONY : jsontranslator.cpp.o
+
+jsontranslator.i: jsontranslator.cpp.i
+.PHONY : jsontranslator.i
+
+# target to preprocess a source file
+jsontranslator.cpp.i:
+	$(MAKE) -f CMakeFiles/AchtungAchtung.dir/build.make CMakeFiles/AchtungAchtung.dir/jsontranslator.cpp.i
+.PHONY : jsontranslator.cpp.i
+
+jsontranslator.s: jsontranslator.cpp.s
+.PHONY : jsontranslator.s
+
+# target to generate assembly for a file
+jsontranslator.cpp.s:
+	$(MAKE) -f CMakeFiles/AchtungAchtung.dir/build.make CMakeFiles/AchtungAchtung.dir/jsontranslator.cpp.s
+.PHONY : jsontranslator.cpp.s
+
 main.o: main.cpp.o
 .PHONY : main.o
 
@@ -139,6 +187,78 @@ main.cpp.s:
 	$(MAKE) -f CMakeFiles/AchtungAchtung.dir/build.make CMakeFiles/AchtungAchtung.dir/main.cpp.s
 .PHONY : main.cpp.s
 
+manager.o: manager.cpp.o
+.PHONY : manager.o
+
+# target to build an object file
+manager.cpp.o:
+	$(MAKE) -f CMakeFiles/AchtungAchtung.dir/build.make CMakeFiles/AchtungAchtung.dir/manager.cpp.o
+.PHONY : manager.cpp.o
+
+manager.i: manager.cpp.i
+.PHONY : manager.i
+
+# target to preprocess a source file
+manager.cpp.i:
+	$(MAKE) -f CMakeFiles/AchtungAchtung.dir/build.make CMakeFiles/AchtungAchtung.dir/manager.cpp.i
+.PHONY : manager.cpp.i
+
+manager.s: manager.cpp.s
+.PHONY : manager.s
+
+# target to generate assembly for a file
+manager.cpp.s:
+	$(MAKE) -f CMakeFiles/AchtungAchtung.dir/build.make CMakeFiles/AchtungAchtung.dir/manager.cpp.s
+.PHONY : manager.cpp.s
+
+player.o: player.cpp.o
+.PHONY : player.o
+
+# target to build an object file
+player.cpp.o:
+	$(MAKE) -f CMakeFiles/AchtungAchtung.dir/build.make CMakeFiles/AchtungAchtung.dir/player.cpp.o
+.PHONY : player.cpp.o
+
+player.i: player.cpp.i
+.PHONY : player.i
+
+# target to preprocess a source file
+player.cpp.i:
+	$(MAKE) -f CMakeFiles/AchtungAchtung.dir/build.make CMakeFiles/AchtungAchtung.dir/player.cpp.i
+.PHONY : player.cpp.i
+
+player.s: player.cpp.s
+.PHONY : player.s
+
+# target to generate assembly for a file
+player.cpp.s:
+	$(MAKE) -f CMakeFiles/AchtungAchtung.dir/build.make CMakeFiles/AchtungAchtung.dir/player.cpp.s
+.PHONY : player.cpp.s
+
+punkt.o: punkt.cpp.o
+.PHONY : punkt.o
+
+# target to build an object file
+punkt.cpp.o:
+	$(MAKE) -f CMakeFiles/AchtungAchtung.dir/build.make CMakeFiles/AchtungAchtung.dir/punkt.cpp.o
+.PHONY : punkt.cpp.o
+
+punkt.i: punkt.cpp.i
+.PHONY : punkt.i
+
+# target to preprocess a source file
+punkt.cpp.i:
+	$(MAKE) -f CMakeFiles/AchtungAchtung.dir/build.make CMakeFiles/AchtungAchtung.dir/punkt.cpp.i
+.PHONY : punkt.cpp.i
+
+punkt.s: punkt.cpp.s
+.PHONY : punkt.s
+
+# target to generate assembly for a file
+punkt.cpp.s:
+	$(MAKE) -f CMakeFiles/AchtungAchtung.dir/build.make CMakeFiles/AchtungAchtung.dir/punkt.cpp.s
+.PHONY : punkt.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -148,9 +268,24 @@ help:
 	@echo "... AchtungAchtung"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... gamearea.o"
+	@echo "... gamearea.i"
+	@echo "... gamearea.s"
+	@echo "... jsontranslator.o"
+	@echo "... jsontranslator.i"
+	@echo "... jsontranslator.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... manager.o"
+	@echo "... manager.i"
+	@echo "... manager.s"
+	@echo "... player.o"
+	@echo "... player.i"
+	@echo "... player.s"
+	@echo "... punkt.o"
+	@echo "... punkt.i"
+	@echo "... punkt.s"
 .PHONY : help
 
 

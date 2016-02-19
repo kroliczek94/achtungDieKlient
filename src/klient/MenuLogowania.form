@@ -66,39 +66,29 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="changeButton" max="32767" attributes="0"/>
+                          <Component id="imieField" alignment="0" max="32767" attributes="0"/>
                           <Group type="102" attributes="0">
-                              <Component id="AddButton" min="-2" pref="170" max="-2" attributes="0"/>
+                              <Component id="leftLabel" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
+                              <Component id="rightLabel" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="changeButton" max="32767" attributes="0"/>
-                                  <Component id="imieField" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="imieButton" alignment="0" max="32767" attributes="0"/>
-                                  <Group type="102" attributes="0">
-                                      <Component id="leftLabel" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="32767" attributes="0"/>
-                                      <Component id="rightLabel" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                              </Group>
-                              <EmptySpace min="44" pref="44" max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="imieButton" alignment="0" max="32767" attributes="0"/>
+                          <Component id="AddButton" alignment="0" max="32767" attributes="0"/>
                       </Group>
+                      <EmptySpace min="44" pref="44" max="-2" attributes="0"/>
                   </Group>
               </Group>
           </Group>
           <Group type="102" attributes="0">
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="StartButton" min="-2" pref="352" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
-                      <Component id="ttlLabel" min="-2" pref="249" max="-2" attributes="0"/>
-                  </Group>
-              </Group>
-              <EmptySpace pref="36" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
+              <Component id="ttlLabel" min="-2" pref="249" max="-2" attributes="0"/>
+              <EmptySpace pref="105" max="32767" attributes="0"/>
+          </Group>
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="StartButton" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -139,7 +129,7 @@
                   <Component id="imieButton" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="g6Button" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -148,7 +138,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="AnulujButton" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="AddButton" min="-2" pref="51" max="-2" attributes="0"/>
+                  <Component id="AddButton" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="StartButton" min="-2" max="-2" attributes="0"/>
@@ -297,6 +287,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Rozpocznij"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="StartButtonActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="imieField">
       <Events>

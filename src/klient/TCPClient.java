@@ -6,6 +6,7 @@
 package klient;
 
 import java.awt.Color;
+import java.awt.HeadlessException;
 import java.io.*;
 import java.net.*;
 import java.nio.ByteBuffer;
@@ -15,6 +16,8 @@ import java.nio.channels.Selector;
 import java.nio.channels.SocketChannel;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Set;
 import javax.swing.JOptionPane;
@@ -53,7 +56,7 @@ public class TCPClient extends Thread {
         this.host = host;
         writeBuffer = ByteBuffer.allocateDirect(BUFFER_SIZE);
         readBuffer = ByteBuffer.allocateDirect(BUFFER_SIZE);
-        asciiDecoder = Charset.forName("US-ASCII").newDecoder();;
+        asciiDecoder = Charset.forName("US-ASCII").newDecoder();
         this.ml = ml;
         this.graf = graf;
     }
@@ -125,8 +128,8 @@ public class TCPClient extends Thread {
                     if ("register".equals(stan)) {
                         Boolean ok = (Boolean) jsonObj.get("ok");
                         Long id = (Long) jsonObj.get("id");
-                        
-                        if (!ok){
+
+                        if (!ok) {
                             JOptionPane.showMessageDialog(null, "Wybrane miejsce jest już zajęte!");
                         }
                         //                       ml.zmienLabela(id, Color.yellow);
@@ -136,14 +139,13 @@ public class TCPClient extends Thread {
                         JSONArray tabImie = new JSONArray();
                         JSONArray tabReady = new JSONArray();
 
-                        Long ttl = (Long) jsonObj.get("ttl");
-
+                        //Long ttl = (Long) jsonObj.get("ttl");
                         ml.resetLabeli();
                         tabStan = (JSONArray) jsonObj.get("reservedplaces");
                         tabImie = (JSONArray) jsonObj.get("peoplenames");
                         tabReady = (JSONArray) jsonObj.get("readypeople");
 
-                        ml.zmienTTL(ttl);
+                        //ml.zmienTTL(ttl);
                         for (int j = 0; j < 6; j++) {
                             ml.zmienLabela(Long.valueOf(j), (String) tabImie.get(j));
                         }
@@ -159,16 +161,55 @@ public class TCPClient extends Thread {
                                 ml.zmienLabela(Long.valueOf(j), Color.green);
                             }
                         }
+                    } else if ("letstart".equals(stan)) {
+                        boolean x = (boolean) jsonObj.get("success");
+                        if (!x) {
+                            JOptionPane.showMessageDialog(null, "Niepowodzenie przy uruchomieniu gry\nSprawdź liczbę uczestników");
+                        } else {
+                            Klient.setStart(true);
+                        }
+                    } else if (("stateafter").equals(stan)) {
+                        Klient.setStart(true);
+                        JSONArray nazwy = new JSONArray();
+                        JSONArray punkty = new JSONArray();
+                        JSONArray idPlayers = new JSONArray();
+                        idPlayers = (JSONArray) jsonObj.get("idplayers");
+                        nazwy = (JSONArray) jsonObj.get("peoplenames");
+                        punkty = (JSONArray) jsonObj.get("points");
+                        for (int i1 = 0; i1 < idPlayers.size(); i1++){
+                            Long id = (Long) idPlayers.get(i1);
+                            Long l=  (Long) punkty.get(i1);
+                            String name = (String)nazwy.get(i1);
+                            Player.getDane().add(new PlayerToTab(name, id.intValue(), l.intValue()));
+                        }
+                        
+                        
+                        Collections.sort(Player.getDane(), new Comparator<PlayerToTab>() {
+                            @Override
+                            public int compare(PlayerToTab o1, PlayerToTab o2) {
+                                return o1.getPoints().compareTo(o2.getPoints());
+                            }
+                        });
+                        
+                        for (int k = 0 ; k < Player.getDane().size() ; k++){
+                            
+                                PlayerToTab ptt = Player.getDane().get(k);
+                            
+                            graf.setImiona(k, ptt.getName(), ptt.getPoints(), ptt.getC());
+                            Player.getDane().remove(ptt);
+                        }
+                   
+                        
+                        
+                        
+                        
                     }
 
-                    if ((line.indexOf("\n") != -1) || (line.indexOf("\r") != -1)) {
-
-                        //System.out.print("> ");
-                    }
+                   
                 }
             }
         } catch (IOException ioe) {
-        } catch (Exception e) {
+        } catch (ParseException | HeadlessException e) {
 
             System.out.println("nic " + e.getMessage());
         }

@@ -5,29 +5,49 @@
  */
 package klient;
 
-import java.net.*;
+import java.util.ArrayList;
+import java.util.concurrent.ConcurrentSkipListMap;
+
+
 /**
  *
  * @author Łukasz Królik
  */
 public class Player {
+
+    /**
+     * @return the dane
+     */
+    public static ArrayList<PlayerToTab> getDane() {
+        return dane;
+    }
+
+    /**
+     * @param aDane the dane to set
+     */
+    public static void setDane(ArrayList<PlayerToTab> aDane) {
+        dane = aDane;
+    }
+    private int id;
     private int x = 200;
     private int y = 200;
     private int oldx;
     private int oldy;
-    private int kat = 60;
-    private double krok = 10.0;
+    private int kat = 55;
+    private double krok = 4.0;
     private int decyzja = 0;
     private int lewy  = 37;
     private int prawy = 39;
     private String name;
     private Boolean modulo = false;
-    private Boolean activePlayer = false;
     private int idPoprzedniegoPola = -1;
+    private boolean myPlayer = false;
+    private static ConcurrentSkipListMap<Integer, PlayerToTab> punkty= new ConcurrentSkipListMap<>();
+    private static ArrayList<PlayerToTab> dane = new ArrayList<>();
     //private Socket sock;
 
-    public Player() {
-        
+    public Player(int id) {
+        this.id = id;
     }
     
 
@@ -39,35 +59,35 @@ public class Player {
         return y;
     }
 
-    public void setX(int x) {
-        int newx = x % 400;
+    public void setX(int x, int maxX) {
+        int newx = x % maxX;
         
-        if (x >= 400){
+        if (x >= maxX){
             this.x = newx;
             setModulo((Boolean) true);
         }
             
-        else if ((x < 400) && (x > 0))
+        else if ((x < maxX) && (x > 0))
             this.x = x;
         else{
-            this.x = (400 - newx);
+            this.x = (maxX - newx);
             setModulo((Boolean) true);
         } 
             
     }
 
-    public void setY(int y) {
-         int newy = y % 400;
+    public void setY(int y, int maxY) {
+         int newy = y % maxY;
         
-        if (y >= 400){
+        if (y >= maxY){
             this.y = newy;
             setModulo((Boolean) true);
         }
             
-        else if ((y < 400) && (y > 0))
+        else if ((y < maxY) && (y > 0))
             this.y = y;
         else{
-            this.y = (400 - newy);
+            this.y = (maxY - newy);
             setModulo((Boolean) true);
         } 
     }
@@ -122,7 +142,7 @@ public class Player {
     }
     
         public void newPosition(int x, int y, int alfa){
-        
+            
         double alfaRadian = Math.toRadians((double) alfa);
         double sinAlfa = Math.sin(alfaRadian);
         double cosAlfa = Math.cos(alfaRadian);
@@ -130,8 +150,8 @@ public class Player {
             setOldx(x);
             setOldy(y);
         
-        setX((int) (getKrok() * sinAlfa)+x);
-        setY((int) (getKrok() * cosAlfa)+y);
+        setX((int) (getKrok() * sinAlfa)+x, Klient.getMaxX());
+        setY((int) (getKrok() * cosAlfa)+y, Klient.getMaxY());
         
     }
 
@@ -222,35 +242,6 @@ public class Player {
     }
 
     /**
-     * @return the activePlayer
-     */
-    public Boolean getActivePlayer() {
-        return activePlayer;
-    }
-
-    /**
-     * @param activePlayer the activePlayer to set
-     */
-    public void setActivePlayer(Boolean activePlayer) {
-        this.activePlayer = activePlayer;
-    }
-//
-//    /**
-//     * @return the sock
-//     */
-//    public Socket getSock() {
-//        return sock;
-//    }
-//
-//    /**
-//     * @param sock the sock to set
-//     */
-//    public void setSock(Socket sock) {
-//        this.sock = sock;
-//    }
-//    
-
-    /**
      * @return the idPoprzedniegoPola
      */
     public int getIdPoprzedniegoPola() {
@@ -263,4 +254,48 @@ public class Player {
     public void setIdPoprzedniegoPola(int idPoprzedniegoPola) {
         this.idPoprzedniegoPola = idPoprzedniegoPola;
     }
+
+    /**
+     * @return the myPlayer
+     */
+    public boolean isMyPlayer() {
+        return myPlayer;
+    }
+
+    /**
+     * @param myPlayer the myPlayer to set
+     */
+    public void setMyPlayer(boolean myPlayer) {
+        this.myPlayer = myPlayer;
+    }
+
+    /**
+     * @return the id
+     */
+    public int getId() {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    /**
+     * @return the punkty
+     */
+    public static ConcurrentSkipListMap<Integer, PlayerToTab> getPunkty() {
+        return punkty;
+    }
+
+    /**
+     * @param punkty the punkty to set
+     */
+    public static void setPunkty(ConcurrentSkipListMap<Integer, PlayerToTab> punkty) {
+        Player.punkty = punkty;
+    }
+
+  
 }

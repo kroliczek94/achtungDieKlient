@@ -4,10 +4,11 @@
 
 using namespace std;
 
-Player::Player(int id, string name)
+Player::Player(int id, string name, int angle)
 {
     this->id = id;
     this->name=  name;
+    this->angle = angle;
 
 }
 
@@ -35,6 +36,7 @@ void Player::setX(int value)
 {
     x = value;
 }
+
 
 int Player::getY() const
 {
@@ -75,6 +77,17 @@ void Player::setOldX(int value)
 {
     oldX = value;
 }
+
+int Player::getKrok() const
+{
+    return krok;
+}
+
+void Player::setKrok(int value)
+{
+    krok = value;
+}
+
 
 
 string Player::getName() const

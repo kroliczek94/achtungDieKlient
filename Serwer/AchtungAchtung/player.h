@@ -8,7 +8,7 @@ using namespace std;
 class Player
 {
 public:
-    Player(int id, string name);
+    Player(int id, string name, int angle);
     ~Player();
     
     int getId() const;
@@ -24,9 +24,11 @@ public:
     
     int getX() const;
     void setX(int value);
+    void setX(int value, int maxX);
     
     int getY() const;
     void setY(int value);
+    void setY(int value, int maxY);
     
     int getAngle() const;
     void setAngle(int value);
@@ -37,6 +39,10 @@ public:
     int getOldX() const;
     void setOldX(int value);
     
+    int getKrok() const;
+    void setKrok(int value);
+
+
 private :
     
     int id;
@@ -48,6 +54,7 @@ private :
     int x = 0;
     int y = 0;
     int points = 0;
+    int krok = 4;
     
 };
 

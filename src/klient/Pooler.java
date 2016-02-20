@@ -40,13 +40,10 @@ public class Pooler extends Thread {
             JSONObject zapytanie = new JSONObject();
             zapytanie.put("action", "state");
             for (int i = 0; i < 6; i++) {
-
-                //if (Klient.getGracze().get(i).isMyPlayer()) {
-                    Player p = Klient.getGracze().get(i);
-                    tab.add(p.getDecyzja());
-//                } else {
-//                    tab.add(-99);
-//                }
+                
+                Player p = Klient.getGracze().get(i);
+                tab.add(p.getDecyzja());
+                Klient.getGracze().get(i).setDecyzja(0);
 
             }
             zapytanie.put("dec", tab);
@@ -58,14 +55,9 @@ public class Pooler extends Thread {
                 Logger.getLogger(MenuLogowania.class.getName()).log(Level.SEVERE, null, ex);
             }
             String jsonText = out.toString();
-            
+            System.out.println(jsonText);
             client.sendMessage(jsonText);
-            for (Player p : Klient.getGracze()) {
-                p.setKat(p.getDecyzja() + p.getKat());
-                p.setModulo(false);
-                p.setDecyzja(0);
 
-            }
             long koniec = System.currentTimeMillis();
             long czas = koniec - start;
             //czas = 0;

@@ -6,23 +6,28 @@
 package klient;
 
 import java.awt.Color;
+import java.awt.List;
+import java.util.ArrayList;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  *
  * @author lukasz
  */
 public class PlayerToTab {
+
     private String name;
     private Integer c;
     private Integer points;
 
+    private static ArrayList<Point> oldMoves = new ArrayList<>();
+
     public PlayerToTab(String n, Integer col, Integer p) {
         this.name = n;
-        this.c= col;
+        this.c = col;
         this.points = p;
     }
 
-    
     /**
      * @return the name
      */
@@ -63,5 +68,19 @@ public class PlayerToTab {
      */
     public void setPoints(Integer points) {
         this.points = points;
+    }
+
+    /**
+     * @return the oldMoves
+     */
+    public static ArrayList<Point> getOldMoves() {
+        return oldMoves;
+    }
+
+    /**
+     * @param aOldMoves the oldMoves to set
+     */
+    public static void setOldMoves(ArrayList<Point> aOldMoves) {
+        oldMoves = aOldMoves;
     }
 }

@@ -9,6 +9,7 @@
 #include <string>
 #include <thread>
 #include <pthread.h>
+#include <iostream>
 
 using namespace std;
 class manager
@@ -36,6 +37,11 @@ public:
     int getPointsPlayer(int i);
     int getPlayerX(int i);
     int getPlayerY(int i);
+    int getPlayerAngle(int i);
+    bool playerOfClient(int id, int i);
+    int move(int dec, Player * & p);
+    void movePlayer(int i);
+    int setKlient(int id, int i);
 
     vector<bool> getReady() const;
     void setReady(const vector<bool> &value);
@@ -44,20 +50,24 @@ public:
     void readyPlayer(int id, vector<bool> rdy);
 
     int letsStart();
-    map<int, int> getKlienci() const;
-    void setKlienci(const map<int, int> &value);
+
+
   //  void countdown(int & timeToGo);
+
+    void movePlayer(int dec, int i);
+    vector<int> getKlienci() const;
+    void setKlienci(const vector<int> &value);
 
 private:
     int letsStart(bool & gameStarted);
-    map<int, int> klienci;
+    vector <int> klienci = {-1, -1, -1, -1, -1, -1};
     vector<Player *> playersTab;
     vector <bool> reserved = {false, false, false, false,false,false};
     vector <bool> ready = {false, false, false, false,false,false};
     bool gameStarted = false;
 
     bool reservePositions(int id, int formerID, vector <bool> & res, int klient);
-
+    int setKlient(int id, int i, vector<int> & kl);
 
 };
 

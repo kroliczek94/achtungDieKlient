@@ -29,10 +29,10 @@ public class Player {
         dane = aDane;
     }
     private int id;
-    private int x = 200;
-    private int y = 200;
-    private int oldx;
-    private int oldy;
+    private int x = 0;
+    private int y = 0;
+    private int oldx = 0;
+    private int oldy = 0;
     private int kat = 55;
     private double krok = 4.0;
     private int decyzja = 0;
@@ -42,6 +42,7 @@ public class Player {
     private Boolean modulo = false;
     private int idPoprzedniegoPola = -1;
     private boolean myPlayer = false;
+    private boolean activePlayer = false;
     private static ConcurrentSkipListMap<Integer, PlayerToTab> punkty= new ConcurrentSkipListMap<>();
     private static ArrayList<PlayerToTab> dane = new ArrayList<>();
     //private Socket sock;
@@ -75,6 +76,15 @@ public class Player {
         } 
             
     }
+    
+        public void setX(int x) {
+            this.x = x;
+    }
+        
+        public void setY(int y) {
+            this.y = y;
+    }
+
 
     public void setY(int y, int maxY) {
          int newy = y % maxY;
@@ -154,6 +164,13 @@ public class Player {
         setY((int) (getKrok() * cosAlfa)+y, Klient.getMaxY());
         
     }
+        
+        public void newPositionTo(int x, int y){
+            setOldx(getX());
+            setOldy(getY());
+            setX(x);
+            setY(y);
+        }
 
     /**
      * @return the krok
@@ -295,6 +312,20 @@ public class Player {
      */
     public static void setPunkty(ConcurrentSkipListMap<Integer, PlayerToTab> punkty) {
         Player.punkty = punkty;
+    }
+
+    /**
+     * @return the activePlayer
+     */
+    public boolean isActivePlayer() {
+        return activePlayer;
+    }
+
+    /**
+     * @param activePlayer the activePlayer to set
+     */
+    public void setActivePlayer(boolean activePlayer) {
+        this.activePlayer = activePlayer;
     }
 
   

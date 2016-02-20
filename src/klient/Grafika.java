@@ -29,7 +29,7 @@ public class Grafika extends javax.swing.JPanel implements KeyListener {
 
     ArrayList<Player> p;
     private TCPClient cc;
-    
+
     Color[] colors = {Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW, Color.MAGENTA, Color.CYAN};
 
     /**
@@ -167,21 +167,19 @@ public class Grafika extends javax.swing.JPanel implements KeyListener {
     @Override
     public void paintComponent(Graphics g) {
 
-//        if (first) {
-//            g.setColor(Color.red);
-//            g.fill3DRect(30, 30, 1000, 600, true);
-//        }
-//        first = false;
-//        for (Player pl : Klient.getGracze()) {
-//            pl.newPosition(pl.getX(), pl.getY(), pl.getKat());
-//            g.drawRect(30, 30, 1000, 600);
-//
-//            if (!pl.getModulo()) {
-//                g.setColor(Color.BLUE);
-//                malujDoPunktu(pl, g);
-//                //g.drawLine(pl.getOldx()+30, pl.getOldy()+30, pl.getX()+30, pl.getY()+30);
-//            }
-//        }
+        for (Player pl : Klient.getGracze()) {
+            
+            if (pl.isActivePlayer()) {
+                //System.out.println(pl.getId() +" : " + pl.getOldx() + " -> "+pl.getX() +" "+  pl.getOldy() + " -> "+ pl.getY());
+                //pl.newPosition(pl.getX(), pl.getY(), pl.getKat());
+                g.drawRect(30, 30, 1000, 600);
+
+                if (!pl.getModulo()) {
+                    g.setColor(Color.BLUE);
+                    malujDoPunktu(pl, g);
+                }
+            }
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -214,6 +212,7 @@ public class Grafika extends javax.swing.JPanel implements KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
+        System.out.println("Dziala to");
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -291,5 +290,6 @@ public class Grafika extends javax.swing.JPanel implements KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
+
     }
 }

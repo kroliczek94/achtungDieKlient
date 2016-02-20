@@ -5,15 +5,8 @@
  */
 package klient;
 
-import java.awt.EventQueue;
-import java.awt.GraphicsEnvironment;
-import java.awt.Rectangle;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFrame;
-import java.io.*;
-import java.net.Socket;
 
 /** 
  *
@@ -27,6 +20,7 @@ public class Klient {
     private static int maxY = 600;
     /**
      * @param args the command line arguments
+     * @throws java.lang.InterruptedException
      */
     public static void main(String[] args) throws InterruptedException {
         Grafika g = new Grafika(getGracze(), null);
@@ -50,23 +44,16 @@ public class Klient {
         
         JFrame window = new JFrame("Achtung Die Kurve");
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
         
-
         window.add(menu);
         window.setVisible(true);
         window.setSize(400, 330);
         
-        
-        while (!isStart()){
-           Thread.sleep(1000);
-           
-        }
+        while (!isStart()) {Thread.sleep(1000);}
         menu.setVisible(false);
         window.add(g);
         g.setFocusable(true);
-        GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        Rectangle maximumWindowBounds = graphicsEnvironment.getMaximumWindowBounds();
+        g.requestFocus();
         
         window.setSize(1366, 720);
         window.setVisible(true);

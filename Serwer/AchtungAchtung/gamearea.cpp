@@ -1,4 +1,5 @@
 #include "gamearea.h"
+#include "math.h"
 
 gameArea::gameArea()
 {
@@ -24,9 +25,21 @@ bool gameArea::ruch(int skadX, int skadY, int doX, int doY, vector<vector<bool>>
     
 }
 
-bool gameArea::ruch(int dec, Player *p)
-{   
-    
+bool gameArea::ruch(int dec, Player* &p)
+{
+    p->setAngle(p->getAngle() + dec);
+    double pi = M_PI;
+    double radians = ( p->getAngle() * pi ) / 180 ;
+    //double alfaRadian = Math.toRadians(radians);
+    double sinAlfa = sin(radians);
+    double cosAlfa = cos(radians);
+
+        p->setOldX(p->getX());
+        p->setOldY(p->getY());
+
+    p->setX((int) (p->getKrok() * sinAlfa)+p->getX());
+    p->setY((int) (p->getKrok() * cosAlfa)+p->getY());
+
 }
 
 vector<vector<bool> > gameArea::getArea() const

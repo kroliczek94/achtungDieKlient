@@ -173,39 +173,59 @@ public class TCPClient extends Thread {
                         JSONArray nazwy = new JSONArray();
                         JSONArray punkty = new JSONArray();
                         JSONArray idPlayers = new JSONArray();
+                        JSONArray xPos = new JSONArray();
+                        JSONArray yPos = new JSONArray();
+
                         idPlayers = (JSONArray) jsonObj.get("idplayers");
                         nazwy = (JSONArray) jsonObj.get("peoplenames");
                         punkty = (JSONArray) jsonObj.get("points");
-                        for (int i1 = 0; i1 < idPlayers.size(); i1++){
+                        xPos = (JSONArray) jsonObj.get("xpos");
+                        yPos = (JSONArray) jsonObj.get("ypos");
+
+                        for (int i1 = 0; i1 < idPlayers.size(); i1++) {
                             Long id = (Long) idPlayers.get(i1);
-                            Long l=  (Long) punkty.get(i1);
-                            String name = (String)nazwy.get(i1);
+                            Long l = (Long) punkty.get(i1);
+                            String name = (String) nazwy.get(i1);
+                            Klient.getGracze().get(id.intValue()).setActivePlayer(true);
                             Player.getDane().add(new PlayerToTab(name, id.intValue(), l.intValue()));
                         }
-                        
-                        
+
                         Collections.sort(Player.getDane(), new Comparator<PlayerToTab>() {
                             @Override
                             public int compare(PlayerToTab o1, PlayerToTab o2) {
                                 return o1.getPoints().compareTo(o2.getPoints());
                             }
                         });
-                        
-                        for (int k = 0 ; k < Player.getDane().size() ; k++){
-                            
-                                PlayerToTab ptt = Player.getDane().get(k);
-                            
+
+                        for (int k = 0; k < Player.getDane().size(); k++) {
+
+                            PlayerToTab ptt = Player.getDane().get(k);
                             graf.setImiona(k, ptt.getName(), ptt.getPoints(), ptt.getC());
                             Player.getDane().remove(ptt);
+
                         }
-                   
-                        
-                        
-                        
-                        
+
+                        for (int i1 = 0; i1 < 6; i1++) {
+                            if (!idPlayers.contains(Long.valueOf(i1))) {
+                                continue;
+                            }
+                           // System.out.println((Long) xPos.get(0));
+                            Long x= (Long)xPos.get(0);
+                            Long y= (Long)yPos.get(0);
+                            Player p = Klient.getGracze().get(i1);
+                            p.setOldx(p.getX());
+                            p.setOldy(p.getY());
+                            
+                            p.setX(x.intValue());
+                            p.setY(y.intValue());
+
+                            xPos.remove(0);
+                            yPos.remove(0);
+
+                        }
+
                     }
 
-                   
                 }
             }
         } catch (IOException ioe) {

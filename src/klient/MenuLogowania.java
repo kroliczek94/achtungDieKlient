@@ -1,4 +1,4 @@
-/*
+    /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -10,12 +10,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.io.StringWriter;
-import java.util.Deque;
-import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import org.json.simple.*;
@@ -593,7 +590,7 @@ public class MenuLogowania extends javax.swing.JPanel implements KeyListener {
     public void keyTyped(KeyEvent e) {
 
     }
-
+ 
     @Override
     public void keyPressed(KeyEvent e) {
 //        System.out.println(e.getKeyText(e.getKeyCode()));

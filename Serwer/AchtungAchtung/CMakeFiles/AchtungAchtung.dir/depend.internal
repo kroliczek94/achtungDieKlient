@@ -4,6 +4,8 @@
 CMakeFiles/AchtungAchtung.dir/gamearea.cpp.o
  /home/lukasz/AchtungAchtung/gamearea.cpp
  /home/lukasz/AchtungAchtung/gamearea.h
+ /home/lukasz/AchtungAchtung/player.h
+ /home/lukasz/AchtungAchtung/punkt.h
 CMakeFiles/AchtungAchtung.dir/jsontranslator.cpp.o
  /home/lukasz/AchtungAchtung/jsontranslator.cpp
  /home/lukasz/AchtungAchtung/jsontranslator.h

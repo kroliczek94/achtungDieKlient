@@ -3,11 +3,13 @@
 
 gameArea::gameArea()
 {
-    gameArea(area);
+
+    //gameArea(area);
 }
 
 gameArea::gameArea(vector<vector<bool>> & pole)
 {
+
     for(int i = 0; i < 1000 ; i++){
         vector<bool> c;
         pole.emplace_back(c);
@@ -34,22 +36,15 @@ bool gameArea::ruch(int dec, Player* &p)
     double sinAlfa = sin(radians);
     double cosAlfa = cos(radians);
 
-        p->setOldX(p->getX());
-        p->setOldY(p->getY());
+    p->setOldX(p->getX());
+    p->setOldY(p->getY());
 
     p->setX((int) (p->getKrok() * sinAlfa)+p->getX());
     p->setY((int) (p->getKrok() * cosAlfa)+p->getY());
 
 }
 
-vector<vector<bool> > gameArea::getArea() const
-{
-    return area;
-}
 
-void gameArea::setArea(const vector<vector<bool> > &value)
-{
-    area = value;
-}
+
 
 

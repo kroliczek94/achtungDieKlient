@@ -193,7 +193,7 @@ public class TCPClient extends Thread {
                         Collections.sort(Player.getDane(), new Comparator<PlayerToTab>() {
                             @Override
                             public int compare(PlayerToTab o1, PlayerToTab o2) {
-                                return o1.getPoints().compareTo(o2.getPoints());
+                                return -1*o1.getPoints().compareTo(o2.getPoints());
                             }
                         });
 
@@ -209,13 +209,14 @@ public class TCPClient extends Thread {
                             if (!idPlayers.contains(Long.valueOf(i1))) {
                                 continue;
                             }
-                           // System.out.println((Long) xPos.get(0));
-                            Long x= (Long)xPos.get(0);
-                            Long y= (Long)yPos.get(0);
+
+                            Long x = (Long) xPos.get(0);
+                            Long y = (Long) yPos.get(0);
                             Player p = Klient.getGracze().get(i1);
+
                             p.setOldx(p.getX());
                             p.setOldy(p.getY());
-                            
+
                             p.setX(x.intValue());
                             p.setY(y.intValue());
 

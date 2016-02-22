@@ -3,6 +3,8 @@
 
 CMakeFiles/AchtungAchtung.dir/gamearea.cpp.o: gamearea.cpp
 CMakeFiles/AchtungAchtung.dir/gamearea.cpp.o: gamearea.h
+CMakeFiles/AchtungAchtung.dir/gamearea.cpp.o: player.h
+CMakeFiles/AchtungAchtung.dir/gamearea.cpp.o: punkt.h
 
 CMakeFiles/AchtungAchtung.dir/jsontranslator.cpp.o: jsontranslator.cpp
 CMakeFiles/AchtungAchtung.dir/jsontranslator.cpp.o: jsontranslator.h

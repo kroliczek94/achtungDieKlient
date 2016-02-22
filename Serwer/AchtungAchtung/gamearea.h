@@ -17,9 +17,14 @@ public:
 
     bool ruch(int skadX, int skadY, int doX, int doY, vector<vector<bool> > &pole);
     bool ruch(int dec, Player *& p);
+
+
+
+
 private:
     //bool area[1000][800];
-    vector<vector<bool>> area;
+
+
 
 };
 

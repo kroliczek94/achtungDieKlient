@@ -23,12 +23,12 @@ public:
     
     
     int getX() const;
-    void setX(int value);
-    void setX(int value, int maxX);
+    bool setX(int value);
+    //void setX(int value, int maxX);
     
     int getY() const;
-    void setY(int value);
-    void setY(int value, int maxY);
+    bool setY(int value);
+    //void setY(int value, int maxY);
     
     int getAngle() const;
     void setAngle(int value);
@@ -43,6 +43,9 @@ public:
     void setKrok(int value);
 
 
+    bool getOut() const;
+    void setOut(bool value);
+
 private :
     
     int id;
@@ -55,7 +58,7 @@ private :
     int y = 0;
     int points = 0;
     int krok = 4;
-    
+    bool out = false;
 };
 
 #endif // PLAYER_H

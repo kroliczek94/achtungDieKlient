@@ -122,7 +122,7 @@ int main (int argc, char *argv[])
     /***********************************************************/
     /* Wywołaj select() i zaczekaj 3 min na zakończenie.       */
     /***********************************************************/
-    printf("Oczekiwanie na wywołanie funkcji select()...\n");
+    //printf("Oczekiwanie na wywołanie funkcji select()...\n");
     rc = poll(fds, nfds, timeout);
 
     /***********************************************************/
@@ -238,7 +238,7 @@ int main (int argc, char *argv[])
 
       else
       {
-        printf("Deskryptor %d jest czytelny\n", i);
+        //printf("Deskryptor %d jest czytelny\n", i);
         close_conn = false;
         /*******************************************************/
         /* Odbierz wszystkie dane przychodzące do              */
@@ -281,7 +281,7 @@ int main (int argc, char *argv[])
           /* Dane zostały odebrane.                            */
           /*****************************************************/
           len = rc;
-          printf("Otrzymano bajtów: %d\n", len);
+          //printf("Otrzymano bajtów: %d\n", len);
 
           string ss= jtrans->reply(buffer, i);
 

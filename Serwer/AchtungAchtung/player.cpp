@@ -32,9 +32,14 @@ int Player::getX() const
     return x;
 }
 
-void Player::setX(int value)
+bool Player::setX(int value)
 {
-    x = value;
+    bool exit = false;
+
+    if (value > 0 && value < 1000) x = value;
+    else exit = true;
+
+    return exit;
 }
 
 
@@ -43,9 +48,14 @@ int Player::getY() const
     return y;
 }
 
-void Player::setY(int value)
+bool Player::setY(int value)
 {
-    y = value;
+    bool exit = false;
+
+    if (value > 0 && value < 600) y = value;
+    else exit = true;
+
+    return exit;
 }
 
 int Player::getAngle() const
@@ -86,6 +96,16 @@ int Player::getKrok() const
 void Player::setKrok(int value)
 {
     krok = value;
+}
+
+bool Player::getOut() const
+{
+    return out;
+}
+
+void Player::setOut(bool value)
+{
+    out = value;
 }
 
 

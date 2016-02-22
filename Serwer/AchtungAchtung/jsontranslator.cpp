@@ -1,4 +1,4 @@
-#include "jsontranslator.h"
+﻿#include "jsontranslator.h"
 #include "player.h"
 #include <time.h>
 
@@ -20,7 +20,7 @@ string JSONTranslator::reply(char *buffer, int i)
     StringBuffer s;
     Writer<StringBuffer> writer(s);
 
-    cout << buffer << endl;
+    //cout << buffer << endl;
 
     assert(doc.IsObject());
     assert(doc.HasMember("action"));
@@ -79,8 +79,6 @@ string JSONTranslator::reply(char *buffer, int i)
             writer.EndArray();
             writer.EndObject();
         }else{
-            time_t start, end;
-            time(&start);
             assert(doc.HasMember("dec"));
             assert(doc["dec"].IsArray());
 
@@ -88,14 +86,18 @@ string JSONTranslator::reply(char *buffer, int i)
             for (int j = 0 ; j < 6 ; j++){
                 assert(doc["dec"][j].IsInt());
                 int dec = doc["dec"][j].GetInt();
-                cout << dec;
+
                 bool ok = man->playerOfClient(j, i);
-                if (ok) man->movePlayer(dec, j);
+                int error = 0;
+                if (ok && !man->getPlayerOut(j))
+                {
+                    error = man->movePlayer(dec, j);
+                    if (error) man->playerLose(j);
+                    error = 0;
+                }
+
 
             }
-
-
-
 
             writer.StartObject();
             writer.String("action");
@@ -105,7 +107,7 @@ string JSONTranslator::reply(char *buffer, int i)
             writer.StartArray();
             for (int i = 0; i < 6 ; i++){
                 if (man->getReady().at(i))
-                writer.Int(i);
+                    writer.Int(i);
             }
             writer.EndArray();
 
@@ -113,21 +115,21 @@ string JSONTranslator::reply(char *buffer, int i)
             writer.StartArray();
             for (int i = 0; i < 6 ; i++){
                 if (man->getReady().at(i))
-                writer.String(man->getNamePlayer(i).c_str());
+                    writer.String(man->getNamePlayer(i).c_str());
             }
             writer.EndArray();
             writer.String("points");
             writer.StartArray();
             for (int i = 0; i < 6 ; i++){
                 if (man->getReady().at(i))
-                writer.Int(man->getPointsPlayer(i));
+                    writer.Int(man->getPointsPlayer(i));
             }
             writer.EndArray();
             writer.String("xpos");
             writer.StartArray();
             for (int i = 0; i < 6 ; i++){
                 if (man->getReady().at(i))
-                writer.Int(man->getPlayerX(i));
+                    writer.Int(man->getPlayerX(i));
             }
             writer.EndArray();
             writer.String("ypos");
@@ -135,16 +137,14 @@ string JSONTranslator::reply(char *buffer, int i)
             writer.StartArray();
             for (int i = 0; i < 6 ; i++){
                 if (man->getReady().at(i))
-                writer.Int(man->getPlayerY(i));
+                    writer.Int(man->getPlayerY(i));
             }
             writer.EndArray();
 
 
             writer.EndObject();
-            time(&end);
 
-            double dif = difftime (end,start);
-            printf ("Elasped time is %.15lf seconds.", dif );
+
         }
     }else if (action == "changename"){
         assert(doc.HasMember("id"));
@@ -172,12 +172,12 @@ string JSONTranslator::reply(char *buffer, int i)
         writer.Bool(man->getGameStarted());
         writer.EndObject();
 
-        printf("%d : game started", man->getGameStarted());
+        \
     }
 
 
 
     string ss = s.GetString();
-    cout << ss;
+
     return ss;
 }

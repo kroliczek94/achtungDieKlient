@@ -27,15 +27,16 @@ import org.json.simple.*;
  */
 public class Grafika extends javax.swing.JPanel implements KeyListener {
 
-    ArrayList<Player> p;
-    private TCPClient cc;
 
-    Color[] colors = {Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW, Color.MAGENTA, Color.CYAN};
+    private ArrayList<Player> p;
+    
 
+    private Color[] colors = {Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW, Color.MAGENTA, Color.CYAN};
+    private static boolean restart = false;
     /**
      * Creates new form Grafika
      */
-    public Grafika(ArrayList<Player> p, TCPClient cc) {
+    public Grafika(ArrayList<Player> p) {
         initComponents();
 
         PlacesLabel1.setVisible(false);
@@ -49,7 +50,7 @@ public class Grafika extends javax.swing.JPanel implements KeyListener {
         setFocusable(true);
 
         this.p = p;
-        this.cc = cc;
+        
     }
 
     /**
@@ -166,7 +167,11 @@ public class Grafika extends javax.swing.JPanel implements KeyListener {
 
     @Override
     public void paintComponent(Graphics g) {
-
+        if (restart) {
+           
+            super.paintComponent(g);
+            setRestart(false);
+        }
         for (Player pl : Klient.getGracze()) {
             
             if (pl.isActivePlayer()) {
@@ -239,17 +244,28 @@ public class Grafika extends javax.swing.JPanel implements KeyListener {
                 g.setColor(Color.cyan);
                 break;
         }
+        System.out.println(" -> " + p.getOldx() + " "+ p.getOldx() + ":" + p.getX() + " "+p.getY() );
         g2.draw(new Line2D.Double(p.getOldx() + 30, p.getOldy() + 30, p.getX() + 30, p.getY() + 30));
         g.setColor(Color.black);
 
     }
 
-    /**
-     * @param cc the cc to set
+        /**
+     * @return the restart
      */
-    public void setCc(TCPClient cc) {
-        this.cc = cc;
+    public static boolean isRestart() {
+        return restart;
     }
+
+    /**
+     * @param aRestart the restart to set
+     */
+    public static void setRestart(boolean aRestart) {
+        restart = aRestart;
+        
+    }
+
+
 
     public void setImiona(int nkol, String i, Integer points, Integer c) {
 

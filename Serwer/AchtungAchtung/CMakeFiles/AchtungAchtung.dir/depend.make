@@ -7,33 +7,10 @@ CMakeFiles/AchtungAchtung.dir/gamearea.cpp.o: player.h
 CMakeFiles/AchtungAchtung.dir/gamearea.cpp.o: punkt.h
 
 CMakeFiles/AchtungAchtung.dir/jsontranslator.cpp.o: jsontranslator.cpp
-CMakeFiles/AchtungAchtung.dir/jsontranslator.cpp.o: jsontranslator.h
-CMakeFiles/AchtungAchtung.dir/jsontranslator.cpp.o: manager.h
 CMakeFiles/AchtungAchtung.dir/jsontranslator.cpp.o: player.h
 CMakeFiles/AchtungAchtung.dir/jsontranslator.cpp.o: punkt.h
-CMakeFiles/AchtungAchtung.dir/jsontranslator.cpp.o: rapidjson/allocators.h
-CMakeFiles/AchtungAchtung.dir/jsontranslator.cpp.o: rapidjson/document.h
-CMakeFiles/AchtungAchtung.dir/jsontranslator.cpp.o: rapidjson/encodings.h
-CMakeFiles/AchtungAchtung.dir/jsontranslator.cpp.o: rapidjson/error/error.h
-CMakeFiles/AchtungAchtung.dir/jsontranslator.cpp.o: rapidjson/internal/biginteger.h
-CMakeFiles/AchtungAchtung.dir/jsontranslator.cpp.o: rapidjson/internal/diyfp.h
-CMakeFiles/AchtungAchtung.dir/jsontranslator.cpp.o: rapidjson/internal/dtoa.h
-CMakeFiles/AchtungAchtung.dir/jsontranslator.cpp.o: rapidjson/internal/ieee754.h
-CMakeFiles/AchtungAchtung.dir/jsontranslator.cpp.o: rapidjson/internal/itoa.h
-CMakeFiles/AchtungAchtung.dir/jsontranslator.cpp.o: rapidjson/internal/meta.h
-CMakeFiles/AchtungAchtung.dir/jsontranslator.cpp.o: rapidjson/internal/pow10.h
-CMakeFiles/AchtungAchtung.dir/jsontranslator.cpp.o: rapidjson/internal/stack.h
-CMakeFiles/AchtungAchtung.dir/jsontranslator.cpp.o: rapidjson/internal/strfunc.h
-CMakeFiles/AchtungAchtung.dir/jsontranslator.cpp.o: rapidjson/internal/strtod.h
-CMakeFiles/AchtungAchtung.dir/jsontranslator.cpp.o: rapidjson/internal/swap.h
-CMakeFiles/AchtungAchtung.dir/jsontranslator.cpp.o: rapidjson/msinttypes/inttypes.h
-CMakeFiles/AchtungAchtung.dir/jsontranslator.cpp.o: rapidjson/msinttypes/stdint.h
-CMakeFiles/AchtungAchtung.dir/jsontranslator.cpp.o: rapidjson/rapidjson.h
-CMakeFiles/AchtungAchtung.dir/jsontranslator.cpp.o: rapidjson/reader.h
-CMakeFiles/AchtungAchtung.dir/jsontranslator.cpp.o: rapidjson/stream.h
-CMakeFiles/AchtungAchtung.dir/jsontranslator.cpp.o: rapidjson/stringbuffer.h
-CMakeFiles/AchtungAchtung.dir/jsontranslator.cpp.o: rapidjson/writer.h
 
+CMakeFiles/AchtungAchtung.dir/main.cpp.o: gamearea.h
 CMakeFiles/AchtungAchtung.dir/main.cpp.o: jsontranslator.h
 CMakeFiles/AchtungAchtung.dir/main.cpp.o: main.cpp
 CMakeFiles/AchtungAchtung.dir/main.cpp.o: manager.h
@@ -62,6 +39,7 @@ CMakeFiles/AchtungAchtung.dir/main.cpp.o: rapidjson/stream.h
 CMakeFiles/AchtungAchtung.dir/main.cpp.o: rapidjson/stringbuffer.h
 CMakeFiles/AchtungAchtung.dir/main.cpp.o: rapidjson/writer.h
 
+CMakeFiles/AchtungAchtung.dir/manager.cpp.o: gamearea.h
 CMakeFiles/AchtungAchtung.dir/manager.cpp.o: manager.cpp
 CMakeFiles/AchtungAchtung.dir/manager.cpp.o: manager.h
 CMakeFiles/AchtungAchtung.dir/manager.cpp.o: player.h

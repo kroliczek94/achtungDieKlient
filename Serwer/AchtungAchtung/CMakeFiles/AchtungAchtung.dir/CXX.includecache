@@ -19,8 +19,6 @@ vector
 -
 
 /home/lukasz/AchtungAchtung/jsontranslator.cpp
-jsontranslator.h
-/home/lukasz/AchtungAchtung/jsontranslator.h
 player.h
 /home/lukasz/AchtungAchtung/player.h
 time.h
@@ -83,6 +81,10 @@ random
 -
 time.h
 -
+iostream
+-
+math.h
+-
 
 /home/lukasz/AchtungAchtung/manager.h
 atomic
@@ -93,6 +95,8 @@ vector
 -
 map
 -
+gamearea.h
+/home/lukasz/AchtungAchtung/gamearea.h
 player.h
 /home/lukasz/AchtungAchtung/player.h
 string

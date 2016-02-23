@@ -23,13 +23,13 @@ public class Klient {
      * @throws java.lang.InterruptedException
      */
     public static void main(String[] args) throws InterruptedException {
-        Grafika g = new Grafika(getGracze(), null);
+        Grafika g = new Grafika(getGracze());
         MenuLogowania menu = new MenuLogowania(null);
         
         
         String host = args[0];
         TCPClient cc = new TCPClient(host, menu, g);
-        g.setCc(cc);
+            
         menu.setCc(cc);
         Pooler pool  = new Pooler(cc, g);
         pool.start();

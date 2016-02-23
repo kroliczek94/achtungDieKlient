@@ -281,7 +281,7 @@ int main (int argc, char *argv[])
           /* Dane zostały odebrane.                            */
           /*****************************************************/
           len = rc;
-          //printf("Otrzymano bajtów: %d\n", len);
+          printf("Otrzymano bajtów: %d\n", len);
 
           string ss= jtrans->reply(buffer, i);
 

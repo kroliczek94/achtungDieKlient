@@ -142,26 +142,13 @@ int manager::movePlayer(int dec, int i)
 
 
 
-bool manager::column(int X, int oldY, int Y, vector<vector<bool> > &pole)
-{
-    bool collision = false;
-    for (int i = oldY; i < Y ; i++){
-        if (pole.at(X).at(i)) collision = true;
-        pole.at(X).at(i) = true;
-        printf("%d,%d - wynik %d\n", X, i, collision);
-    }
-
-
-    return collision;
-}
-
 bool manager::columnplus(int X, int oldY, int Y, vector<vector<bool> > &pole)
 {
     bool collision = false;
     for (int i = oldY; i <= Y ; i++){
         if (pole.at(X).at(i)) collision = true;
         pole.at(X).at(i) = true;
-        printf("%d,%d - wynik %d\n", X, i, collision);
+        printf("column plus %d,%d - wynik %d\n", X, i, collision);
 
     }
 
@@ -172,13 +159,12 @@ bool manager::columnplus(int X, int oldY, int Y, vector<vector<bool> > &pole)
 bool manager::columnminus(int X, int oldY, int Y, vector<vector<bool> > &pole)
 {
     bool collision = false;
-    for (int i = oldY; i >= Y; i--) {
+    for (int i = oldY -1; i >= Y; i--) {
         if (pole.at(X).at(i)) collision = true;
         pole.at(X).at(i) = true;
-       // printf("%d,%d - wynik %d\n", X, i, collision);
+        printf("column minus %d,%d - wynik %d\n", X, i, collision);
 
     }
-
 
     return collision;
 }
@@ -225,16 +211,17 @@ bool manager::points(int oldX, int oldY, int X, int Y, vector<vector<bool> > &ar
 
                 yy = (double)(ii + p) * w + q + b;
 
+                ar.at(ii).at(yy) = true;
                 if (wy > 0) {
                     //if (ii != currx && (int) yy != curry)
-                        fail += columnplus(ii, lastY, (int)yy, ar);
+                    fail += columnplus(ii, lastY, (int)yy, ar);
                     currx = ii;
                     curry = (int)yy;
 
                 }
                 else {
                     //if (ii != currx && (int) yy != curry)
-                        fail +=columnminus(ii, lastY, (int)yy, ar);
+                    fail +=columnminus(ii, lastY, (int)yy, ar);
                     currx = ii;
                     curry = (int)yy;
 
@@ -251,14 +238,14 @@ bool manager::points(int oldX, int oldY, int X, int Y, vector<vector<bool> > &ar
                 yy = (double)(ii - p) * w - q + b;
                 if (wy > 0) {
                     //if (ii != currx && (int) yy != curry)
-                        fail +=columnplus(ii, lastY, (int)yy,ar);
+                    fail +=columnplus(ii, lastY, (int)yy,ar);
                     currx = ii;
                     curry = (int)yy;
 
                 }
                 else {
                     //if (ii != currx && (int) yy != curry)
-                        fail +=columnminus(ii, lastY, (int)yy,ar);
+                    fail +=columnminus(ii, lastY, (int)yy,ar);
                     currx = ii;
                     curry = (int)yy;
 
@@ -267,8 +254,9 @@ bool manager::points(int oldX, int oldY, int X, int Y, vector<vector<bool> > &ar
             }
         }
 
-    //ar.at(X).at(Y) = false;
+
     }
+    ar.at(X).at(Y) = false;
     return fail;
 }
 
@@ -279,9 +267,9 @@ int manager::setKlient(int id, int i)
     setKlient(id, i, klienci);
 }
 
-void manager::playerLose(int i)
+int manager::playerLose(int i)
 {
-    playerLose(i, playersTab);
+    return playerLose(i, playersTab);
 }
 
 
@@ -311,8 +299,6 @@ int manager::letsStart()
     return i;
 }
 
-
-
 int manager::letsStart(bool &gameStarted)
 {
     int i = -1;
@@ -329,6 +315,17 @@ int manager::letsStart(bool &gameStarted)
     return 1;
 }
 
+bool manager::getRestart() const
+{
+    return restart;
+}
+
+void manager::setRestart(bool value)
+{
+    restart = value;
+}
+
+
 vector<int> manager::getKlienci() const
 {
     return klienci;
@@ -337,6 +334,44 @@ vector<int> manager::getKlienci() const
 void manager::setKlienci(const vector<int> &value)
 {
     klienci = value;
+}
+
+void manager::reset()
+{
+    reset(area, playersTab);
+}
+
+void manager::playerReset(Player *&p)
+{
+    srand(time(NULL));
+    p->setX(random()% 800+100);
+    p->setY(random()% 400+100);
+    p->setAngle(random()% 360);
+    p->setOut(false);
+
+}
+
+void manager::reset(vector<vector<bool>> & ar, vector<Player *> & pl)
+{
+    cout << "only one";
+    for (int i = 0; i < 1000 ; i++){
+        for (int j = 0; i < 600; i++){
+            ar.at(i).at(j) = false;
+
+        }
+    }
+    srand (time (NULL));
+    for (int x = 0 ; x < 6 ; x++){
+        Player * p = pl[x];
+        p->setAngle(rand()%360);
+        p->setOut(false);
+        p->setX(random()% 800+100);
+        p->setY(random()% 400+100);
+
+    }
+
+
+
 }
 
 
@@ -364,15 +399,21 @@ int manager::setKlient(int id, int i, vector<int>  & kl)
     kl.at(id) = i;
 }
 
-void manager::playerLose(int i, vector<Player *> pl)
+int manager::playerLose(int i, vector<Player *> pl)
 {
-    cout << "Wywolane 6 razy? Gracz: " << i << endl;
+    int n = -1;
     for (int x = 0; x < 6; x++){
         if (x != i){
             Player * p = pl[x];
-            if (!p->getOut())   p->setPoints(p->getPoints()+1);
+            if (!p->getOut())
+            {
+                p->setPoints(p->getPoints()+1);
+                n++;
+            }
         }
     }
+    cout <<"Pozostalo " << n << endl;
+    return n;
 }
 
 

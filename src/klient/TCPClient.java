@@ -193,7 +193,7 @@ public class TCPClient extends Thread {
                         Collections.sort(Player.getDane(), new Comparator<PlayerToTab>() {
                             @Override
                             public int compare(PlayerToTab o1, PlayerToTab o2) {
-                                return -1*o1.getPoints().compareTo(o2.getPoints());
+                                return -1 * o1.getPoints().compareTo(o2.getPoints());
                             }
                         });
 
@@ -225,6 +225,12 @@ public class TCPClient extends Thread {
 
                         }
 
+                        
+                        Long restart = (Long) jsonObj.get("restart");
+                        Integer rs = restart.intValue();
+                        if (rs == 0) {
+                         Grafika.setRestart(true);
+                        }
                     }
 
                 }

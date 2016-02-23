@@ -8,33 +8,10 @@ CMakeFiles/AchtungAchtung.dir/gamearea.cpp.o
  /home/lukasz/AchtungAchtung/punkt.h
 CMakeFiles/AchtungAchtung.dir/jsontranslator.cpp.o
  /home/lukasz/AchtungAchtung/jsontranslator.cpp
- /home/lukasz/AchtungAchtung/jsontranslator.h
- /home/lukasz/AchtungAchtung/manager.h
  /home/lukasz/AchtungAchtung/player.h
  /home/lukasz/AchtungAchtung/punkt.h
- /home/lukasz/AchtungAchtung/rapidjson/allocators.h
- /home/lukasz/AchtungAchtung/rapidjson/document.h
- /home/lukasz/AchtungAchtung/rapidjson/encodings.h
- /home/lukasz/AchtungAchtung/rapidjson/error/error.h
- /home/lukasz/AchtungAchtung/rapidjson/internal/biginteger.h
- /home/lukasz/AchtungAchtung/rapidjson/internal/diyfp.h
- /home/lukasz/AchtungAchtung/rapidjson/internal/dtoa.h
- /home/lukasz/AchtungAchtung/rapidjson/internal/ieee754.h
- /home/lukasz/AchtungAchtung/rapidjson/internal/itoa.h
- /home/lukasz/AchtungAchtung/rapidjson/internal/meta.h
- /home/lukasz/AchtungAchtung/rapidjson/internal/pow10.h
- /home/lukasz/AchtungAchtung/rapidjson/internal/stack.h
- /home/lukasz/AchtungAchtung/rapidjson/internal/strfunc.h
- /home/lukasz/AchtungAchtung/rapidjson/internal/strtod.h
- /home/lukasz/AchtungAchtung/rapidjson/internal/swap.h
- /home/lukasz/AchtungAchtung/rapidjson/msinttypes/inttypes.h
- /home/lukasz/AchtungAchtung/rapidjson/msinttypes/stdint.h
- /home/lukasz/AchtungAchtung/rapidjson/rapidjson.h
- /home/lukasz/AchtungAchtung/rapidjson/reader.h
- /home/lukasz/AchtungAchtung/rapidjson/stream.h
- /home/lukasz/AchtungAchtung/rapidjson/stringbuffer.h
- /home/lukasz/AchtungAchtung/rapidjson/writer.h
 CMakeFiles/AchtungAchtung.dir/main.cpp.o
+ /home/lukasz/AchtungAchtung/gamearea.h
  /home/lukasz/AchtungAchtung/jsontranslator.h
  /home/lukasz/AchtungAchtung/main.cpp
  /home/lukasz/AchtungAchtung/manager.h
@@ -63,6 +40,7 @@ CMakeFiles/AchtungAchtung.dir/main.cpp.o
  /home/lukasz/AchtungAchtung/rapidjson/stringbuffer.h
  /home/lukasz/AchtungAchtung/rapidjson/writer.h
 CMakeFiles/AchtungAchtung.dir/manager.cpp.o
+ /home/lukasz/AchtungAchtung/gamearea.h
  /home/lukasz/AchtungAchtung/manager.cpp
  /home/lukasz/AchtungAchtung/manager.h
  /home/lukasz/AchtungAchtung/player.h

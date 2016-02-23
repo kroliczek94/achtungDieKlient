@@ -13,340 +13,205 @@
 #include <string>
 #include <vector>
 #include "jsontranslator.h"
+#include "tcp.h"
 
 using namespace std;
-#define SERVER_PORT 12345
+
 
 
 int main (int argc, char *argv[])
 {
+    int    SERVER_PORT  = 12345;
+    int    len, rc, on = 1;
+    int    listen_sd = -1, new_sd = -1;
+    int    end_server = false;
+    int    close_conn;
+    char   buffer[80];
+    struct sockaddr_in6   addr;
+    int    timeout;
+    struct pollfd fds[200];
+    int    nfds = 1, current_size = 0, i, j;
 
-  int    len, rc, on = 1;
-  int    listen_sd = -1, new_sd = -1;
-  int    desc_ready, end_server = false, compress_array = false;
-  int    close_conn;
-  char   buffer[80];
-  struct sockaddr_in6   addr;
-  int    timeout;
-  struct pollfd fds[200];
-  int    nfds = 1, current_size = 0, i, j;
-  manager * man = new manager();
-  JSONTranslator * jtrans = new JSONTranslator(man);
 
-  /*************************************************************/
-  /* Utwórz gniazdo strumieniowe AF_INET6 do odbierania        */
-  /* połączeń przychodzących.                                  */
-  /*************************************************************/
-  listen_sd = socket(AF_INET6, SOCK_STREAM, 0);
-  if (listen_sd < 0)
-  {
-    perror("Niepowodzenie funkcji socket()");
-    exit(-1);
-  }
+    manager * man = new manager();
+    JSONTranslator * jtrans = new JSONTranslator(man);
 
-  /*************************************************************/
-  /* Pozwól na ponowne użycie deskryptora gniazda              */
-  /*************************************************************/
-  rc = setsockopt(listen_sd, SOL_SOCKET,  SO_REUSEADDR,
-                  (char *)&on, sizeof(on));
-  if (rc < 0)
-  {
-    perror("Niepowodzenie funkcji setsockopt()");
-    close(listen_sd);
-    exit(-1);
-  }
+    listen_sd = socket(AF_INET6, SOCK_STREAM, 0);
+    if (listen_sd < 0)
+    {
+        perror("Niepowodzenie funkcji socket()");
+        exit(-1);
+    }
 
-  /*************************************************************/
-  /* Ustaw gniazdo jako nieblokujące. Wszystkie gniazda        */
-  /* połączeń przychodzących będą również nieblokujące, ponie- */
-  /* waż będą dziedziczyć ten stan od gniazda nasłuchującego.  */
-  /*************************************************************/
-  rc = fcntl(listen_sd, F_SETFL, O_NONBLOCK, 1);
-  if (rc < 0)
-  {
-    perror("Niepowodzenie funkcji ioctl()");
-    close(listen_sd);
-    exit(-1);
-  }
-
-  /*************************************************************/
-  /* Powiąż gniazdo                                            */
-  /*************************************************************/
-  memset(&addr, 0, sizeof(addr));
-  addr.sin6_family      = AF_INET6;
-  memcpy(&addr.sin6_addr, &in6addr_any, sizeof(in6addr_any));
-  addr.sin6_port        = htons(SERVER_PORT);
-  rc = bind(listen_sd,
-            (struct sockaddr *)&addr, sizeof(addr));
-  if (rc < 0)
-  {
-    perror("Niepowodzenie funkcji bind()");
-    close(listen_sd);
-    exit(-1);
-  }
-
-  /*************************************************************/
-  /* Ustaw parametr backlog funkcji listen.                    */
-  /*************************************************************/
-  rc = listen(listen_sd, 32);
-  if (rc < 0)
-  {
-    perror("Niepowodzenie funkcji listen()");
-    close(listen_sd);
-    exit(-1);
-  }
-
-  /*************************************************************/
-  /* Zainicjuj strukturę pollfd                                */
-  /*************************************************************/
-  memset(fds, 0 , sizeof(fds));
-
-  /*************************************************************/
-  /* Ustaw początkowe gniazdo nasłuchujące                     */
-  /*************************************************************/
-  fds[0].fd = listen_sd;
-  fds[0].events = POLLIN;
-  /*************************************************************/
-  /* Ustaw limit czasu na 3 minuty. Brak                       */
-  /* aktywności w tym czasie spowoduje zakończenie programu.   */
-  /* Limit czasu podaje się w milisekundach.                   */
-  /*************************************************************/
-  timeout = (3 * 60 * 1000);
-
-  /*************************************************************/
-  /* Pętla oczekiwania na połączenia lub dane                  */
-  /* przychodzące dla dowolnego połączonego gniazda.           */
-  /*************************************************************/
-  do
-  {
-    /***********************************************************/
-    /* Wywołaj select() i zaczekaj 3 min na zakończenie.       */
-    /***********************************************************/
-    //printf("Oczekiwanie na wywołanie funkcji select()...\n");
-    rc = poll(fds, nfds, timeout);
-
-    /***********************************************************/
-    /* Sprawdź, czy wywołanie funkcji poll się                 */
-    /* powiodło.                   */
-    /***********************************************************/
+    rc = setsockopt(listen_sd, SOL_SOCKET,  SO_REUSEADDR,
+                    (char *)&on, sizeof(on));
     if (rc < 0)
     {
-      perror("Niepowodzenie funkcji poll()");
-      break;
+        perror("Niepowodzenie funkcji setsockopt()");
+        close(listen_sd);
+        exit(-1);
     }
 
-    /***********************************************************/
-    /* Sprawdź, czy upłynęły 3 min czasu oczekiwania.          */
-    /***********************************************************/
-    if (rc == 0)
+    rc = fcntl(listen_sd, F_SETFL, O_NONBLOCK, 1);
+    if (rc < 0)
     {
-      printf("Przekroczenie limitu czasu funkcji poll().  Zakończ program.\n");
-      break;
+        perror("Niepowodzenie funkcji ioctl()");
+        close(listen_sd);
+        exit(-1);
     }
 
+    memset(&addr, 0, sizeof(addr));
+    addr.sin6_family      = AF_INET6;
+    memcpy(&addr.sin6_addr, &in6addr_any, sizeof(in6addr_any));
+    addr.sin6_port        = htons(SERVER_PORT);
+    rc = bind(listen_sd,
+              (struct sockaddr *)&addr, sizeof(addr));
+    if (rc < 0)
+    {
+        perror("Niepowodzenie funkcji bind()");
+        close(listen_sd);
+        exit(-1);
+    }
 
-    /***********************************************************/
-    /* Co najmniej jeden deskryptor jest czytelny.             */
-    /* Sprawdź, który.                                         */
-    /***********************************************************/
-    current_size = nfds;
-    for (i = 0; i < current_size; i++)
+    rc = listen(listen_sd, 32);
+    if (rc < 0)
+    {
+        perror("Niepowodzenie funkcji listen()");
+        close(listen_sd);
+        exit(-1);
+    }
+
+    memset(fds, 0 , sizeof(fds));
+
+    fds[0].fd = listen_sd;
+    fds[0].events = POLLIN;
+
+    timeout = (3 * 60 * 1000);
+
+    do
     {
 
-      /*********************************************************/
-      /* Znajdź deskryptory, które zwróciły                    */
-      /* wartość POLLIN, i określ, czy jest to połączenie      */
-      /* nasłuchujące, czy aktywne.                            */
-      /*********************************************************/
-      if(fds[i].revents == 0)
-        continue;
+        rc = poll(fds, nfds, timeout);
 
-      /*********************************************************/
-      /* Jeśli pole revents nie ma wartości POLLIN, jest to    */
-      /* rezultat nieoczekiwany, należy więc sporządzić        */
-      /* protokół i zak. działanie serwera.                               */
-      /*********************************************************/
-      if(fds[i].revents != POLLIN)
-      {
-        printf("  Błąd! revents = %d\n", fds[i].revents);
-        end_server = true;
-        break;
-
-      }
-      if (fds[i].fd == listen_sd)
-      {
-        /*******************************************************/
-        /* Deskryptor nasłuchujący jest czytelny.                   */
-        /*******************************************************/
-        printf("Gniazdo nasłuchujące jest czytelne\n");
-
-        /*******************************************************/
-        /* Akceptuj wszystkie połączenia przychodzące,         */
-        /* które znajdują się w kolejce gniazda                */
-        /* nasłuchującego, przed ponownym wywołaniem           */
-        /* funkcji poll.                                       */
-        /*******************************************************/
-        do
+        if (rc < 0)
         {
-          /*****************************************************/
-          /* Akceptuj każde połączenie przychodzące.           */
-          /* Jeśli akceptowanie nie powiedzie się              */
-          /* z wartością EWOULDBLOCK, to zostały               */
-          /* zaakceptowane wszystkie. Każde inne               */
-          /* niepowodzenie akceptowania zakończy               */
-          /* działanie serwera.                                           */
-          /*****************************************************/
-          new_sd = accept(listen_sd, NULL, NULL);
-          if (new_sd < 0)
-          {
-            if (errno != EWOULDBLOCK)
-            {
-              perror("Niepowodzenie funkcji accept()");
-              end_server = true;
-            }
+            perror("Niepowodzenie funkcji poll()");
             break;
-          }
+        }
 
-          /*****************************************************/
-          /* Dodaj nowe połączenie przychodzące                */
-          /* do struktury pollfd                               */
-          /*****************************************************/
-          printf("Nowe połączenie przychodzące - %d\n", new_sd);
-          fcntl(new_sd, F_SETFL, O_NONBLOCK, 1);
-
-          printf("%d", nfds);
-          fds[nfds].fd = new_sd;
-          fds[nfds].events = POLLIN;
-          nfds++;
-
-          long flags = fcntl(listen_sd,F_GETFL, 0);
-          printf("serv nonblock: %s\n", flags & O_NONBLOCK ? "true" : "false");
-          flags = fcntl(new_sd,F_GETFL, 0);
-          printf("cli  nonblock: %s\n", flags & O_NONBLOCK ? "true" : "false");
-
-          /*****************************************************/
-          /* Powróć do pętli i zaakceptuj nowe                 */
-          /* połączenie przychodzące.                          */
-          /*****************************************************/
-        } while (new_sd != -1);
-      }
-
-      /*********************************************************/
-      /* Nie jest to gniazdo nasłuchujące, dlatego             */
-      /* istniejące połączenie musi być czytelne               */
-      /*********************************************************/
-
-      else
-      {
-        //printf("Deskryptor %d jest czytelny\n", i);
-        close_conn = false;
-        /*******************************************************/
-        /* Odbierz wszystkie dane przychodzące do              */
-        /* tego gniazda przed powrotem w pętli i ponownym      */
-        /* wywołaniem funkcji poll.            */
-        /*******************************************************/
-
-        do
+        if (rc == 0)
         {
-          /*****************************************************/
-          /* Odbieraj dane dla tego połączenia aż do           */
-          /* wystąpienia niepowodzenia funkcji recv            */
-          /* z wartością EWOULDBLOCK. Jeśli wystąpi inne       */
-          /* niepowodzenie, połączenie zostanie zamknięte.     */
-          /*****************************************************/
-
-          rc = recv(fds[i].fd, buffer, sizeof(buffer), 0);
-          if (rc < 0)
-          {
-            if (errno != EWOULDBLOCK)
-            {
-              perror("Niepowodzenie funkcji recv()");
-              close_conn = true;
-            }
+            printf("Przekroczenie limitu czasu funkcji poll().  Zakończ program.\n");
             break;
-          }
-
-          /*****************************************************/
-          /* Sprawdź, czy połączenie nie zostało               */
-          /* zamknięte przez klienta.                          */
-          /*****************************************************/
-          if (rc == 0)
-          {
-            printf("  Połączenie zamknięte\n");
-            close_conn = true;
-            break;
-          }
-
-          /*****************************************************/
-          /* Dane zostały odebrane.                            */
-          /*****************************************************/
-          len = rc;
-          printf("Otrzymano bajtów: %d\n", len);
-
-          string ss= jtrans->reply(buffer, i);
-
-          /*****************************************************/
-          /* Odeślij dane do klienta                           */
-          /*****************************************************/
-          rc = send(fds[i].fd, ss.c_str(),ss.length(), 0);
-          if (rc < 0)
-          {
-            perror("Niepowodzenie funkcji send()");
-            close_conn = true;
-            break;
-          }
-
-        } while (true);
-
-        /*******************************************************/
-        /* Jeśli opcja close_conn została włączona,            */
-        /* trzeba wyczyścić aktywne połączenie. Procedura      */
-        /* czyszcząca obejmuje usunięcie deskryptora.          */
-        /*                                         */
-        /*******************************************************/
-        if (close_conn)
-        {
-          close(fds[i].fd);
-          fds[i].fd = -1;
-          compress_array = true;
         }
 
 
-      } /* Zakończenie istniejącego połączenia jest czytelne   */
-    }   /* Zakończenie pętli poprzez deskryptory do odpytania  */
-
-    /***********************************************************/
-    /* Jeśli opcja compress array została włączona, należy     */
-    /* skompresować tablice i zmniejszyć liczbę deskryptorów   */
-    /* plików. Nie jest koniecznie ponowne przenoszenie pól    */
-    /* events i revents, gdyż pole events zawsze będzie miało  */
-    /* wartość POLLIN, a revents będzie polem danych           */
-    /* wyjściowych.          */
-    /***********************************************************/
-    if (compress_array)
-    {
-      compress_array = false;
-      for (i = 0; i < nfds; i++)
-      {
-        if (fds[i].fd == -1)
+        current_size = nfds;
+        for (i = 0; i < current_size; i++)
         {
-          for(j = i; j < nfds; j++)
-          {
-            fds[j].fd = fds[j+1].fd;
-          }
-          nfds--;
+
+            if(fds[i].revents == 0)
+                continue;
+
+            if(fds[i].revents != POLLIN)
+            {
+                printf("  Błąd! revents = %d\n", fds[i].revents);
+                end_server = true;
+                break;
+
+            }
+            if (fds[i].fd == listen_sd)
+            {
+                printf("Gniazdo nasłuchujące jest czytelne\n");
+
+                do
+                {
+                    new_sd = accept(listen_sd, NULL, NULL);
+                    if (new_sd < 0)
+                    {
+                        if (errno != EWOULDBLOCK)
+                        {
+                            perror("Niepowodzenie funkcji accept()");
+                            end_server = true;
+                        }
+                        break;
+                    }
+
+                    printf("Nowe połączenie przychodzące - %d\n", new_sd);
+                    fcntl(new_sd, F_SETFL, O_NONBLOCK, 1);
+
+                    printf("%d", nfds);
+                    fds[nfds].fd = new_sd;
+                    fds[nfds].events = POLLIN;
+                    nfds++;
+
+                    long flags = fcntl(listen_sd,F_GETFL, 0);
+                    printf("serv nonblock: %s\n", flags & O_NONBLOCK ? "true" : "false");
+                    flags = fcntl(new_sd,F_GETFL, 0);
+                    printf("cli  nonblock: %s\n", flags & O_NONBLOCK ? "true" : "false");
+
+                } while (new_sd != -1);
+            }
+
+
+            else
+            {
+                close_conn = false;
+
+                do
+                {
+
+                    rc = recv(fds[i].fd, buffer, sizeof(buffer), 0);
+                    if (rc < 0)
+                    {
+                        if (errno != EWOULDBLOCK)
+                        {
+                            perror("Niepowodzenie funkcji recv()");
+                            close_conn = true;
+                        }
+                        break;
+                    }
+
+                    if (rc == 0)
+                    {
+                        printf("  Połączenie zamknięte\n");
+                        close_conn = true;
+                        break;
+                    }
+
+                    len = rc;
+                    //printf("Otrzymano bajtów: %d\n", len);
+
+                    string ss= jtrans->reply(buffer, i);
+                    rc = send(fds[i].fd, ss.c_str(),ss.length(), 0);
+
+                    if (rc < 0)
+                    {
+                        perror("Niepowodzenie funkcji send()");
+                        close_conn = true;
+                        break;
+                    }
+
+                } while (true);
+
+                if (close_conn)
+                {
+                    close(fds[i].fd);
+                    fds[i].fd = -1;
+
+                }
+
+
+            }
         }
-      }
+
+
+
+    } while (end_server == false); /* Koniec działania serwera.    */
+
+    for (i = 0; i < nfds; i++)
+    {
+        if(fds[i].fd >= 0)
+            close(fds[i].fd);
     }
-
-  } while (end_server == false); /* Koniec działania serwera.    */
-
-  /*************************************************************/
-  /* Wyczyść wszystkie otwarte gniazda                         */
-  /*************************************************************/
-  for (i = 0; i < nfds; i++)
-  {
-    if(fds[i].fd >= 0)
-      close(fds[i].fd);
-  }
 }

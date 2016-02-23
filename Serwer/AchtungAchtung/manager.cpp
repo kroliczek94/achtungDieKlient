@@ -6,6 +6,7 @@
 #include <iostream>
 #include <math.h>
 
+int curry, currx = 0;
 
 manager::manager()
 {
@@ -63,8 +64,6 @@ void manager::wstawGraczy()
         p->setY(random()% 400+100);
 
     }
-
-
 }
 
 string manager::getNamePlayer(int i)
@@ -113,7 +112,7 @@ int manager::move(int dec, Player *&p)
     p->setAngle(p->getAngle() + dec);
     double pi = M_PI;
     double radians = ( p->getAngle() * pi ) / 180 ;
-    //double alfaRadian = Math.toRadians(radians);
+
     double sinAlfa = sin(radians);
     double cosAlfa = cos(radians);
 
@@ -128,7 +127,6 @@ int manager::move(int dec, Player *&p)
 
     p->setOut(error+errorx+errory+errorpos);
 
-    //printf("error no. %d%d%d\n", errorx,errory,errorpos);
     return error+errorx+errory+errorpos;
 }
 
@@ -148,11 +146,9 @@ bool manager::columnplus(int X, int oldY, int Y, vector<vector<bool> > &pole)
     for (int i = oldY; i <= Y ; i++){
         if (pole.at(X).at(i)) collision = true;
         pole.at(X).at(i) = true;
-        printf("column plus %d,%d - wynik %d\n", X, i, collision);
+        printf("#,%d,%d,%d\n", X, i, collision);
 
     }
-
-
     return collision;
 }
 
@@ -162,7 +158,7 @@ bool manager::columnminus(int X, int oldY, int Y, vector<vector<bool> > &pole)
     for (int i = oldY -1; i >= Y; i--) {
         if (pole.at(X).at(i)) collision = true;
         pole.at(X).at(i) = true;
-        printf("column minus %d,%d - wynik %d\n", X, i, collision);
+        printf("#,%d,%d,%d\n", X, i, collision);
 
     }
 
@@ -171,8 +167,12 @@ bool manager::columnminus(int X, int oldY, int Y, vector<vector<bool> > &pole)
 
 bool manager::points(int oldX, int oldY, int X, int Y)
 {
-
     points(oldX, oldY,X, Y, area);
+}
+
+void manager::pauza(bool c)
+{
+    pauza(c, pauzed);
 }
 
 bool manager::points(int oldX, int oldY, int X, int Y, vector<vector<bool> > &ar)
@@ -183,8 +183,7 @@ bool manager::points(int oldX, int oldY, int X, int Y, vector<vector<bool> > &ar
     int rozstaw = 1;
     int wx = X - oldX;
     int wy = Y - oldY;
-    int currx = 0;
-    int curry = 0;
+
     double w = (double) wy / (double) wx;
     double b = oldY - w * oldX;
     double alfa= atan(w);
@@ -193,41 +192,41 @@ bool manager::points(int oldX, int oldY, int X, int Y, vector<vector<bool> > &ar
 
     p = q =0;
     int lastY = oldY;
-    cout << "x: " << X << " y: " << Y <<endl;
+    //cout << "x: " << X << " y: " << Y <<endl;
     if (oldX == X) {
         if (wy > 0) {
-            fail += columnplus(X, oldY, Y,ar);
+
+            fail += columnplus(X, oldY+1, Y,ar);
 
         }
         else {
-            fail += columnminus(X, oldY, Y,ar);
+
+            fail += columnminus(X, oldY-1, Y,ar);
 
         }
+        zmianaWezla = false;
     }
     else {
 
         if (wx > 0) {
             for (int ii = oldX; ii <= X; ii++) {
 
-                yy = (double)(ii + p) * w + q + b;
+                yy = (double)ii * w + b;
+                //cout << ii << " : " << yy << endl;
 
-                ar.at(ii).at(yy) = true;
                 if (wy > 0) {
-                    //if (ii != currx && (int) yy != curry)
-                    fail += columnplus(ii, lastY, (int)yy, ar);
-                    currx = ii;
-                    curry = (int)yy;
+                    if (!zmianaWezla && wy != 0)
+                    fail += columnplus(ii, lastY, round(yy), ar);
 
                 }
                 else {
-                    //if (ii != currx && (int) yy != curry)
-                    fail +=columnminus(ii, lastY, (int)yy, ar);
-                    currx = ii;
-                    curry = (int)yy;
+                    if (!zmianaWezla && wy != 0)
+                    fail +=columnminus(ii, lastY, round(yy), ar);
+
 
                 }
-
-                lastY = (int)yy;
+                lastY = round(yy);
+                zmianaWezla = false;
             }
 
         }
@@ -235,28 +234,28 @@ bool manager::points(int oldX, int oldY, int X, int Y, vector<vector<bool> > &ar
 
             for (int ii = oldX; ii >= X; ii--) {
 
-                yy = (double)(ii - p) * w - q + b;
+                yy = (double)ii * w + b;
+                //cout << ii << " : " << yy << endl;
+
                 if (wy > 0) {
-                    //if (ii != currx && (int) yy != curry)
-                    fail +=columnplus(ii, lastY, (int)yy,ar);
-                    currx = ii;
-                    curry = (int)yy;
+                    if (!zmianaWezla && wy != 0)
+                    fail +=columnplus(ii, lastY, round(yy),ar);
+
 
                 }
                 else {
-                    //if (ii != currx && (int) yy != curry)
-                    fail +=columnminus(ii, lastY, (int)yy,ar);
-                    currx = ii;
-                    curry = (int)yy;
+                    if (!zmianaWezla && wy != 0)
+                    fail +=columnminus(ii, lastY, round(yy),ar);
+
 
                 }
-                lastY = (int)yy;
+                lastY = round(yy);
+                zmianaWezla = false;
             }
         }
 
 
     }
-    ar.at(X).at(Y) = false;
     return fail;
 }
 
@@ -315,6 +314,39 @@ int manager::letsStart(bool &gameStarted)
     return 1;
 }
 
+int manager::getArea() const
+{
+    int n = 0;
+    for (int i = 0; i < 1000 ; i++){
+        for (int j = 0; i < 600; i++){
+            if (area.at(i).at(j) == true) n++;
+
+        }
+    }
+    return n;
+}
+
+void manager::setArea(const vector<vector<bool> > &value)
+{
+    area = value;
+}
+
+bool manager::getPauzed() const
+{
+    return pauzed;
+}
+
+void manager::setPauzed(bool value)
+{
+    pauzed = value;
+}
+
+void manager::pauza(bool c, bool &pauzed)
+{
+
+    pauzed = c;
+}
+
 bool manager::getRestart() const
 {
     return restart;
@@ -348,18 +380,14 @@ void manager::playerReset(Player *&p)
     p->setY(random()% 400+100);
     p->setAngle(random()% 360);
     p->setOut(false);
+    pauza(true);
 
 }
 
 void manager::reset(vector<vector<bool>> & ar, vector<Player *> & pl)
 {
-    cout << "only one";
-    for (int i = 0; i < 1000 ; i++){
-        for (int j = 0; i < 600; i++){
-            ar.at(i).at(j) = false;
 
-        }
-    }
+
     srand (time (NULL));
     for (int x = 0 ; x < 6 ; x++){
         Player * p = pl[x];
@@ -369,6 +397,13 @@ void manager::reset(vector<vector<bool>> & ar, vector<Player *> & pl)
         p->setY(random()% 400+100);
 
     }
+
+
+
+     ar.resize( 1000 , vector<bool>( 600 , false ) );
+
+
+
 
 
 

@@ -71,8 +71,15 @@ public:
     bool getRestart() const;
     void setRestart(bool value);
     bool points(int oldX, int oldY, int X, int Y);
+    void pauza(bool c);
+    bool getPauzed() const;
+    void setPauzed(bool value);
+
+    int getArea() const;
+    void setArea(const vector<vector<bool> > &value);
 
 private:
+    void pauza(bool c, bool & pauzed);
     void reset(vector<vector<bool> > &ar, vector<Player *> &pl);
     void playerReset(Player * & p);
     bool reservePositions(int id, int formerID, vector <bool> & res, int klient);
@@ -84,6 +91,7 @@ private:
 
     int letsStart(bool & gameStarted);
     bool restart = false;
+    bool pauzed = true;
     vector <int> klienci = {-1, -1, -1, -1, -1, -1};
     vector<Player *> playersTab;
     vector <bool> reserved = {false, false, false, false,false,false};

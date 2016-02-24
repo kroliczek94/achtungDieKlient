@@ -6,7 +6,6 @@
 #include <iostream>
 #include <math.h>
 
-int curry, currx = 0;
 
 manager::manager()
 {
@@ -16,7 +15,7 @@ manager::manager()
 
 bool manager::reservePosition(int id, int formerID, int klient)
 {
-    reservePositions(id, formerID, reserved, klient);
+    return reservePositions(id, formerID, reserved, klient);
 }
 
 bool manager::getGameStarted()
@@ -24,19 +23,10 @@ bool manager::getGameStarted()
     return gameStarted;
 }
 
-void manager::setGameStarted(bool value)
-{
-    gameStarted = value;
-}
 
 vector<bool> manager::getReserved() const
 {
     return reserved;
-}
-
-void manager::setReserved(const vector<bool> &value)
-{
-    reserved = value;
 }
 
 void manager::setImiePlayer(int i, string s)
@@ -140,7 +130,6 @@ bool manager::columnplus(int X, int oldY, int Y, vector<vector<bool> > &pole)
     for (int i = oldY; i <= Y ; i++){
         if (pole.at(X).at(i)) collision = true;
         pole.at(X).at(i) = true;
-        printf("#,%d,%d,%d\n", X, i, collision);
 
     }
     return collision;
@@ -152,16 +141,38 @@ bool manager::columnminus(int X, int oldY, int Y, vector<vector<bool> > &pole)
     for (int i = oldY -1; i >= Y; i--) {
         if (pole.at(X).at(i)) collision = true;
         pole.at(X).at(i) = true;
-        printf("#,%d,%d,%d\n", X, i, collision);
 
     }
 
     return collision;
 }
 
+bool manager::rowplus(int Y, int oldX, int X, vector<vector<bool> > &pole)
+{
+    bool collision = false;
+    for (int i = oldX; i <= X ; i++){
+        if (pole.at(i).at(Y)) collision = true;
+        pole.at(i).at(Y) = true;
+
+    }
+    return collision;
+}
+
+bool manager::rowminus(int Y, int oldX, int X, vector<vector<bool> > &pole)
+{
+    bool collision = false;
+    for (int i = oldX -1; i >= X; i--) {
+        if (pole.at(i).at(Y)) collision = true;
+        pole.at(i).at(Y) = true;
+        printf("#,%d,%d,%d\n", i, Y, collision);
+
+    }
+    return collision;
+}
+
 bool manager::points(int oldX, int oldY, int X, int Y)
 {
-    points(oldX, oldY,X, Y, area);
+    return points(oldX, oldY,X, Y, area);
 }
 
 void manager::pauza(bool c)
@@ -169,55 +180,57 @@ void manager::pauza(bool c)
     pauza(c, pauzed);
 }
 
+/*Funkcja points - największa - wyznacza między 2 punktami prostą, złożoną z punktów,
+ * które są odkładane na tablicy booli -
+ * i w ten sposób, gdy któryś punkt był już odwiedzony,
+ * zgłasza ten fakt, czego skutkiem jest porażka zawodnika.
+ *
+ * Nieodłącznym elementem są funkcje row i column, które oznaczają seryjnie kolejne punkty
+ * w rzędzie / kolumnie. Minus i plus pochodzą od kierunku w którym idzie prosta
+ * */
+
 bool manager::points(int oldX, int oldY, int X, int Y, vector<vector<bool> > &ar)
 {
     bool zmianaWezla = true;
     bool fail = false;
     double yy =0;
-    int rozstaw = 1;
     int wx = X - oldX;
     int wy = Y - oldY;
 
     double w = (double) wy / (double) wx;
     double b = oldY - w * oldX;
-//    double alfa= atan(w);
-//    int p= round(sin(alfa)*rozstaw);
-//    int q= round(cos(alfa)*rozstaw);
 
-//    p = q =0;
     int lastY = oldY;
-    //cout << "x: " << X << " y: " << Y <<endl;
     if (oldX == X) {
         if (wy > 0) {
-
             fail += columnplus(X, oldY+1, Y,ar);
-
         }
         else {
-
             fail += columnminus(X, oldY-1, Y,ar);
-
         }
         zmianaWezla = false;
+
+    } else if (oldY == Y){
+        if (wx   > 0){
+            fail += rowplus(Y, oldX+1, X-1, ar);
+        }else{
+            fail += rowminus(Y, oldX-1, X+1, ar);
+        }
     }
     else {
-
         if (wx > 0) {
             for (int ii = oldX; ii <= X; ii++) {
 
                 yy = (double)ii * w + b;
-                //cout << ii << " : " << yy << endl;
 
                 if (wy > 0) {
                     if (!zmianaWezla && wy != 0)
-                    fail += columnplus(ii, lastY, round(yy), ar);
+                        fail += columnplus(ii, lastY, round(yy), ar);
 
                 }
                 else {
                     if (!zmianaWezla && wy != 0)
-                    fail +=columnminus(ii, lastY, round(yy), ar);
-
-
+                        fail +=columnminus(ii, lastY, round(yy), ar);
                 }
                 lastY = round(yy);
                 zmianaWezla = false;
@@ -225,21 +238,17 @@ bool manager::points(int oldX, int oldY, int X, int Y, vector<vector<bool> > &ar
 
         }
         else {
-
             for (int ii = oldX; ii >= X; ii--) {
 
                 yy = (double)ii * w + b;
 
                 if (wy > 0) {
                     if (!zmianaWezla && wy != 0)
-                    fail +=columnplus(ii, lastY, round(yy),ar);
-
-
+                        fail +=columnplus(ii, lastY, round(yy),ar);
                 }
                 else {
                     if (!zmianaWezla && wy != 0)
-                    fail +=columnminus(ii, lastY, round(yy),ar);
-
+                        fail +=columnminus(ii, lastY, round(yy),ar);
 
                 }
                 lastY = round(yy);
@@ -250,11 +259,9 @@ bool manager::points(int oldX, int oldY, int X, int Y, vector<vector<bool> > &ar
     return fail;
 }
 
-
-
 int manager::setKlient(int id, int i)
 {
-    setKlient(id, i, klienci);
+    return setKlient(id, i, klienci);
 }
 
 int manager::playerLose(int i)
@@ -292,16 +299,16 @@ int manager::letsStart()
 
 int manager::letsStart(bool &gameStarted)
 {
-    int i = -1;
+
     int x = 0;
     for (int i = 0 ; i < 6; i++){
         if (ready[i] == true)  x++;
     }
     if (x >1){
         gameStarted = true;
-        i = 1;
+
     }else{
-        i = 0;
+
     }
     return 1;
 }
@@ -343,18 +350,17 @@ bool manager::twoPointsDifference(int pts, int id)
         if ((pts - 2) < getPointsPlayer(i))
         {
             status = false;
-            cout << endl << "Owszem " << pts << " " <<getPointsPlayer(i) << " " << id << " " << i;
         }
     }
 
-    cout << cel << " /status :  " << status <<  " " << 10 * (cel -1 ) << endl;
-    if (pts < 20) status = false;
+    if (pts < 25) status = false;
     return status;
 }
 
+//używany po zakończeniu gry, do przywrócenia gry do stanu początkowego
 void manager::hardReset(vector<Player *> &pl, vector<bool> &res, vector<bool> &rdy, bool & gameStarted, vector<int> &klienci)
 {
-     srand (time (NULL));
+    srand (time (NULL));
     for (int i = 0; i < 6; i++){
         klienci[i] = -1;
         res[i] = false;
@@ -373,43 +379,15 @@ void manager::hardReset(vector<Player *> &pl, vector<bool> &res, vector<bool> &r
     gameStarted = false;
 }
 
-
-
 bool manager::getPauzed() const
 {
     return pauzed;
-}
-
-void manager::setPauzed(bool value)
-{
-    pauzed = value;
 }
 
 void manager::pauza(bool c, bool &pauzed)
 {
 
     pauzed = c;
-}
-
-bool manager::getRestart() const
-{
-    return restart;
-}
-
-void manager::setRestart(bool value)
-{
-    restart = value;
-}
-
-
-vector<int> manager::getKlienci() const
-{
-    return klienci;
-}
-
-void manager::setKlienci(const vector<int> &value)
-{
-    klienci = value;
 }
 
 void manager::reset()
@@ -430,7 +408,6 @@ void manager::playerReset(Player *&p)
     p->setY(random()% 400+100);
     p->setAngle(random()% 360);
     p->setOut(false);
-
 
 }
 
@@ -472,6 +449,7 @@ bool manager::reservePositions(int id, int formerID, vector<bool> & res, int kli
 int manager::setKlient(int id, int i, vector<int>  & kl)
 {
     kl.at(id) = i;
+    return 1;
 }
 
 int manager::playerLose(int i, vector<Player *> pl)
@@ -487,6 +465,6 @@ int manager::playerLose(int i, vector<Player *> pl)
             }
         }
     }
-    cout <<"Pozostalo " << n << endl;
+
     return n;
 }

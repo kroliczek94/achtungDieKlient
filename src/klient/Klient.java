@@ -26,15 +26,16 @@ public class Klient {
      * @throws java.lang.InterruptedException
      */
     public static void main(String[] args) throws InterruptedException {
+        //Klasa grafika odpowiadająca za wyswietlanie planszy i menu, odpowiedzialne za logowanie gracza
         Grafika g = new Grafika(getGracze());
         MenuLogowania menu = new MenuLogowania(null);
 
         String host = args[0];
         TCPClient cc = new TCPClient(host, menu, g);
-
         
         Pooler pool = new Pooler(cc, g);
         g.setCc(cc);
+        //wątki słuchające i wysyłające
         pool.start();
         cc.start();
 

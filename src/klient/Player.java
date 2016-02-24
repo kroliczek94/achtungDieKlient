@@ -6,15 +6,13 @@
 package klient;
 
 import java.util.ArrayList;
-import java.util.concurrent.ConcurrentSkipListMap;
-
 
 /**
  *
  * @author Łukasz Królik
  */
 public class Player {
-
+//Tylko gettery i settery
     /**
      * @return the dane
      */
@@ -33,24 +31,19 @@ public class Player {
     private int y = 0;
     private int oldx = 0;
     private int oldy = 0;
-    private int kat = 55;
-    private double krok = 4.0;
     private int decyzja = 0;
-    private int lewy  = 37;
+    private int lewy = 37;
     private int prawy = 39;
     private String name;
-    private Boolean modulo = false;
     private int idPoprzedniegoPola = -1;
     private boolean myPlayer = false;
     private boolean activePlayer = false;
-    private static ConcurrentSkipListMap<Integer, PlayerToTab> punkty= new ConcurrentSkipListMap<>();
     private static ArrayList<PlayerToTab> dane = new ArrayList<>();
     //private Socket sock;
 
     public Player(int id) {
         this.id = id;
     }
-    
 
     public int getX() {
         return x;
@@ -60,49 +53,14 @@ public class Player {
         return y;
     }
 
-    public void setX(int x, int maxX) {
-        int newx = x % maxX;
-        
-        if (x >= maxX){
-            this.x = newx;
-            setModulo((Boolean) true);
-        }
-            
-        else if ((x < maxX) && (x > 0))
-            this.x = x;
-        else{
-            this.x = (maxX - newx);
-            setModulo((Boolean) true);
-        } 
-            
-    }
-    
-        public void setX(int x) {
-            this.x = x;
-    }
-        
-        public void setY(int y) {
-            this.y = y;
+    public void setX(int x) {
+        this.x = x;
     }
 
-
-    public void setY(int y, int maxY) {
-         int newy = y % maxY;
-        
-        if (y >= maxY){
-            this.y = newy;
-            setModulo((Boolean) true);
-        }
-            
-        else if ((y < maxY) && (y > 0))
-            this.y = y;
-        else{
-            this.y = (maxY - newy);
-            setModulo((Boolean) true);
-        } 
+    public void setY(int y) {
+        this.y = y;
     }
 
-    
     /**
      * @return the oldx
      */
@@ -132,61 +90,6 @@ public class Player {
     }
 
     /**
-     * @return the kat
-     */
-    public int getKat() {
-        return kat;
-    }
-
-    /**
-     * @param kat the kat to set
-     */
-    public void setKat(int kat) {
-        int alfa = kat % 360;
-        if (alfa < 0){
-            this.kat = (360 + alfa);
-        }
-        else{
-            this.kat = alfa;
-        }
-    }
-    
-        public void newPosition(int x, int y, int alfa){
-            
-        double alfaRadian = Math.toRadians((double) alfa);
-        double sinAlfa = Math.sin(alfaRadian);
-        double cosAlfa = Math.cos(alfaRadian);
-        
-            setOldx(x);
-            setOldy(y);
-        
-        setX((int) (getKrok() * sinAlfa)+x, Klient.getMaxX());
-        setY((int) (getKrok() * cosAlfa)+y, Klient.getMaxY());
-        
-    }
-        
-        public void newPositionTo(int x, int y){
-            setOldx(getX());
-            setOldy(getY());
-            setX(x);
-            setY(y);
-        }
-
-    /**
-     * @return the krok
-     */
-    public double getKrok() {
-        return krok;
-    }
-
-    /**
-     * @param krok the krok to set
-     */
-    public void setKrok(double krok) {
-        this.krok = krok;
-    }
-
-    /**
      * @return the decyzja
      */
     public int getDecyzja() {
@@ -201,20 +104,6 @@ public class Player {
     }
 
     /**
-     * @return the modulo
-     */
-    public Boolean getModulo() {
-        return modulo;
-    }
-
-    /**
-     * @param modulo the modulo to set
-     */
-    public void setModulo(Boolean modulo) {
-        this.modulo = modulo;
-    }
-
-    /**
      * @return the lewy
      */
     public int getLewy() {
@@ -225,7 +114,7 @@ public class Player {
      * @param lewy the lewy to set
      */
     public void setLewy(int lewy) {
-        
+
         this.lewy = lewy;
     }
 
@@ -240,7 +129,7 @@ public class Player {
      * @param prawy the prawy to set
      */
     public void setPrawy(int prawy) {
-        
+
         this.prawy = prawy;
     }
 
@@ -300,19 +189,6 @@ public class Player {
         this.id = id;
     }
 
-    /**
-     * @return the punkty
-     */
-    public static ConcurrentSkipListMap<Integer, PlayerToTab> getPunkty() {
-        return punkty;
-    }
-
-    /**
-     * @param punkty the punkty to set
-     */
-    public static void setPunkty(ConcurrentSkipListMap<Integer, PlayerToTab> punkty) {
-        Player.punkty = punkty;
-    }
 
     /**
      * @return the activePlayer
@@ -328,5 +204,4 @@ public class Player {
         this.activePlayer = activePlayer;
     }
 
-  
 }

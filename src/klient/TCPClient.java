@@ -32,8 +32,8 @@ import org.json.simple.parser.ParseException;
  */
 public class TCPClient extends Thread {
 
-    private static final int BUFFER_SIZE = 255;
-    private static final long CHANNEL_WRITE_SLEEP = 10L;
+    private static final int size = 255;
+    private static final long timeSleep = 10L;
     private static final int PORT = 12345;
     private boolean running;
     private ByteBuffer writeBuffer;
@@ -45,23 +45,22 @@ public class TCPClient extends Thread {
     private MenuLogowania ml;
     private Grafika graf;
 
-
     public TCPClient(String host, MenuLogowania ml, Grafika graf) {
         this.host = host;
-        writeBuffer = ByteBuffer.allocateDirect(BUFFER_SIZE);
-        readBuffer = ByteBuffer.allocateDirect(BUFFER_SIZE);
+        writeBuffer = ByteBuffer.allocateDirect(size);
+        readBuffer = ByteBuffer.allocateDirect(size);
         asciiDecoder = Charset.forName("US-ASCII").newDecoder();
         this.ml = ml;
         this.graf = graf;
     }
 
+    @Override
     public void run() {
         connect(host);
-        
-        while (true){
+
+        while (true) {
             readIncomingMessages();
         }
-
     }
 
     private void connect(String hostname) {
@@ -76,17 +75,12 @@ public class TCPClient extends Thread {
         } catch (Exception e) {
         }
     }
-
+//główna pętla odbierania - zrealizowana na NIO
     public void readIncomingMessages() {
-        // check for incoming mesgs
         try {
-            // non-blocking select, returns immediately regardless of how many keys are ready
             readSelector.selectNow();
 
-            // fetch the keys
             Set readyKeys = readSelector.selectedKeys();
-
-            // run through the keys and process
             Iterator i = readyKeys.iterator();
             while (i.hasNext()) {
                 SelectionKey key = (SelectionKey) i.next();
@@ -97,10 +91,10 @@ public class TCPClient extends Thread {
                 long nbytes = channel.read(readBuffer);
 
                 if (nbytes == -1) {
-                    System.out.println("disconnected from server: end-of-stream");
+                    System.out.println("serwer sie rozlaczyl!!");
                     channel.close();
                     shutdown();
-                   
+
                 } else {
                     StringBuffer sb = (StringBuffer) key.attachment();
 
@@ -198,7 +192,7 @@ public class TCPClient extends Thread {
                         Long restart = (Long) jsonObj.get("restart");
                         Boolean end = (Boolean) jsonObj.get("end");
                         String winner = (String) jsonObj.get("winner");
-                        
+
                         Integer rs = restart.intValue();
                         for (int i1 = 0; i1 < 6; i1++) {
                             if (!idPlayers.contains(Long.valueOf(i1))) {
@@ -217,26 +211,23 @@ public class TCPClient extends Thread {
 
                             xPos.remove(0);
                             yPos.remove(0);
-                            
-                            if (rs ==0){
+
+                            if (rs == 0) {
                                 p.setOldx(p.getX());
                                 p.setOldy(p.getY());
                             }
-                            
-
-                        }
+                       }
 
                         if (rs == 0) {
-                           Grafika.setRestart(true);
+                            Grafika.setRestart(true);
 
                         }
-                        if (end && !Klient.isRestart()){
+                        if (end && !Klient.isRestart()) {
                             Grafika.setWinner(winner);
                             Grafika.end();
-                            
+
                         }
                     }
-
                 }
             }
         } catch (IOException ioe) {
@@ -268,7 +259,7 @@ public class TCPClient extends Thread {
                 nbytes += channel.write(writeBuffer);
 
                 try {
-                    Thread.sleep(CHANNEL_WRITE_SLEEP);
+                    Thread.sleep(timeSleep);
                 } catch (InterruptedException e) {
                 }
             }

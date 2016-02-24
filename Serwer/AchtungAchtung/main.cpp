@@ -21,153 +21,132 @@ using namespace std;
 
 int main (int argc, char *argv[])
 {
-    int    SERVER_PORT  = 12345;
-    int    len, rc, on = 1;
-    int    listen_sd = -1, new_sd = -1;
-    int    end_server = false;
-    int    close_conn;
+    int SERVER_PORT  = 12345;
+    int len, rc, on = 1;
+    int mainSocket = -1, newSock = -1;
+    bool end_server = false;
+    bool endConn;
     char   buffer[80];
     struct sockaddr_in   addr = { AF_INET, htons(SERVER_PORT), INADDR_ANY };
-    int    timeout;
+    int timeout;
     struct pollfd fds[200];
-    int    nfds = 1, current_size = 0, i, j;
+    int numFd = 1, curSize = 0, i;
 
 
     manager * man = new manager();
     JSONTranslator * jtrans = new JSONTranslator(man);
 
-    listen_sd = socket(AF_INET, SOCK_STREAM, 0);
-    if (listen_sd < 0)
+    mainSocket = socket(AF_INET, SOCK_STREAM, 0);
+    if (mainSocket < 0)
     {
-        perror("Niepowodzenie funkcji socket()");
+        perror("failed in function socket()");
         exit(-1);
     }
 
-    rc = setsockopt(listen_sd, SOL_SOCKET,  SO_REUSEADDR,
+    rc = setsockopt(mainSocket, SOL_SOCKET,  SO_REUSEADDR,
                     (char *)&on, sizeof(on));
     if (rc < 0)
     {
-        perror("Niepowodzenie funkcji setsockopt()");
-        close(listen_sd);
+        perror("failed in function setsockopt()");
+        close(mainSocket);
         exit(-1);
     }
 
-    rc = fcntl(listen_sd, F_SETFL, O_NONBLOCK, 1);
+    rc = fcntl(mainSocket, F_SETFL, O_NONBLOCK, 1);
     if (rc < 0)
     {
-        perror("Niepowodzenie funkcji ioctl()");
-        close(listen_sd);
+        perror("niepowodzenie w fnctl()");
+        close(mainSocket);
         exit(-1);
     }
 
-    rc = bind(listen_sd, (struct sockaddr *)&addr, sizeof(addr));
+    rc = bind(mainSocket, (struct sockaddr *)&addr, sizeof(addr));
     if (rc < 0)
     {
-        perror("Niepowodzenie funkcji bind()");
-        close(listen_sd);
+        perror("failed bind()");
+        close(mainSocket);
         exit(-1);
     }
 
-    rc = listen(listen_sd, 32);
+    rc = listen(mainSocket, 32);
     if (rc < 0)
     {
-        perror("Niepowodzenie funkcji listen()");
-        close(listen_sd);
+        perror("failed listen()");
+        close(mainSocket);
         exit(-1);
     }
-
 
     memset(fds, 0 , sizeof(fds));
 
-    fds[0].fd = listen_sd;
+    fds[0].fd = mainSocket;
     fds[0].events = POLLIN;
 
-    timeout = (3 * 60 * 1000);
+    timeout = (3 * 60 * 1000);  //3 minuty
 
     do
     {
 
-        rc = poll(fds, nfds, timeout);
+        rc = poll(fds, numFd, timeout);
+        if (rc == 0){   printf("Czas upłynął..\n"); break;  }
 
-        if (rc < 0)
+        curSize = numFd;
+        for (i = 0; i < curSize; i++)
         {
-            perror("Niepowodzenie funkcji poll()");
-            break;
-        }
-
-        if (rc == 0)
-        {
-            printf("Przekroczenie limitu czasu funkcji poll().  Zakończ program.\n");
-            break;
-        }
-
-
-        current_size = nfds;
-        for (i = 0; i < current_size; i++)
-        {
-
-            if(fds[i].revents == 0)
-                continue;
-
+            if(fds[i].revents == 0) continue;//nic sie nie zdarzyło
             if(fds[i].revents != POLLIN)
             {
-                printf("  Błąd! revents = %d\n", fds[i].revents);
+                printf("  Błąd! revents = %d\n", fds[i].revents); //przyszły jakieś kłopoty - my tylko nasłuchujemy
                 end_server = true;
                 break;
 
             }
-            if (fds[i].fd == listen_sd)
+            if (fds[i].fd == mainSocket)  //Dla mainSocketa - sprawdzamy, czy ktoś nowy nie przyszedł
             {
-                printf("Gniazdo nasłuchujące jest czytelne\n");
-
                 do
                 {
-                    new_sd = accept(listen_sd, NULL, NULL);
-                    if (new_sd < 0)
+                    newSock = accept(mainSocket, NULL, NULL);
+                    if (newSock < 0)
                     {
                         if (errno != EWOULDBLOCK)
                         {
-                            perror("Niepowodzenie funkcji accept()");
+                            perror("Failed accept()");
                             end_server = true;
                         }
                         break;
                     }
+                    fcntl(newSock, F_SETFL, O_NONBLOCK, 1);
 
-                    printf("Nowe połączenie przychodzące - %d\n", new_sd);
-                    fcntl(new_sd, F_SETFL, O_NONBLOCK, 1);
 
-                    printf("%d", nfds);
-                    fds[nfds].fd = new_sd;
-                    fds[nfds].events = POLLIN;
-                    nfds++;
+                    fds[numFd].fd = newSock;
+                    fds[numFd].events = POLLIN;
+                    numFd++;
 
-                    long flags = fcntl(listen_sd,F_GETFL, 0);
-                    printf("serv nonblock: %s\n", flags & O_NONBLOCK ? "true" : "false");
-                    flags = fcntl(new_sd,F_GETFL, 0);
+                    // Ustaw na nieblokujące
+                    long flags = fcntl(mainSocket,F_GETFL, 0);
+                    flags = fcntl(newSock,F_GETFL, 0);
                     printf("cli  nonblock: %s\n", flags & O_NONBLOCK ? "true" : "false");
 
                 } while (true);
             }else{
-                close_conn = false;
+                endConn = false;
 
-                do
+                do  //odbieramy dane
                 {
-
                     rc = recv(fds[i].fd, buffer, sizeof(buffer), 0);
                     if (rc < 0)
                     {
                         if (errno != EWOULDBLOCK)
                         {
-                            perror("Niepowodzenie funkcji recv()");
-                            close_conn = true;
+                            perror("niepowodzenie recv()");
+                            endConn = true;
                         }
                         break;
                     }
 
                     if (rc == 0)
                     {
-                        printf("  Połączenie zamknięte\n");
-                        close_conn = true;
+                        printf("Socket sobie poszedł\n");
+                        endConn = true;
                         break;
                     }
 
@@ -179,14 +158,14 @@ int main (int argc, char *argv[])
 
                     if (rc < 0)
                     {
-                        perror("Niepowodzenie funkcji send()");
-                        close_conn = true;
+                        perror("Niepowodzenie send()");
+                        endConn = true;
                         break;
                     }
 
                 } while (true);
 
-                if (close_conn)
+                if (endConn)
                 {
                     close(fds[i].fd);
                     fds[i].fd = -1;
@@ -195,7 +174,8 @@ int main (int argc, char *argv[])
         }
     } while (end_server == false);
 
-    for (i = 0; i < nfds; i++)
+    //zamknij sockety po zabawie
+    for (i = 0; i < numFd; i++)
     {
         if(fds[i].fd >= 0)
             close(fds[i].fd);

@@ -296,7 +296,7 @@ public class MenuLogowania extends javax.swing.JPanel implements KeyListener {
     }// </editor-fold>//GEN-END:initComponents
 
     private void g1ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_g1ButtonActionPerformed
-        //g1Label.setForeground(Color.yellow);
+       
         imieField.setText(g1Label.getText());
         activePlayer = 0;
         int former = stos.getLast();
@@ -340,7 +340,7 @@ public class MenuLogowania extends javax.swing.JPanel implements KeyListener {
     }//GEN-LAST:event_changeButtonKeyPressed
 
     private void g2ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_g2ButtonActionPerformed
-        //g2Label.setForeground(Color.yellow);
+        
         imieField.setText(g2Label.getText());
         activePlayer = 1;
         zmienionoImieLabel.setVisible(false);
@@ -353,7 +353,7 @@ public class MenuLogowania extends javax.swing.JPanel implements KeyListener {
     }//GEN-LAST:event_g2ButtonActionPerformed
 
     private void g3ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_g3ButtonActionPerformed
-        //g3Label.setForeground(Color.yellow);
+        
         imieField.setText(g3Label.getText());
         activePlayer = 2;// TODO add your handling code here:
         zmienionoImieLabel.setVisible(false);
@@ -567,7 +567,7 @@ public class MenuLogowania extends javax.swing.JPanel implements KeyListener {
         String jsonText = out.toString();
 
         cc.sendMessage(jsonText);
-        //TCPclient.wyslijJSONA(zapytanie);
+   
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddButton;
@@ -602,19 +602,6 @@ public class MenuLogowania extends javax.swing.JPanel implements KeyListener {
  
     @Override
     public void keyPressed(KeyEvent e) {
-//        System.out.println(e.getKeyText(e.getKeyCode()));
-//        if (dostepnyKlawisz > 0) {
-//            if (dostepnyKlawisz == 2) {
-//                p.setLewy(e.getKeyCode());
-//                leftLabel.setText(e.getKeyText(p.getLewy()));
-//            }
-//            if (dostepnyKlawisz == 1) {
-//                p.setPrawy(e.getKeyCode());
-//                rightLabel.setText(e.getKeyText(p.getPrawy()));
-//            }
-//            dostepnyKlawisz--;
-//        }
-
     }
 
     @Override

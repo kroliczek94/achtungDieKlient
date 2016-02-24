@@ -232,11 +232,9 @@ public class Grafika extends javax.swing.JPanel implements KeyListener {
             if (pl.isActivePlayer()) {
 
                 g.drawRect(30, 30, 1000, 600);
-
-                if (!pl.getModulo()) {
                     g.setColor(Color.BLUE);
                     malujDoPunktu(pl, g);
-                }
+                
             }
         }
     }

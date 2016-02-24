@@ -28,7 +28,7 @@ public class Pooler extends Thread {
 
     @Override
     public void run() {
-        try {
+        try { //sleep przed rozpoczęciem - aby uniknąć nullPointerException
             Thread.sleep(40);
         } catch (InterruptedException ex) {
             Logger.getLogger(Pooler.class.getName()).log(Level.SEVERE, null, ex);
@@ -62,8 +62,9 @@ public class Pooler extends Thread {
             long koniec = System.currentTimeMillis();
             long czas = koniec - start;
             //czas = 0;
+            //aby otrzymać mniej więcej równy czas wykonania, uwzgledniamy czas przbiegu pętli
             try {
-                Thread.sleep(30 - (int) czas);
+                Thread.sleep(45 - (int) czas);
                 g.repaint();
             } catch (InterruptedException ex) {
                 Logger.getLogger(Pooler.class.getName()).log(Level.SEVERE, null, ex);

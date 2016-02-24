@@ -7,9 +7,6 @@ JSONTranslator::JSONTranslator(manager *man)
     this->man = man;
 }
 
-string JSONTranslator::reply(char *buffer){
-
-}
 
 string JSONTranslator::reply(char *buffer, int i)
 {
@@ -20,15 +17,22 @@ string JSONTranslator::reply(char *buffer, int i)
     StringBuffer s;
     Writer<StringBuffer> writer(s);
 
-    //cout << buffer << endl;
-
     assert(doc.IsObject());
     assert(doc.HasMember("action"));
     assert(doc["action"].IsString());
 
-
     string action = doc["action"].GetString();
 
+    /*stany dozwolone:
+     * register - przyjęcie nowego gracza
+     * Odpowiedź: register
+     * state - zapytanie o stan
+     * Odpowiedź: statebefore ( przed rozpoczęciem), stateafter (po rozpoczęciu)
+     * letsplay - zawołanie do rozpoczęcia gry
+     * changename - zmiana nicku
+     *
+     *
+     */
     if (action == "register"){
         assert(doc.HasMember("id"));
         assert(doc["id"].IsInt());
@@ -108,8 +112,6 @@ string JSONTranslator::reply(char *buffer, int i)
                     }
                     error = 0;
                 }
-
-
             }
 
             int stan = 0;
@@ -143,6 +145,7 @@ string JSONTranslator::reply(char *buffer, int i)
                     writer.String(man->getNamePlayer(i).c_str());
             }
             writer.EndArray();
+
             writer.String("points");
             writer.StartArray();
             for (int i = 0; i < 6 ; i++){
@@ -150,6 +153,7 @@ string JSONTranslator::reply(char *buffer, int i)
                     writer.Int(man->getPointsPlayer(i));
             }
             writer.EndArray();
+
             writer.String("xpos");
             writer.StartArray();
             for (int i = 0; i < 6 ; i++){
@@ -157,14 +161,15 @@ string JSONTranslator::reply(char *buffer, int i)
                     writer.Int(man->getPlayerX(i));
             }
             writer.EndArray();
-            writer.String("ypos");
 
+            writer.String("ypos");
             writer.StartArray();
             for (int i = 0; i < 6 ; i++){
                 if (man->getReady().at(i))
                     writer.Int(man->getPlayerY(i));
             }
             writer.EndArray();
+
             if (stan == gamers)
             {
                 writer.String("restart");
@@ -185,9 +190,7 @@ string JSONTranslator::reply(char *buffer, int i)
             }else{
                 writer.String("noone");
             }
-
             writer.EndObject();
-
         }
     }else if (action == "changename"){
         assert(doc.HasMember("id"));
@@ -214,13 +217,10 @@ string JSONTranslator::reply(char *buffer, int i)
         writer.String("success");
         writer.Bool(man->getGameStarted());
         writer.EndObject();
-
         \
     }else if (action == "unpause"){
         man->pauza(false);
     }
-
-
 
     string ss = s.GetString();
 

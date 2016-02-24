@@ -4,9 +4,7 @@
  * and open the template in the editor.
  */
 package klient;
-
-import java.util.ArrayList;
-
+//Settery i gettety potrzebne do zestawienia wyników
 /**
  *
  * @author lukasz

@@ -259,6 +259,30 @@ punkt.cpp.s:
 	$(MAKE) -f CMakeFiles/AchtungAchtung.dir/build.make CMakeFiles/AchtungAchtung.dir/punkt.cpp.s
 .PHONY : punkt.cpp.s
 
+tcp.o: tcp.cpp.o
+.PHONY : tcp.o
+
+# target to build an object file
+tcp.cpp.o:
+	$(MAKE) -f CMakeFiles/AchtungAchtung.dir/build.make CMakeFiles/AchtungAchtung.dir/tcp.cpp.o
+.PHONY : tcp.cpp.o
+
+tcp.i: tcp.cpp.i
+.PHONY : tcp.i
+
+# target to preprocess a source file
+tcp.cpp.i:
+	$(MAKE) -f CMakeFiles/AchtungAchtung.dir/build.make CMakeFiles/AchtungAchtung.dir/tcp.cpp.i
+.PHONY : tcp.cpp.i
+
+tcp.s: tcp.cpp.s
+.PHONY : tcp.s
+
+# target to generate assembly for a file
+tcp.cpp.s:
+	$(MAKE) -f CMakeFiles/AchtungAchtung.dir/build.make CMakeFiles/AchtungAchtung.dir/tcp.cpp.s
+.PHONY : tcp.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -286,6 +310,9 @@ help:
 	@echo "... punkt.o"
 	@echo "... punkt.i"
 	@echo "... punkt.s"
+	@echo "... tcp.o"
+	@echo "... tcp.i"
+	@echo "... tcp.s"
 .PHONY : help
 
 

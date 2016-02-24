@@ -15,7 +15,6 @@ class JSONTranslator
 {
 public:
     JSONTranslator(manager * man);
-    string reply(char * buffer);
     string reply(char * buffer, int i);
 private:
     manager * man;

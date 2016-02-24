@@ -10,6 +10,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/lukasz/AchtungAchtung/manager.cpp" "/home/lukasz/AchtungAchtung/CMakeFiles/AchtungAchtung.dir/manager.cpp.o"
   "/home/lukasz/AchtungAchtung/player.cpp" "/home/lukasz/AchtungAchtung/CMakeFiles/AchtungAchtung.dir/player.cpp.o"
   "/home/lukasz/AchtungAchtung/punkt.cpp" "/home/lukasz/AchtungAchtung/CMakeFiles/AchtungAchtung.dir/punkt.cpp.o"
+  "/home/lukasz/AchtungAchtung/tcp.cpp" "/home/lukasz/AchtungAchtung/CMakeFiles/AchtungAchtung.dir/tcp.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

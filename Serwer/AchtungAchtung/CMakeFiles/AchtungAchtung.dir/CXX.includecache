@@ -6,23 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/lukasz/AchtungAchtung/gamearea.cpp
-gamearea.h
 /home/lukasz/AchtungAchtung/gamearea.h
-math.h
-/home/lukasz/AchtungAchtung/math.h
-
-/home/lukasz/AchtungAchtung/gamearea.h
-player.h
-/home/lukasz/AchtungAchtung/player.h
-vector
--
-
-/home/lukasz/AchtungAchtung/jsontranslator.cpp
-player.h
-/home/lukasz/AchtungAchtung/player.h
-time.h
--
 
 /home/lukasz/AchtungAchtung/jsontranslator.h
 string
@@ -69,6 +53,8 @@ vector
 -
 jsontranslator.h
 /home/lukasz/AchtungAchtung/jsontranslator.h
+tcp.h
+/home/lukasz/AchtungAchtung/tcp.h
 
 /home/lukasz/AchtungAchtung/manager.cpp
 manager.h
@@ -87,7 +73,9 @@ math.h
 -
 
 /home/lukasz/AchtungAchtung/manager.h
-atomic
+string
+-
+iostream
 -
 string
 -
@@ -99,20 +87,6 @@ gamearea.h
 /home/lukasz/AchtungAchtung/gamearea.h
 player.h
 /home/lukasz/AchtungAchtung/player.h
-string
--
-thread
--
-pthread.h
--
-iostream
--
-
-/home/lukasz/AchtungAchtung/player.cpp
-player.h
-/home/lukasz/AchtungAchtung/player.h
-string
--
 
 /home/lukasz/AchtungAchtung/player.h
 punkt.h
@@ -121,10 +95,6 @@ string
 -
 
 /home/lukasz/AchtungAchtung/punkt.h
-time.h
--
-random
--
 
 /home/lukasz/AchtungAchtung/rapidjson/allocators.h
 rapidjson.h
@@ -309,4 +279,10 @@ stringbuffer.h
 /home/lukasz/AchtungAchtung/rapidjson/stringbuffer.h
 new
 -
+
+/home/lukasz/AchtungAchtung/tcp.h
+manager.h
+/home/lukasz/AchtungAchtung/manager.h
+jsontranslator.h
+/home/lukasz/AchtungAchtung/jsontranslator.h
 

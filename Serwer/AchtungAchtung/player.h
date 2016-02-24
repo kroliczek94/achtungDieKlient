@@ -24,11 +24,11 @@ public:
     
     int getX() const;
     bool setX(int value);
-    //void setX(int value, int maxX);
+
     
     int getY() const;
     bool setY(int value);
-    //void setY(int value, int maxY);
+
     
     int getAngle() const;
     void setAngle(int value);

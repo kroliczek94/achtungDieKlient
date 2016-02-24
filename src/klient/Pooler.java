@@ -29,11 +29,11 @@ public class Pooler extends Thread {
     @Override
     public void run() {
         try {
-
             Thread.sleep(40);
         } catch (InterruptedException ex) {
             Logger.getLogger(Pooler.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
         while (true) {
             long start = System.currentTimeMillis();
             JSONArray tab = new JSONArray();
@@ -47,6 +47,7 @@ public class Pooler extends Thread {
 
             }
             zapytanie.put("dec", tab);
+            
 
             StringWriter out = new StringWriter();
             try {

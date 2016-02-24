@@ -35,23 +35,17 @@ public class TCPClient extends Thread {
     private static final int BUFFER_SIZE = 255;
     private static final long CHANNEL_WRITE_SLEEP = 10L;
     private static final int PORT = 12345;
-
+    private boolean running;
     private ByteBuffer writeBuffer;
     private ByteBuffer readBuffer;
-    private boolean running;
     private SocketChannel channel;
     private String host;
     private Selector readSelector;
     private CharsetDecoder asciiDecoder;
-    private InputThread it;
     private MenuLogowania ml;
     private Grafika graf;
 
-//    public static void main(String args[]) {
-//	String host = args[0];
-//	TCPClient cc = new TCPClient(host);
-//	cc.start();
-//    }
+
     public TCPClient(String host, MenuLogowania ml, Grafika graf) {
         this.host = host;
         writeBuffer = ByteBuffer.allocateDirect(BUFFER_SIZE);
@@ -63,8 +57,10 @@ public class TCPClient extends Thread {
 
     public void run() {
         connect(host);
-        it = new InputThread(this);
-        it.start();
+        
+        while (true){
+            readIncomingMessages();
+        }
 
     }
 
@@ -98,17 +94,14 @@ public class TCPClient extends Thread {
                 SocketChannel channel = (SocketChannel) key.channel();
                 readBuffer.clear();
 
-                // read from the channel into our buffer
                 long nbytes = channel.read(readBuffer);
 
-                // check for end-of-stream
                 if (nbytes == -1) {
                     System.out.println("disconnected from server: end-of-stream");
                     channel.close();
                     shutdown();
-                    it.shutdown();
+                   
                 } else {
-                    // grab the StringBuffer we stored as the attachment
                     StringBuffer sb = (StringBuffer) key.attachment();
 
                     readBuffer.flip();
@@ -132,33 +125,31 @@ public class TCPClient extends Thread {
                         if (!ok) {
                             JOptionPane.showMessageDialog(null, "Wybrane miejsce jest już zajęte!");
                         }
-                        //                       ml.zmienLabela(id, Color.yellow);
+
                         System.out.println("Zarejestrowano gracza " + id.intValue());
                     } else if ("statebefore".equals(stan)) {
                         JSONArray tabStan = new JSONArray();
                         JSONArray tabImie = new JSONArray();
                         JSONArray tabReady = new JSONArray();
 
-                        //Long ttl = (Long) jsonObj.get("ttl");
-                        ml.resetLabeli();
+                        getMl().resetLabeli();
                         tabStan = (JSONArray) jsonObj.get("reservedplaces");
                         tabImie = (JSONArray) jsonObj.get("peoplenames");
                         tabReady = (JSONArray) jsonObj.get("readypeople");
 
-                        //ml.zmienTTL(ttl);
                         for (int j = 0; j < 6; j++) {
-                            ml.zmienLabela(Long.valueOf(j), (String) tabImie.get(j));
+                            getMl().zmienLabela(Long.valueOf(j), (String) tabImie.get(j));
                         }
 
                         for (int j = 0; j < 6; j++) {
                             if ((boolean) tabStan.get(j)) {
-                                ml.zmienLabela(Long.valueOf(j), Color.yellow);
+                                getMl().zmienLabela(Long.valueOf(j), Color.yellow);
                             }
                         }
 
                         for (int j = 0; j < 6; j++) {
                             if ((boolean) tabReady.get(j)) {
-                                ml.zmienLabela(Long.valueOf(j), Color.green);
+                                getMl().zmienLabela(Long.valueOf(j), Color.green);
                             }
                         }
                     } else if ("letstart".equals(stan)) {
@@ -204,7 +195,11 @@ public class TCPClient extends Thread {
                             Player.getDane().remove(ptt);
 
                         }
-
+                        Long restart = (Long) jsonObj.get("restart");
+                        Boolean end = (Boolean) jsonObj.get("end");
+                        String winner = (String) jsonObj.get("winner");
+                        
+                        Integer rs = restart.intValue();
                         for (int i1 = 0; i1 < 6; i1++) {
                             if (!idPlayers.contains(Long.valueOf(i1))) {
                                 continue;
@@ -222,14 +217,23 @@ public class TCPClient extends Thread {
 
                             xPos.remove(0);
                             yPos.remove(0);
+                            
+                            if (rs ==0){
+                                p.setOldx(p.getX());
+                                p.setOldy(p.getY());
+                            }
+                            
 
                         }
 
-                        
-                        Long restart = (Long) jsonObj.get("restart");
-                        Integer rs = restart.intValue();
                         if (rs == 0) {
-                         Grafika.setRestart(true);
+                           Grafika.setRestart(true);
+
+                        }
+                        if (end && !Klient.isRestart()){
+                            Grafika.setWinner(winner);
+                            Grafika.end();
+                            
                         }
                     }
 
@@ -248,8 +252,7 @@ public class TCPClient extends Thread {
     }
 
     private void prepWriteBuffer(String mesg) {
-        // fills the buffer from the given string
-        // and prepares it for a channel write
+
         writeBuffer.clear();
         writeBuffer.put(mesg.getBytes());
         writeBuffer.putChar('\n');
@@ -260,15 +263,12 @@ public class TCPClient extends Thread {
         long nbytes = 0;
         long toWrite = writeBuffer.remaining();
 
-        // loop on the channel.write() call since it will not necessarily
-        // write all bytes in one shot
         try {
             while (nbytes != toWrite) {
                 nbytes += channel.write(writeBuffer);
 
                 try {
                     Thread.sleep(CHANNEL_WRITE_SLEEP);
-                    //Thread.sleep(30);
                 } catch (InterruptedException e) {
                 }
             }
@@ -283,6 +283,20 @@ public class TCPClient extends Thread {
     public void shutdown() {
         running = false;
         interrupt();
+    }
+
+    /**
+     * @return the ml
+     */
+    public MenuLogowania getMl() {
+        return ml;
+    }
+
+    /**
+     * @param ml the ml to set
+     */
+    public void setMl(MenuLogowania ml) {
+        this.ml = ml;
     }
 
     /**

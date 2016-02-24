@@ -14,10 +14,7 @@ manager::manager()
     area.resize( 1000 , vector<bool>( 600 , false ) );
 }
 
-
-
 bool manager::reservePosition(int id, int formerID, int klient)
-
 {
     reservePositions(id, formerID, reserved, klient);
 }
@@ -52,7 +49,6 @@ void manager::setImiePlayer(int i, string s, vector<Player *> &pl)
     pl[i]->setName(s);
 
 }
-
 
 void manager::wstawGraczy()
 {
@@ -138,8 +134,6 @@ int manager::movePlayer(int dec, int i)
     else return -1;
 }
 
-
-
 bool manager::columnplus(int X, int oldY, int Y, vector<vector<bool> > &pole)
 {
     bool collision = false;
@@ -186,11 +180,11 @@ bool manager::points(int oldX, int oldY, int X, int Y, vector<vector<bool> > &ar
 
     double w = (double) wy / (double) wx;
     double b = oldY - w * oldX;
-    double alfa= atan(w);
-    int p= round(sin(alfa)*rozstaw);
-    int q= round(cos(alfa)*rozstaw);
+//    double alfa= atan(w);
+//    int p= round(sin(alfa)*rozstaw);
+//    int q= round(cos(alfa)*rozstaw);
 
-    p = q =0;
+//    p = q =0;
     int lastY = oldY;
     //cout << "x: " << X << " y: " << Y <<endl;
     if (oldX == X) {
@@ -235,7 +229,6 @@ bool manager::points(int oldX, int oldY, int X, int Y, vector<vector<bool> > &ar
             for (int ii = oldX; ii >= X; ii--) {
 
                 yy = (double)ii * w + b;
-                //cout << ii << " : " << yy << endl;
 
                 if (wy > 0) {
                     if (!zmianaWezla && wy != 0)
@@ -253,8 +246,6 @@ bool manager::points(int oldX, int oldY, int X, int Y, vector<vector<bool> > &ar
                 zmianaWezla = false;
             }
         }
-
-
     }
     return fail;
 }
@@ -268,6 +259,7 @@ int manager::setKlient(int id, int i)
 
 int manager::playerLose(int i)
 {
+
     return playerLose(i, playersTab);
 }
 
@@ -326,10 +318,62 @@ int manager::getArea() const
     return n;
 }
 
-void manager::setArea(const vector<vector<bool> > &value)
+void manager::setArea(vector<vector<bool> > &value)
 {
-    area = value;
+    for (int i = 0; i < 1000; i++){
+        for (int j = 0; j < 600; j++){
+            value[i][j] = false;
+        }
+    }
 }
+
+void manager::cleanArea()
+{
+    setArea(area);
+}
+
+bool manager::twoPointsDifference(int pts, int id)
+{   bool status = true;
+    int cel = 0;
+
+    for (int i = 0; i < 6; i++){
+        if (i == id || !ready[i]) continue;
+
+        if (ready[i] == true) cel++;
+        if ((pts - 2) < getPointsPlayer(i))
+        {
+            status = false;
+            cout << endl << "Owszem " << pts << " " <<getPointsPlayer(i) << " " << id << " " << i;
+        }
+    }
+
+    cout << cel << " /status :  " << status <<  " " << 10 * (cel -1 ) << endl;
+    if (pts < 20) status = false;
+    return status;
+}
+
+void manager::hardReset(vector<Player *> &pl, vector<bool> &res, vector<bool> &rdy, bool & gameStarted, vector<int> &klienci)
+{
+     srand (time (NULL));
+    for (int i = 0; i < 6; i++){
+        klienci[i] = -1;
+        res[i] = false;
+        rdy[i] = false;
+
+        Player * p = pl[i];
+        p->setAngle(rand()%360);
+        p->setOut(false);
+        p->setX(random()% 800+100);
+        p->setY(random()% 400+100);
+        p->setName("Player " + to_string(i+1));
+        p->setPoints(0);
+
+
+    }
+    gameStarted = false;
+}
+
+
 
 bool manager::getPauzed() const
 {
@@ -370,7 +414,13 @@ void manager::setKlienci(const vector<int> &value)
 
 void manager::reset()
 {
-    reset(area, playersTab);
+    setArea(area);
+    reset(playersTab, pauzed);
+}
+
+void manager::hardReset()
+{
+    hardReset(playersTab, reserved, ready, gameStarted, klienci);
 }
 
 void manager::playerReset(Player *&p)
@@ -380,15 +430,14 @@ void manager::playerReset(Player *&p)
     p->setY(random()% 400+100);
     p->setAngle(random()% 360);
     p->setOut(false);
-    pauza(true);
+
 
 }
 
-void manager::reset(vector<vector<bool>> & ar, vector<Player *> & pl)
+void manager::reset(vector<Player *> & pl, bool &pauza)
 {
-
-
     srand (time (NULL));
+
     for (int x = 0 ; x < 6 ; x++){
         Player * p = pl[x];
         p->setAngle(rand()%360);
@@ -397,16 +446,7 @@ void manager::reset(vector<vector<bool>> & ar, vector<Player *> & pl)
         p->setY(random()% 400+100);
 
     }
-
-
-
-     ar.resize( 1000 , vector<bool>( 600 , false ) );
-
-
-
-
-
-
+    pauza = true;
 }
 
 
@@ -450,5 +490,3 @@ int manager::playerLose(int i, vector<Player *> pl)
     cout <<"Pozostalo " << n << endl;
     return n;
 }
-
-

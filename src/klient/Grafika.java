@@ -5,21 +5,21 @@
  */
 package klient;
 
-import com.sun.java.swing.plaf.windows.WindowsTreeUI;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.GraphicsEnvironment;
-import java.awt.Polygon;
-import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.geom.Line2D;
+import java.io.IOException;
+import java.io.StringWriter;
 import java.util.ArrayList;
-import java.util.Random;
-
-import org.json.simple.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import org.json.simple.JSONObject;
 
 /**
  *
@@ -27,16 +27,66 @@ import org.json.simple.*;
  */
 public class Grafika extends javax.swing.JPanel implements KeyListener {
 
+    public static void end() {
+
+        for (Player p: Klient.getGracze()){
+            p.setActivePlayer(false);
+            p.setMyPlayer(false);
+        }
+        String message = "Zwycięzcą został " + getWinner()+ "\nKoniec gry, chcesz zagrać jeszcze raz?" ;
+        String title = "KONIEC";
+        
+        int reply = JOptionPane.showConfirmDialog(null, message, title, JOptionPane.YES_NO_OPTION);
+        if (reply == JOptionPane.NO_OPTION) {
+            Klient.setExit(true);
+            Klient.setRestart(true);
+        }else{
+            Klient.setRestart(true);
+        }
+    }
+
+    /**
+     * @return the winner
+     */
+    public static String getWinner() {
+        return winner;
+    }
+
+    /**
+     * @param aWinner the winner to set
+     */
+    public static void setWinner(String aWinner) {
+        winner = aWinner;
+    }
+
+    /**
+     * @return the end
+     */
+    public static boolean isEnd() {
+        return end;
+    }
+
+    /**
+     * @param aEnd the end to set
+     */
+    public static void setEnd(boolean aEnd) {
+        end = aEnd;
+    }
 
     private ArrayList<Player> p;
-    
+    private TCPClient cc;
 
-    private Color[] colors = {Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW, Color.MAGENTA, Color.CYAN};
+    private Color[] colors;
     private static boolean restart = false;
+    private static boolean pause = true;
+    private static String winner = "";
+    private static boolean end = false;
+
     /**
      * Creates new form Grafika
      */
     public Grafika(ArrayList<Player> p) {
+        this.colors = new Color[]{Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW, Color.MAGENTA, Color.CYAN};
         initComponents();
 
         PlacesLabel1.setVisible(false);
@@ -50,7 +100,13 @@ public class Grafika extends javax.swing.JPanel implements KeyListener {
         setFocusable(true);
 
         this.p = p;
-        
+
+    }
+
+    public Grafika(ArrayList<Player> p, TCPClient cc) {
+        this.colors = new Color[]{Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW, Color.MAGENTA, Color.CYAN};
+        this.p = p;
+        this.cc = cc;
     }
 
     /**
@@ -69,9 +125,14 @@ public class Grafika extends javax.swing.JPanel implements KeyListener {
         PlacesLabel4 = new javax.swing.JLabel();
         PlacesLabel5 = new javax.swing.JLabel();
         PlacesLabel6 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        SpaceLabel = new javax.swing.JLabel();
 
         setPreferredSize(new java.awt.Dimension(1366, 720));
+        addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                formKeyPressed(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(237, 150, 237));
 
@@ -130,21 +191,16 @@ public class Grafika extends javax.swing.JPanel implements KeyListener {
                 .addGap(80, 80, 80))
         );
 
-        jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
+        SpaceLabel.setText("Naciśnij Space aby rozpocząć turę");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(73, 73, 73)
-                .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 989, Short.MAX_VALUE)
+                .addGap(458, 458, 458)
+                .addComponent(SpaceLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 457, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -154,29 +210,27 @@ public class Grafika extends javax.swing.JPanel implements KeyListener {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(67, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addGap(324, 324, 324))
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(SpaceLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
+ 
+    }//GEN-LAST:event_formKeyPressed
 
     @Override
     public void paintComponent(Graphics g) {
         if (restart) {
-           
+            SpaceLabel.setVisible(true);
             super.paintComponent(g);
             setRestart(false);
         }
         for (Player pl : Klient.getGracze()) {
-            
+
             if (pl.isActivePlayer()) {
-                //System.out.println(pl.getId() +" : " + pl.getOldx() + " -> "+pl.getX() +" "+  pl.getOldy() + " -> "+ pl.getY());
-                //pl.newPosition(pl.getX(), pl.getY(), pl.getKat());
+
                 g.drawRect(30, 30, 1000, 600);
 
                 if (!pl.getModulo()) {
@@ -194,11 +248,29 @@ public class Grafika extends javax.swing.JPanel implements KeyListener {
     private javax.swing.JLabel PlacesLabel4;
     private javax.swing.JLabel PlacesLabel5;
     private javax.swing.JLabel PlacesLabel6;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel SpaceLabel;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
     @Override
     public void keyPressed(KeyEvent e) {
+        if (KeyEvent.VK_SPACE == e.getKeyCode()) {
+            JSONObject zapytanie = new JSONObject();
+            zapytanie.put("action", "unpause");
+
+            StringWriter out = new StringWriter();
+            try {
+                zapytanie.writeJSONString(out);
+            } catch (IOException ex) {
+                Logger.getLogger(MenuLogowania.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            String jsonText = out.toString();
+            SpaceLabel.setVisible(false);
+            pause = false;
+            cc.sendMessage(jsonText);
+
+        }
+
         for (Player p : Klient.getGracze()) {
             if (e.getKeyCode() == p.getLewy()) {
                 p.setDecyzja(15);
@@ -244,13 +316,13 @@ public class Grafika extends javax.swing.JPanel implements KeyListener {
                 g.setColor(Color.cyan);
                 break;
         }
-        System.out.println(" -> " + p.getOldx() + " "+ p.getOldx() + ":" + p.getX() + " "+p.getY() );
+        System.out.println(" -> " + p.getOldx() + " " + p.getOldx() + ":" + p.getX() + " " + p.getY());
         g2.draw(new Line2D.Double(p.getOldx() + 30, p.getOldy() + 30, p.getX() + 30, p.getY() + 30));
         g.setColor(Color.black);
 
     }
 
-        /**
+    /**
      * @return the restart
      */
     public static boolean isRestart() {
@@ -261,11 +333,15 @@ public class Grafika extends javax.swing.JPanel implements KeyListener {
      * @param aRestart the restart to set
      */
     public static void setRestart(boolean aRestart) {
+
         restart = aRestart;
-        
+        pause = true;
+
     }
 
-
+    public void rstrt() {
+        SpaceLabel.setVisible(true);
+    }
 
     public void setImiona(int nkol, String i, Integer points, Integer c) {
 
@@ -308,4 +384,33 @@ public class Grafika extends javax.swing.JPanel implements KeyListener {
     public void keyTyped(KeyEvent e) {
 
     }
+
+    /**
+     * @return the pause
+     */
+    public static boolean isPause() {
+        return pause;
+    }
+
+    /**
+     * @param aPause the pause to set
+     */
+    public static void setPause(boolean aPause) {
+        pause = aPause;
+    }
+
+    /**
+     * @return the cc
+     */
+    public TCPClient getCc() {
+        return cc;
+    }
+
+    /**
+     * @param cc the cc to set
+     */
+    public void setCc(TCPClient cc) {
+        this.cc = cc;
+    }
+
 }

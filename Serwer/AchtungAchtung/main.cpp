@@ -27,7 +27,7 @@ int main (int argc, char *argv[])
     int    end_server = false;
     int    close_conn;
     char   buffer[80];
-    struct sockaddr_in6   addr;
+    struct sockaddr_in   addr = { AF_INET, htons(SERVER_PORT), INADDR_ANY };
     int    timeout;
     struct pollfd fds[200];
     int    nfds = 1, current_size = 0, i, j;
@@ -36,7 +36,7 @@ int main (int argc, char *argv[])
     manager * man = new manager();
     JSONTranslator * jtrans = new JSONTranslator(man);
 
-    listen_sd = socket(AF_INET6, SOCK_STREAM, 0);
+    listen_sd = socket(AF_INET, SOCK_STREAM, 0);
     if (listen_sd < 0)
     {
         perror("Niepowodzenie funkcji socket()");
@@ -60,12 +60,7 @@ int main (int argc, char *argv[])
         exit(-1);
     }
 
-    memset(&addr, 0, sizeof(addr));
-    addr.sin6_family      = AF_INET6;
-    memcpy(&addr.sin6_addr, &in6addr_any, sizeof(in6addr_any));
-    addr.sin6_port        = htons(SERVER_PORT);
-    rc = bind(listen_sd,
-              (struct sockaddr *)&addr, sizeof(addr));
+    rc = bind(listen_sd, (struct sockaddr *)&addr, sizeof(addr));
     if (rc < 0)
     {
         perror("Niepowodzenie funkcji bind()");
@@ -80,6 +75,7 @@ int main (int argc, char *argv[])
         close(listen_sd);
         exit(-1);
     }
+
 
     memset(fds, 0 , sizeof(fds));
 
@@ -150,12 +146,8 @@ int main (int argc, char *argv[])
                     flags = fcntl(new_sd,F_GETFL, 0);
                     printf("cli  nonblock: %s\n", flags & O_NONBLOCK ? "true" : "false");
 
-                } while (new_sd != -1);
-            }
-
-
-            else
-            {
+                } while (true);
+            }else{
                 close_conn = false;
 
                 do
@@ -180,7 +172,7 @@ int main (int argc, char *argv[])
                     }
 
                     len = rc;
-                    //printf("Otrzymano bajtów: %d\n", len);
+                    printf("Otrzymano bajtów: %d\n", len);
 
                     string ss= jtrans->reply(buffer, i);
                     rc = send(fds[i].fd, ss.c_str(),ss.length(), 0);
@@ -198,16 +190,10 @@ int main (int argc, char *argv[])
                 {
                     close(fds[i].fd);
                     fds[i].fd = -1;
-
                 }
-
-
             }
         }
-
-
-
-    } while (end_server == false); /* Koniec działania serwera.    */
+    } while (end_server == false);
 
     for (i = 0; i < nfds; i++)
     {

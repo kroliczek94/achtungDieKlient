@@ -82,7 +82,8 @@ string JSONTranslator::reply(char *buffer, int i)
 
             assert(doc.HasMember("dec"));
             assert(doc["dec"].IsArray());
-
+            bool end = false;
+            int winner = -1;
 
             for (int j = 0 ; j < 6 ; j++){
                 assert(doc["dec"][j].IsInt());
@@ -95,6 +96,16 @@ string JSONTranslator::reply(char *buffer, int i)
                 {
                     error = man->movePlayer(dec, j);
                     if (error) man->playerLose(j);
+
+                    for (int x= 0; x <6; x++){
+                        if (!man->getReady()[x]) continue;
+                        if (man->twoPointsDifference(man->getPointsPlayer(x), x))
+                        {
+                            end = true;
+                            winner = x;
+
+                        }
+                    }
                     error = 0;
                 }
 
@@ -104,15 +115,13 @@ string JSONTranslator::reply(char *buffer, int i)
             int stan = 0;
             int gamers = 0;
 
-
             for (int i = 0; i < 6 ; i++){
                 if (man->getReady().at(i)) gamers++;
                 if (man->getPlayerOut(i)) stan++;
+
             }
-            if (stan == gamers){
-                cout << "!!!!!!!!!!!!!!!";
+            if (stan == gamers && !end){
                 man->reset();
-                cout << "??? " << man->getArea();
             }
 
             writer.StartObject();
@@ -165,10 +174,19 @@ string JSONTranslator::reply(char *buffer, int i)
             {
                 writer.String("restart");
                 writer.Int(1);
+
+            }
+            writer.String("end");
+            writer.Bool(end);
+            writer.String("winner");
+            if (end){
+                writer.String(man->getNamePlayer(winner).c_str());
+                man->hardReset();
+            }else{
+                writer.String("noone");
             }
 
             writer.EndObject();
-
 
         }
     }else if (action == "changename"){

@@ -17,7 +17,6 @@ public class PlayerToTab {
     private Integer c;
     private Integer points;
 
-    private static ArrayList<Point> oldMoves = new ArrayList<>();
 
     public PlayerToTab(String n, Integer col, Integer p) {
         this.name = n;
@@ -67,17 +66,4 @@ public class PlayerToTab {
         this.points = points;
     }
 
-    /**
-     * @return the oldMoves
-     */
-    public static ArrayList<Point> getOldMoves() {
-        return oldMoves;
-    }
-
-    /**
-     * @param aOldMoves the oldMoves to set
-     */
-    public static void setOldMoves(ArrayList<Point> aOldMoves) {
-        oldMoves = aOldMoves;
-    }
 }

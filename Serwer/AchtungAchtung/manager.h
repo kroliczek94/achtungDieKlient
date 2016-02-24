@@ -1,16 +1,14 @@
 #ifndef MANAGER_H
 #define MANAGER_H
 
-#include <atomic>
+#include <string>
+#include <iostream>
 #include <string>
 #include <vector>
 #include <map>
 #include "gamearea.h"
 #include "player.h"
-#include <string>
-#include <thread>
-#include <pthread.h>
-#include <iostream>
+
 
 using namespace std;
 class manager
@@ -38,6 +36,8 @@ public:
     int getPointsPlayer(int i);
     int getPlayerX(int i);
     int getPlayerY(int i);
+
+
     int getPlayerAngle(int i);
     bool getPlayerOut(int i);
     bool playerOfClient(int id, int i);
@@ -54,19 +54,15 @@ public:
 
     int letsStart();
 
-
-    //  void countdown(int & timeToGo);
-
     int movePlayer(int dec, int i);
     vector<int> getKlienci() const;
     void setKlienci(const vector<int> &value);
 
-    gameArea *getGa() const;
-    void setGa(gameArea *value);
 
-    int move(int dec, Player *&p, gameArea *&g);
+
+
     void reset();
-
+    void hardReset();
 
     bool getRestart() const;
     void setRestart(bool value);
@@ -76,28 +72,33 @@ public:
     void setPauzed(bool value);
 
     int getArea() const;
-    void setArea(const vector<vector<bool> > &value);
+    void setArea(vector<vector<bool> > &value);
+    void cleanArea();
 
+    bool twoPointsDifference(int pts, int id);
 private:
+    void hardReset(vector <Player *>& pl, vector<bool> & res, vector<bool> & rdy, bool & gameStarted, vector<int> & klienci);
     void pauza(bool c, bool & pauzed);
-    void reset(vector<vector<bool> > &ar, vector<Player *> &pl);
+    void reset(vector<Player *> &pl, bool & pauza);
     void playerReset(Player * & p);
     bool reservePositions(int id, int formerID, vector <bool> & res, int klient);
     int setKlient(int id, int i, vector<int> & kl);
     int playerLose(int i, vector<Player *> pl);
+
     bool columnplus(int X, int oldY, int Y, vector<vector<bool>> & pole);
     bool columnminus(int X, int oldY, int Y, vector<vector<bool>> & pole);
-    bool points(int oldX, int oldY, int X, int Y, vector<vector<bool> > &ar);
+    bool points(int oldX, int oldY, int X, int Y, vector<vector<bool>> &ar);
 
     int letsStart(bool & gameStarted);
     bool restart = false;
     bool pauzed = true;
+    bool gameStarted = false;
     vector <int> klienci = {-1, -1, -1, -1, -1, -1};
     vector<Player *> playersTab;
     vector <bool> reserved = {false, false, false, false,false,false};
     vector <bool> ready = {false, false, false, false,false,false};
     vector< vector< bool > > area;
-    bool gameStarted = false;
+
 };
 
 #endif // MANAGER_H

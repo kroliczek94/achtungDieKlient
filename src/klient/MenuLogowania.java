@@ -76,6 +76,11 @@ public class MenuLogowania extends javax.swing.JPanel implements KeyListener {
         jTextField1.setText("jTextField1");
 
         setPreferredSize(new java.awt.Dimension(400, 300));
+        addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                formFocusGained(evt);
+            }
+        });
 
         g1Button.setBackground(new java.awt.Color(255, 0, 0));
         g1Button.setText("Dołącz");
@@ -420,6 +425,10 @@ public class MenuLogowania extends javax.swing.JPanel implements KeyListener {
     private void StartButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StartButtonActionPerformed
         letsStart();
     }//GEN-LAST:event_StartButtonActionPerformed
+
+    private void formFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusGained
+    
+    }//GEN-LAST:event_formFocusGained
 
     private void przestawKlawisze() {
         leftLabel.setText(KeyEvent.getKeyText(Klient.getGracze().get(activePlayer).getLewy()));

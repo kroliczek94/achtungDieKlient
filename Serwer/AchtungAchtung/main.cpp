@@ -13,7 +13,6 @@
 #include <string>
 #include <vector>
 #include "jsontranslator.h"
-#include "tcp.h"
 
 using namespace std;
 

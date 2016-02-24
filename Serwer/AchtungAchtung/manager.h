@@ -6,7 +6,6 @@
 #include <string>
 #include <vector>
 #include <map>
-#include "gamearea.h"
 #include "player.h"
 
 

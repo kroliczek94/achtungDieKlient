@@ -115,30 +115,6 @@ AchtungAchtung/fast:
 	$(MAKE) -f CMakeFiles/AchtungAchtung.dir/build.make CMakeFiles/AchtungAchtung.dir/build
 .PHONY : AchtungAchtung/fast
 
-gamearea.o: gamearea.cpp.o
-.PHONY : gamearea.o
-
-# target to build an object file
-gamearea.cpp.o:
-	$(MAKE) -f CMakeFiles/AchtungAchtung.dir/build.make CMakeFiles/AchtungAchtung.dir/gamearea.cpp.o
-.PHONY : gamearea.cpp.o
-
-gamearea.i: gamearea.cpp.i
-.PHONY : gamearea.i
-
-# target to preprocess a source file
-gamearea.cpp.i:
-	$(MAKE) -f CMakeFiles/AchtungAchtung.dir/build.make CMakeFiles/AchtungAchtung.dir/gamearea.cpp.i
-.PHONY : gamearea.cpp.i
-
-gamearea.s: gamearea.cpp.s
-.PHONY : gamearea.s
-
-# target to generate assembly for a file
-gamearea.cpp.s:
-	$(MAKE) -f CMakeFiles/AchtungAchtung.dir/build.make CMakeFiles/AchtungAchtung.dir/gamearea.cpp.s
-.PHONY : gamearea.cpp.s
-
 jsontranslator.o: jsontranslator.cpp.o
 .PHONY : jsontranslator.o
 
@@ -235,54 +211,6 @@ player.cpp.s:
 	$(MAKE) -f CMakeFiles/AchtungAchtung.dir/build.make CMakeFiles/AchtungAchtung.dir/player.cpp.s
 .PHONY : player.cpp.s
 
-punkt.o: punkt.cpp.o
-.PHONY : punkt.o
-
-# target to build an object file
-punkt.cpp.o:
-	$(MAKE) -f CMakeFiles/AchtungAchtung.dir/build.make CMakeFiles/AchtungAchtung.dir/punkt.cpp.o
-.PHONY : punkt.cpp.o
-
-punkt.i: punkt.cpp.i
-.PHONY : punkt.i
-
-# target to preprocess a source file
-punkt.cpp.i:
-	$(MAKE) -f CMakeFiles/AchtungAchtung.dir/build.make CMakeFiles/AchtungAchtung.dir/punkt.cpp.i
-.PHONY : punkt.cpp.i
-
-punkt.s: punkt.cpp.s
-.PHONY : punkt.s
-
-# target to generate assembly for a file
-punkt.cpp.s:
-	$(MAKE) -f CMakeFiles/AchtungAchtung.dir/build.make CMakeFiles/AchtungAchtung.dir/punkt.cpp.s
-.PHONY : punkt.cpp.s
-
-tcp.o: tcp.cpp.o
-.PHONY : tcp.o
-
-# target to build an object file
-tcp.cpp.o:
-	$(MAKE) -f CMakeFiles/AchtungAchtung.dir/build.make CMakeFiles/AchtungAchtung.dir/tcp.cpp.o
-.PHONY : tcp.cpp.o
-
-tcp.i: tcp.cpp.i
-.PHONY : tcp.i
-
-# target to preprocess a source file
-tcp.cpp.i:
-	$(MAKE) -f CMakeFiles/AchtungAchtung.dir/build.make CMakeFiles/AchtungAchtung.dir/tcp.cpp.i
-.PHONY : tcp.cpp.i
-
-tcp.s: tcp.cpp.s
-.PHONY : tcp.s
-
-# target to generate assembly for a file
-tcp.cpp.s:
-	$(MAKE) -f CMakeFiles/AchtungAchtung.dir/build.make CMakeFiles/AchtungAchtung.dir/tcp.cpp.s
-.PHONY : tcp.cpp.s
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -292,9 +220,6 @@ help:
 	@echo "... AchtungAchtung"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... gamearea.o"
-	@echo "... gamearea.i"
-	@echo "... gamearea.s"
 	@echo "... jsontranslator.o"
 	@echo "... jsontranslator.i"
 	@echo "... jsontranslator.s"
@@ -307,12 +232,6 @@ help:
 	@echo "... player.o"
 	@echo "... player.i"
 	@echo "... player.s"
-	@echo "... punkt.o"
-	@echo "... punkt.i"
-	@echo "... punkt.s"
-	@echo "... tcp.o"
-	@echo "... tcp.i"
-	@echo "... tcp.s"
 .PHONY : help
 
 

@@ -8,7 +8,7 @@ JSONTranslator::JSONTranslator(manager *man)
 }
 
 
-string JSONTranslator::reply(char *buffer, int i)
+string JSONTranslator:: reply(char *buffer, int i)
 {
     Document doc;
     doc.Parse(buffer);

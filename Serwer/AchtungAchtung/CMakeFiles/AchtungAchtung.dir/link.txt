@@ -1,1 +1,1 @@
-/usr/bin/c++    -L/usr/lib -ljsoncpp -Wall -pthread -std=c++14    CMakeFiles/AchtungAchtung.dir/main.cpp.o CMakeFiles/AchtungAchtung.dir/manager.cpp.o CMakeFiles/AchtungAchtung.dir/jsontranslator.cpp.o CMakeFiles/AchtungAchtung.dir/player.cpp.o  -o AchtungAchtung -rdynamic 
+/usr/bin/c++    -L/usr/lib -Wall -pthread -std=c++14    CMakeFiles/AchtungAchtung.dir/main.cpp.o CMakeFiles/AchtungAchtung.dir/manager.cpp.o CMakeFiles/AchtungAchtung.dir/jsontranslator.cpp.o CMakeFiles/AchtungAchtung.dir/player.cpp.o  -o AchtungAchtung -rdynamic 

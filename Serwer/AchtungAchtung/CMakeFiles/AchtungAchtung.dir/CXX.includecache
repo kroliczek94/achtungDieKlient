@@ -6,3 +6,13 @@
 
 #IncludeRegexTransform: 
 
+/home/lukasz/AchtungAchtung/jsontranslator.cpp
+player.h
+/home/lukasz/AchtungAchtung/player.h
+time.h
+-
+
+/home/lukasz/AchtungAchtung/player.h
+string
+-
+
